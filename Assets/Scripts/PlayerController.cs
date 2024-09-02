@@ -4,90 +4,62 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float movimientoX;
-    private float movimientoZ;
-    private Vector3 inputJugador;
-    private Vector3 direccionJugador;
-    public bool inmovilizado = false;
+    [SerializeField] private CharacterController player;
+    private float movementX;
+    private float movementZ;
+    private Vector3 playerInput;
+    private Vector3 playerDirection;
+    [SerializeField] private bool immobilized = false;
 
-    public CharacterController player;
-    public float velocidad;
-    public float gravedad = 9.8f;
-    public float velocidadCaida;
-    public float jumpForce;
-    public float floorRaycastDistance;
+    [SerializeField] private float speed;
+    [SerializeField] private float gravity;
+    [SerializeField] private float fallingSpeed;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float floorRaycastDistance;
 
-    public Camera mainCamera;
-    private Vector3 camForward;
-    private Vector3 camRight;
 
-    private Transform platformTransform = null;
-    private Vector3 lastPlatformPosition;
-
-    // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!inmovilizado) {
-            movimientoX = Input.GetAxis("Horizontal");
-            movimientoZ = Input.GetAxis("Vertical");
+        if (!immobilized) {
+            movementX = Input.GetAxis("Horizontal");
+            movementZ = Input.GetAxis("Vertical");
         }
         else {
-            movimientoX = 0;
-            movimientoZ = 0;
+            movementX = 0;
+            movementZ = 0;
         }
 
-        direccionarCamara();
+        playerInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
+        playerDirection = playerInput * speed;
+        player.transform.LookAt(player.transform.position + playerDirection);
 
-        inputJugador = Vector3.ClampMagnitude(new Vector3(movimientoX, 0, movimientoZ), 1);
-        direccionJugador = inputJugador.x * camRight + inputJugador.z * camForward;
-        direccionJugador = direccionJugador * velocidad;
-        player.transform.LookAt(player.transform.position + direccionJugador);
+        applyGravity();
 
-        aplicarGravedad();
+        specialInputs();
 
-        inputsEspeciales();
-
-        if (platformTransform != null)
-        {
-            Vector3 platformMovement = platformTransform.position - lastPlatformPosition;
-            player.Move(platformMovement);
-            lastPlatformPosition = platformTransform.position;
-        }
-
-        player.Move(direccionJugador * Time.deltaTime);
+        player.Move(playerDirection * Time.deltaTime);
     }
 
-    void inputsEspeciales() {
-        if ((player.isGrounded || raycastFloor()) && Input.GetButtonDown("Jump")) {
-            velocidadCaida = jumpForce;
-            direccionJugador.y = velocidadCaida;
+    void specialInputs() {
+        if ((player.isGrounded || raycastFloor()) && Input.GetButtonDown("Jump") && !immobilized) {
+            fallingSpeed = jumpForce;
+            playerDirection.y = fallingSpeed;
         }
     }
 
-    void direccionarCamara() {
-        camForward = mainCamera.transform.forward;
-        camRight = mainCamera.transform.right;
-        camForward.y = 0;
-        camRight.y = 0;
-        
-        camForward = camForward.normalized;
-        camRight = camRight.normalized;
-    }
-
-    void aplicarGravedad() {
+    void applyGravity() {
         if (player.isGrounded) {
-            velocidadCaida = -gravedad * 0.1f;
-            direccionJugador.y = velocidadCaida;
+            fallingSpeed = -gravity * 0.1f;
+            playerDirection.y = fallingSpeed;
         }
         else {
-            velocidadCaida -= gravedad * Time.deltaTime;
-            direccionJugador.y = velocidadCaida;
+            fallingSpeed -= gravity * Time.deltaTime;
+            playerDirection.y = fallingSpeed;
         }
     }
 
@@ -101,20 +73,6 @@ public class PlayerController : MonoBehaviour
         }
         else {
             return false;
-        }
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit collision) {
-        Transform collisionTransform = collision.collider.transform;
-
-        if (collisionTransform.CompareTag("MovingPlatform")) {
-            if (platformTransform == null) {
-                platformTransform = collisionTransform.GetComponentInParent<Transform>();
-                lastPlatformPosition = platformTransform.position;
-            }
-        }
-        else {
-            platformTransform = null;
         }
     }
 }
