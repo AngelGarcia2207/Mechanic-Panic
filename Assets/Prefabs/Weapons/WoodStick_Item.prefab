@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7053238526337517800}
   - component: {fileID: 3865806200718327097}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: PickUpRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,6 +126,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d9114062ce7dd214ea114a15633d9096, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d56741a4dc996f43baa236ebdb46ae8, type: 2}
     - target: {fileID: 919132149155446097, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
         type: 3}
       propertyPath: m_Name
@@ -155,8 +170,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4667342225649534826}
+      addedObject: {fileID: 5729171043123079306}
   m_SourcePrefab: {fileID: 100100000, guid: 537aa84c26e9db8408c73ea0b99d5a8b, type: 3}
+--- !u!33 &2106139814184929875 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: -5754084199372789682, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3251565845611979293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2440537827875987276 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
@@ -211,7 +232,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4667342225649534826
+--- !u!114 &5729171043123079306
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,18 +241,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2440537827875987276}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 733cb240591b1324b8ea378bf9442e63, type: 3}
+  m_Script: {fileID: 11500000, guid: ff00e0e518d62ed489529def6d6db1da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  Size: 0
-  Integrity: 0
-  Damage: 0
-  weaponBase: {fileID: 0}
-  weaponComplements: []
+  pickUpRadius: {fileID: 3865806200718327097}
+  itemMesh: {fileID: 2106139814184929875}
+  itemRenderer: {fileID: 4241955757619953305}
 --- !u!4 &3068456121481283062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3251565845611979293}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4241955757619953305 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 537aa84c26e9db8408c73ea0b99d5a8b,
     type: 3}
   m_PrefabInstance: {fileID: 3251565845611979293}
   m_PrefabAsset: {fileID: 0}

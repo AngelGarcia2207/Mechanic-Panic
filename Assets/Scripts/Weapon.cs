@@ -19,4 +19,10 @@ public class Weapon : Buildable
     {
         
     }
+
+    public void UpdateMesh(MeshFilter newMesh, MeshRenderer newRenderer)
+    {
+        buildableMesh.mesh = newMesh.mesh;
+        buildableRenderer.materials = newRenderer.materials;
+    }
 }

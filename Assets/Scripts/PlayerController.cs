@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class WeaponEvent : UnityEvent<Weapon> {}
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,6 +20,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fallingSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float floorRaycastDistance;
+
+    [SerializeField] private Weapon playerWeapon;
+    public WeaponEvent pickUp;
 
 
     void Start()
@@ -43,6 +50,11 @@ public class PlayerController : MonoBehaviour
         specialInputs();
 
         player.Move(playerDirection * Time.deltaTime);
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            pickUp.Invoke(playerWeapon);
+        }
     }
 
     void specialInputs() {
