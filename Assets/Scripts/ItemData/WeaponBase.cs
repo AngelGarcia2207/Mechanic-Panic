@@ -13,5 +13,5 @@ public enum WeaponTypes
 [CreateAssetMenu(fileName = "WeaponBase", menuName = "WeaponBase", order = 0)]
 public class WeaponBase : WeaponComponent
 {
-    protected WeaponTypes attackType = WeaponTypes.Default;
+    [SerializeField] protected WeaponTypes attackType = WeaponTypes.Default;
 }

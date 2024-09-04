@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] protected BoxCollider pickUpRadius;
+    [SerializeField] protected Collider pickUpRadius;
     [SerializeField] protected MeshFilter itemMesh;
     [SerializeField] protected MeshRenderer itemRenderer;
     
@@ -26,6 +26,7 @@ public class Item : MonoBehaviour
         {
             PlayerController player = other.GetComponent<PlayerController>();
             player.pickUp.AddListener(OnPickUp);
+            this.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
         }
     }
 
@@ -35,12 +36,12 @@ public class Item : MonoBehaviour
         {
             PlayerController player = other.GetComponent<PlayerController>();
             player.pickUp.RemoveListener(OnPickUp);
+            this.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
         }
     }
 
-    public void OnPickUp(Weapon playerWeapon)
+    public virtual void OnPickUp(Weapon playerWeapon)
     {
-        playerWeapon.UpdateMesh(itemMesh, itemRenderer);
-        Destroy(this.gameObject);
+        //
     }
 }

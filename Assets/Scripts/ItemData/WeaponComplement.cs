@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "WeaponComplement", menuName = "WeaponComplement", order = 0)]
 public class WeaponComplement : WeaponComponent
 {
-    protected List<WeaponEffect> effects;
+    [SerializeField] protected List<WeaponEffect> effects;
 }

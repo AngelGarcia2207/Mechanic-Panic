@@ -9,6 +9,8 @@ public class Buildable : MonoBehaviour
     [SerializeField] protected int Integrity;
     [SerializeField] protected MeshFilter buildableMesh;
     [SerializeField] protected MeshRenderer buildableRenderer;
+    [SerializeField] protected Vector3 complementPosition;
+    [SerializeField] protected Vector3 positionChange;
 
     // Start is called before the first frame update
     void Start()
