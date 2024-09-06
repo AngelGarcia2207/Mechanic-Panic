@@ -11,6 +11,8 @@ public class Map_Display_Boundaries : MonoBehaviour
     private GameObject cameraObject;
     private Cam_Default_Controller cameraScript;
 
+    private GameObject player;
+
     private GameObject leftBoundary;
     private GameObject rightBoundary;
     private GameObject topBoundary;
@@ -21,6 +23,8 @@ public class Map_Display_Boundaries : MonoBehaviour
     {
         cameraObject = GameObject.FindWithTag("Camera");
         cameraScript = cameraObject.GetComponent<Cam_Default_Controller>();
+
+        player = GameObject.FindWithTag("Player"); // Temporalmente solo apuntaré a un jugador, después serán varios
 
         leftBoundary = new GameObject("leftBoundary");
         rightBoundary = new GameObject("rightBoundary");
@@ -34,16 +38,36 @@ public class Map_Display_Boundaries : MonoBehaviour
         backBoundary.transform.parent = this.transform;
         frontBoundary.transform.parent = this.transform;
 
-        AddMeshComponents(leftBoundary);
-        AddMeshComponents(rightBoundary);
-        AddMeshComponents(topBoundary);
-        AddMeshComponents(backBoundary);
-        AddMeshComponents(frontBoundary);
+        AddBoxCollider(leftBoundary);
+        AddBoxCollider(rightBoundary);
+        AddBoxCollider(topBoundary);
+        AddBoxCollider(backBoundary);
+        AddBoxCollider(frontBoundary);
+
+        // Descomenta estas lineas si quieres que se vean las cajas
+        // AddMeshComponents(leftBoundary);
+        // AddMeshComponents(rightBoundary);
+        // AddMeshComponents(topBoundary);
+        // AddMeshComponents(backBoundary);
+        // AddMeshComponents(frontBoundary);
     }
 
     void Update()
     {
-        updateBoundaries();
+        followPlayers();
+
+        updateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
+    }
+
+    private void followPlayers() {
+        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+    }
+
+    private void AddBoxCollider(GameObject obj)
+    {
+        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
+        boxCollider.size = Vector3.one;
+        obj.layer = LayerMask.NameToLayer("PlayerBoundary");
     }
 
     private void AddMeshComponents(GameObject obj)
@@ -54,10 +78,6 @@ public class Map_Display_Boundaries : MonoBehaviour
         meshFilter.mesh = CreateCubeMesh();
 
         meshRenderer.material = new Material(Shader.Find("Standard"));  
-
-        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
-        boxCollider.size = Vector3.one;
-        obj.layer = LayerMask.NameToLayer("PlayerBoundary");
     }
 
     private Mesh CreateCubeMesh()
@@ -106,9 +126,9 @@ public class Map_Display_Boundaries : MonoBehaviour
     {
         Vector2 targetPlaneSize = cameraScript.CalculateTargetPlaneSize();
 
-        Vector3 backFrontScale = new Vector3(targetPlaneSize.x * 2, 1, 1);
-        Vector3 leftRightScale = new Vector3(1, 1, targetPlaneSize.y);
-        Vector3 topScale = new Vector3(targetPlaneSize.x * 2, 1, targetPlaneSize.y);
+        Vector3 backFrontScale = new Vector3(targetPlaneSize.x * 2, topHeightDistance, 1);
+        Vector3 leftRightScale = new Vector3(1, topHeightDistance, targetPlaneSize.y);
+        Vector3 topScale = new Vector3(targetPlaneSize.x * 2, topHeightDistance, targetPlaneSize.y);
 
         backBoundary.transform.position = transform.position + new Vector3(0, 0, backBoundaryDistance);
         backBoundary.transform.localScale = backFrontScale;

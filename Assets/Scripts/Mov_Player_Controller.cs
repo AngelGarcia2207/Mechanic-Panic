@@ -36,7 +36,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
         playerInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
         playerDirection = playerInput * speed;
-        player.transform.LookAt(player.transform.position + playerDirection);
+        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
 
         applyGravity();
 
