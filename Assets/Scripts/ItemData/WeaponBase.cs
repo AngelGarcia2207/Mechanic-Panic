@@ -14,4 +14,16 @@ public enum WeaponTypes
 public class WeaponBase : WeaponComponent
 {
     [SerializeField] protected WeaponTypes attackType = WeaponTypes.Default;
+    [SerializeField] protected Vector3 complementPosition;
+    [SerializeField] protected Vector3 positionChange;
+
+    public Vector3 GetComplementPosition()
+    {
+        return complementPosition;
+    }
+
+    public Vector3 GetPositionChange()
+    {
+        return positionChange;
+    }
 }

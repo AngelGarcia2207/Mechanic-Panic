@@ -17,3 +17,5 @@ MonoBehaviour:
   Size: 5
   Complexity: 1
   attackType: 1
+  complementPosition: {x: 0, y: -0.1, z: 0}
+  positionChange: {x: 0, y: 0, z: 0}

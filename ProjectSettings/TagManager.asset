@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - MovingPlatform
+  - Camera
+  - CameraCenter
   layers:
   - Default
   - TransparentFX
@@ -14,8 +16,8 @@ TagManager:
   - UI
   - Outline-Items
   - Player
+  - PlayerBoundary
   - Non-Outline-Items
-  - 
   - 
   - 
   - 
