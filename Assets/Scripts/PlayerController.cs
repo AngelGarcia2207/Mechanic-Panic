@@ -21,8 +21,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float floorRaycastDistance;
 
+    // Esto lo moveré a otro script en el futuro //
+    [SerializeField] private Animator weaponAnimator;
     [SerializeField] private Weapon playerWeapon;
+    [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUp;
+    // // // // // // // // // // // // // // // //
 
 
     void Start()
@@ -51,10 +55,18 @@ public class PlayerController : MonoBehaviour
 
         player.Move(playerDirection * Time.deltaTime);
 
+        // Esto lo moveré a otro script en el futuro //
         if(Input.GetKeyDown(KeyCode.E))
         {
             pickUp.Invoke(playerWeapon);
         }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+        // // // // // // // // // // // // // // // //
     }
 
     void specialInputs() {
