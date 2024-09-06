@@ -35,6 +35,7 @@ public class Weapon : Buildable
         weaponComplements.Add(newComplement);
         GameObject instantiatedComplement = Instantiate(complementPrefab, this.gameObject.GetComponent<Transform>().position,
         Quaternion.identity, this.gameObject.GetComponent<Transform>());
+        Debug.Log(complementPosition);
         instantiatedComplement.GetComponent<Transform>().localPosition = complementPosition;
         instantiatedComplement.GetComponent<MeshFilter>().mesh = newMesh.mesh;
         instantiatedComplement.GetComponent<MeshRenderer>().materials = newRenderer.materials;

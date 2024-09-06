@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            PlayerController player = other.GetComponent<PlayerController>();
+            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
             player.pickUp.AddListener(OnPickUp);
             this.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
         }
@@ -34,7 +34,7 @@ public class Item : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            PlayerController player = other.GetComponent<PlayerController>();
+            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
             player.pickUp.RemoveListener(OnPickUp);
             this.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
         }

@@ -23,6 +23,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
+    [SerializeField] private Animator spriteAnimator;
     [SerializeField] private Weapon playerWeapon;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUp;
@@ -65,6 +66,15 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
+        }
+
+        if(movementX != 0 || movementZ != 0)
+        {
+            spriteAnimator.SetBool("IsMoving", true);
+        }
+        else
+        {
+            spriteAnimator.SetBool("IsMoving", false);
         }
         // // // // // // // // // // // // // // // //
     }
