@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [System.Serializable]
 public class WeaponEvent : UnityEvent<Weapon> {}
 
-public class PlayerController : MonoBehaviour
+public class Mov_Player_Controller : MonoBehaviour
 {
     [SerializeField] private CharacterController player;
     private float movementX;
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         playerInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
         playerDirection = playerInput * speed;
-        player.transform.LookAt(player.transform.position + playerDirection);
+        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
 
         applyGravity();
 
@@ -69,14 +69,14 @@ public class PlayerController : MonoBehaviour
         // // // // // // // // // // // // // // // //
     }
 
-    void specialInputs() {
+    private void specialInputs() {
         if ((player.isGrounded || raycastFloor()) && Input.GetButtonDown("Jump") && !immobilized) {
             fallingSpeed = jumpForce;
             playerDirection.y = fallingSpeed;
         }
     }
 
-    void applyGravity() {
+    private void applyGravity() {
         if (player.isGrounded) {
             fallingSpeed = -gravity * 0.1f;
             playerDirection.y = fallingSpeed;
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool raycastFloor() {
+    private bool raycastFloor() {
         Vector3 origin = transform.position;
         RaycastHit hit;
         Vector3 direction = -transform.up;
