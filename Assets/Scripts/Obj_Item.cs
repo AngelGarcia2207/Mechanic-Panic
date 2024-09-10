@@ -2,24 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+/*
+Esta es la clase base para todos los objetos tirados en el suelo.
+Todos esos items deben poseer estas propiedades.
+*/
+
+public abstract class Obj_Item : MonoBehaviour
 {
     [SerializeField] protected Collider pickUpRadius;
     [SerializeField] protected MeshFilter itemMesh;
     [SerializeField] protected MeshRenderer itemRenderer;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //Función para aregar un outline al objeto cuando se aproxima un jugador
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") && other is not CharacterController)
@@ -30,6 +24,7 @@ public class Item : MonoBehaviour
         }
     }
 
+    //Función para quitar el outline al objeto cuando se aleja un jugador
     private void OnTriggerExit(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -40,8 +35,6 @@ public class Item : MonoBehaviour
         }
     }
 
-    public virtual void OnPickUp(Weapon playerWeapon)
-    {
-        //
-    }
+    //Función base de PickUp. Cada tipo de objeto implementa su propio método.
+    public virtual void OnPickUp(Obj_Weapon playerWeapon) {}
 }

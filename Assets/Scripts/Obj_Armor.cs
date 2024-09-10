@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmorComponent : MonoBehaviour
+/*
+Esta es la clase para las armaduras que lleva el jugador
+*/
+
+public class Obj_Armor : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

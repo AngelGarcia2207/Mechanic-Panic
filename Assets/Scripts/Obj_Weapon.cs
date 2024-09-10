@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Buildable
+/*
+Esta es la clase para el arma que lleva el jugador
+*/
+
+public class Obj_Weapon : Obj_Buildable
 {
    [SerializeField] protected int Damage;
-   [SerializeField] protected WeaponBase weaponBase;
-   [SerializeField] protected List<WeaponComplement> weaponComplements;
+   [SerializeField] protected Obj_Weapon_Base weaponBase;
+   [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
    [SerializeField] protected GameObject complementPrefab;
    
     // Start is called before the first frame update
@@ -21,7 +25,8 @@ public class Weapon : Buildable
         //
     }
 
-    public void SetBase(WeaponBase newBase, MeshFilter newMesh, MeshRenderer newRenderer)
+    //Añadir base al arma
+    public void SetBase(Obj_Weapon_Base newBase, MeshFilter newMesh, MeshRenderer newRenderer)
     {
         weaponBase = newBase;
         complementPosition = weaponBase.GetComplementPosition();
@@ -30,7 +35,8 @@ public class Weapon : Buildable
         buildableRenderer.materials = newRenderer.materials;
     }
 
-    public void AddComplement(WeaponComplement newComplement, MeshFilter newMesh, MeshRenderer newRenderer)
+    //Añadir un complemento al arma
+    public void AddComplement(Obj_Weapon_Complement newComplement, MeshFilter newMesh, MeshRenderer newRenderer)
     {
         weaponComplements.Add(newComplement);
         GameObject instantiatedComplement = Instantiate(complementPrefab, this.gameObject.GetComponent<Transform>().position,
