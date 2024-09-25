@@ -11,16 +11,26 @@ public class Obj_Weapon_Item : Obj_Item
     //Esta propiedad puede ser un scriptable object de base o de complemento
     [SerializeField] Obj_Weapon_Component itemData;
 
-    // Start is called before the first frame update
-    void Start()
+    //Función para aregar un outline al objeto cuando se aproxima un jugador
+    protected override void OnTriggerEnter(Collider other)
     {
-        
+        if(other.CompareTag("Player") && other is not CharacterController)
+        {
+            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
+            player.pickUp.AddListener(OnPickUp);
+            this.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    //Función para quitar el outline al objeto cuando se aleja un jugador
+    protected override void OnTriggerExit(Collider other)
     {
-        
+        if(other.CompareTag("Player") && other is not CharacterController)
+        {
+            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
+            player.pickUp.RemoveListener(OnPickUp);
+            this.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+        }
     }
 
     //Adaptación del método PickUp para armas

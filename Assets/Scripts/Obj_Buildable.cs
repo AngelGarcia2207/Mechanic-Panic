@@ -17,6 +17,4 @@ public abstract class Obj_Buildable : MonoBehaviour
     //Rendering
     [SerializeField] protected MeshFilter buildableMesh;
     [SerializeField] protected MeshRenderer buildableRenderer;
-    [SerializeField] protected Vector3 complementPosition;
-    [SerializeField] protected Vector3 positionChange;
 }

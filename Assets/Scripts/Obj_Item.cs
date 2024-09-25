@@ -14,7 +14,7 @@ public abstract class Obj_Item : MonoBehaviour
     [SerializeField] protected MeshRenderer itemRenderer;
 
     //Función para aregar un outline al objeto cuando se aproxima un jugador
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
@@ -25,7 +25,7 @@ public abstract class Obj_Item : MonoBehaviour
     }
 
     //Función para quitar el outline al objeto cuando se aleja un jugador
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if(other.CompareTag("Player"))
         {

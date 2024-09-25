@@ -6,7 +6,7 @@ using UnityEngine;
 Esta clase es la plantilla para crear items de armadura.
 */
 
-[CreateAssetMenu(fileName = "Obj_Armor_Component", menuName = "Obj_Armor_Component", order = 0)]
+[CreateAssetMenu(fileName = "Armor", menuName = "Armor", order = 0)]
 public class Obj_Armor_Component : ScriptableObject
 {
     // Start is called before the first frame update
