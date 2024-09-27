@@ -57,8 +57,15 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
             case ComplementPositions.Front:
                 if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
                 {
-                    return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
-                        (complementPositions[newPositionIndex].initialPosition.z - 1.5f*meshSize.z));
+                    if(complementPositions[newPositionIndex].initialPosition.z - meshSize.z < complementPositions[newPositionIndex].maxValues.z)
+                    {
+                        return new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
+                            (complementPositions[newPositionIndex].initialPosition.z - 1.5f*meshSize.z));
+                    }
                 }
                 else
                 {
@@ -68,8 +75,15 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
             case ComplementPositions.Right:
                 if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
                 {
-                    return new Vector3((complementPositions[newPositionIndex].initialPosition.x + 1.5f*meshSize.z),
-                        (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                    if(complementPositions[newPositionIndex].initialPosition.x + meshSize.z > complementPositions[newPositionIndex].maxValues.z)
+                    {
+                        return new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        return new Vector3((complementPositions[newPositionIndex].initialPosition.x + 1.5f*meshSize.z),
+                            (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                    }
                 }
                 else
                 {
@@ -79,8 +93,15 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
             case ComplementPositions.Left:
                 if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
                 {
-                    return new Vector3((complementPositions[newPositionIndex].initialPosition.x - 1.5f*meshSize.z),
-                        (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                    if(complementPositions[newPositionIndex].initialPosition.x - meshSize.z < complementPositions[newPositionIndex].maxValues.z)
+                    {
+                        return new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        return new Vector3((complementPositions[newPositionIndex].initialPosition.x - 1.5f*meshSize.z),
+                            (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                    }
                 }
                 else
                 {
@@ -90,8 +111,15 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
             case ComplementPositions.Back:
                 if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
                 {
-                    return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
-                        (complementPositions[newPositionIndex].initialPosition.z + 1.5f*meshSize.z));
+                    if(complementPositions[newPositionIndex].initialPosition.z + meshSize.z > complementPositions[newPositionIndex].maxValues.z)
+                    {
+                        return new Vector3(0, 0, 0);
+                    }
+                    else
+                    {
+                        return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
+                            (complementPositions[newPositionIndex].initialPosition.z + 1.5f*meshSize.z));
+                    }
                 }
                 else
                 {

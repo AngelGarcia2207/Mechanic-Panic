@@ -38,11 +38,11 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(itemData is Obj_Weapon_Base)
         {
-            playerWeapon.SetBase(itemData as Obj_Weapon_Base, itemMesh, itemRenderer);
+            playerWeapon.SetBase(itemData as Obj_Weapon_Base, itemMesh, itemRenderer, gameObject.GetComponent<Collider>());
         }
         else
         {
-            playerWeapon.AddComplement(itemData as Obj_Weapon_Complement, itemMesh, itemRenderer);
+            playerWeapon.AddComplement(itemData as Obj_Weapon_Complement, itemMesh, itemRenderer, gameObject.GetComponent<Collider>());
         }
         Destroy(this.gameObject);
     }

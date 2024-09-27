@@ -17,11 +17,19 @@ public enum ComplementPositions
     Center
 }
 
+public enum ColliderType
+{
+    Box,
+    Sphere,
+    Mesh
+}
+
 [CreateAssetMenu(fileName = "WeaponComplement", menuName = "WeaponComplement", order = 0)]
 public class Obj_Weapon_Complement : Obj_Weapon_Component
 {
     [SerializeField] protected List<WeaponEffect> effects;
     [SerializeField] protected List<ComplementPositions> possiblePositions;
+    [SerializeField] protected ColliderType colliderType;
 
     public ComplementPositions GetBestPosition(Dictionary<ComplementPositions, int> elementsInPosition)
     {
@@ -43,4 +51,6 @@ public class Obj_Weapon_Complement : Obj_Weapon_Component
         elementsInPosition[bestPosition]++;
         return bestPosition;
     }
+
+    public ColliderType GetColliderType() { return colliderType; }
 }

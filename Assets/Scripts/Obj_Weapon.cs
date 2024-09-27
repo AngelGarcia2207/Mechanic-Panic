@@ -8,7 +8,7 @@ Esta es la clase para el arma que lleva el jugador
 
 public class Obj_Weapon : Obj_Buildable
 {
-   [SerializeField] protected int Damage;
+   [SerializeField] protected int damage;
    [SerializeField] protected Obj_Weapon_Base weaponBase;
    [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
    [SerializeField] protected GameObject complementPrefab;
@@ -28,16 +28,24 @@ public class Obj_Weapon : Obj_Buildable
     }
 
     //Añadir base al arma
-    public void SetBase(Obj_Weapon_Base newBase, MeshFilter newMesh, MeshRenderer newRenderer)
+    public void SetBase(Obj_Weapon_Base newBase, MeshFilter newMesh, MeshRenderer newRenderer, Collider newCollider)
     {
         weaponBase = newBase;
         buildableMesh.mesh = newMesh.mesh;
         buildableRenderer.materials = newRenderer.materials;
         currentPositions = newBase.GetInitialPositions(elementsInPosition);
+        damage = newBase.GetDamage();
+        Collider weaponCollider = gameObject.AddComponent(newCollider.GetType()) as Collider;
+        if(weaponCollider is BoxCollider boxCollider)
+        {
+            BoxCollider newBoxCollider = newCollider as BoxCollider;
+            boxCollider.center = newBoxCollider.center;
+            boxCollider.size = newBoxCollider.size;
+        }
     }
 
     //Añadir un complemento al arma
-    public void AddComplement(Obj_Weapon_Complement newComplement, MeshFilter newFilter, MeshRenderer newRenderer)
+    public void AddComplement(Obj_Weapon_Complement newComplement, MeshFilter newFilter, MeshRenderer newRenderer, Collider newCollider)
     {
         //Datos iniciales
         weaponComplements.Add(newComplement);
@@ -82,5 +90,38 @@ public class Obj_Weapon : Obj_Buildable
         //Renderizar complemento
         instantiatedComplement.GetComponent<MeshFilter>().mesh = newFilter.mesh;
         instantiatedComplement.GetComponent<MeshRenderer>().materials = newRenderer.materials;
+
+        //Añadir colisiones
+        Collider weaponCollider = instantiatedComplement.AddComponent(newCollider.GetType()) as Collider;
+        if(weaponCollider is BoxCollider boxCollider)
+        {
+            BoxCollider newBoxCollider = newCollider as BoxCollider;
+            boxCollider.center = newBoxCollider.center;
+            boxCollider.size = newBoxCollider.size;
+        }
+        else if(weaponCollider is SphereCollider sphereCollider)
+        {
+            SphereCollider newSphereCollider = newCollider as SphereCollider;
+            sphereCollider.center = newSphereCollider.center;
+            sphereCollider.radius = newSphereCollider.radius;
+        }
+        else if(weaponCollider is MeshCollider meshCollider)
+        {
+            MeshCollider newMeshCollider = newCollider as MeshCollider;
+            meshCollider.convex = newMeshCollider.convex;
+            meshCollider.sharedMesh = newMeshCollider.sharedMesh;
+        }
+    }
+
+    public int DealDamage(int complementIndex = -1)
+    {
+        if(complementIndex < 0)
+        {
+            return damage;
+        }
+        else
+        {
+            return weaponComplements[complementIndex - 2].GetDamage();
+        }
     }
 }

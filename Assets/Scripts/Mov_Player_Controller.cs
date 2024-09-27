@@ -64,6 +64,12 @@ public class Mov_Player_Controller : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
             weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
@@ -107,6 +113,16 @@ public class Mov_Player_Controller : MonoBehaviour
         }
         else {
             return false;
+        }
+    }
+
+    IEnumerator SwingCoroutine()
+    {
+        yield return new WaitForSeconds(0.25f);
+        playerWeapon.gameObject.tag = "Untagged";
+        for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+        {
+            playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "Untagged";
         }
     }
 }

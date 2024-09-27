@@ -18,10 +18,6 @@ MonoBehaviour:
   Complexity: 1
   attackType: 1
   complementPositions:
-  - position: 1
-    initialPosition: {x: 0, y: -0.1, z: 0}
-    maxValues: {x: 0, y: 0.05, z: 0}
-    angleChange: {x: 90, y: 0, z: 0}
   - position: 2
     initialPosition: {x: 0, y: -0.1, z: -0.005}
     maxValues: {x: 0, y: 0.05, z: -0.025}
@@ -36,5 +32,5 @@ MonoBehaviour:
     angleChange: {x: 0, y: -90, z: 0}
   - position: 5
     initialPosition: {x: 0, y: -0.1, z: 0.005}
-    maxValues: {x: 0, y: -0.01, z: 0.025}
+    maxValues: {x: 0, y: -0.05, z: 0.025}
     angleChange: {x: 0, y: 0, z: 0}

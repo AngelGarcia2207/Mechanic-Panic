@@ -12,4 +12,6 @@ public abstract class Obj_Weapon_Component : ScriptableObject
     [SerializeField] protected int Weight;
     [SerializeField] protected int Size;
     [SerializeField] protected int Complexity;
+
+    public int GetDamage() { return Damage; }
 }
