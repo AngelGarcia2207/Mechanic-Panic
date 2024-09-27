@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fb4ea498d3fd66408429bc0e7010416, type: 3}
   m_Name: Nails
   m_EditorClassIdentifier: 
-  Damage: 20
+  Damage: 15
   Weight: 5
   Size: 3
   Complexity: 4
   effects: []
   possiblePositions: 020000000300000004000000
+  colliderType: 0

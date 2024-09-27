@@ -6,6 +6,9 @@ using TMPro;
 public class Ene_EnemyTest : MonoBehaviour
 {
     [SerializeField] private GameObject damageTag;
+    [SerializeField] private Vector3 knockbackDirection;
+    [SerializeField] private float stunDuration;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +22,15 @@ public class Ene_EnemyTest : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other)
-    {   
+    {
+        if (other.gameObject.CompareTag("Player")) {
+            Mov_Player_Controller playerScript = other.GetComponent<Mov_Player_Controller>();
+
+            playerScript.applyKnockBack(knockbackDirection);
+
+            playerScript.applyStun(stunDuration);
+        }
+
         if(other.CompareTag("WeaponBase"))
         {
             Obj_Weapon playerWeapon = other.GetComponent<Obj_Weapon>();
