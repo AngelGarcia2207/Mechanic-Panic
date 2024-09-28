@@ -95,6 +95,7 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             aceleration.y = jumpForce;
             velocity.y = aceleration.y;
+            spriteAnimator.SetBool("IsJumping", true);
         }
     }
 
@@ -116,6 +117,7 @@ public class Mov_Player_Controller : MonoBehaviour
         if (player.isGrounded && aceleration.y <= -gravity * 0.1f)
         {
             aceleration.y = -gravity * 0.1f;
+            spriteAnimator.SetBool("IsJumping", false);
         }
         else
         {
