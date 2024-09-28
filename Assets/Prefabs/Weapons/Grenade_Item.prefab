@@ -198,8 +198,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.013242179
-  m_Center: {x: -0.0000000018626451, y: -0.0027307384, z: 0.0032421811}
+  m_Radius: 0.013242181
+  m_Center: {x: -0.0000000018626451, y: -0.0027307388, z: 0.0032421816}
 --- !u!54 &3814693009802799162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -242,7 +242,7 @@ MonoBehaviour:
   pickUpRadius: {fileID: 8857065456568711691}
   itemMesh: {fileID: 6874815011518813263}
   itemRenderer: {fileID: 8686538361282420869}
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 778de879992acfd46af0682a37894c1b, type: 2}
 --- !u!4 &7550254269813038058 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: eed04b72790a6cf4fa40507dd049f51e,

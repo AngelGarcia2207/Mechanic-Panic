@@ -7,6 +7,8 @@ TagManager:
   - MovingPlatform
   - Camera
   - CameraCenter
+  - WeaponComplement
+  - WeaponBase
   layers:
   - Default
   - TransparentFX
