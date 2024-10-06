@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class WeaponEvent : UnityEvent<Obj_Weapon> {}
@@ -9,9 +10,10 @@ public class WeaponEvent : UnityEvent<Obj_Weapon> {}
 public class Mov_Player_Controller : MonoBehaviour
 {
     [SerializeField] private CharacterController player;
+    private PlayerInput playerInput;
     private float movementX;
     private float movementZ;
-    private Vector3 playerInput;
+    private Vector3 directionInput;
     [SerializeField] private Vector3 velocity;
     [SerializeField] private Vector3 aceleration;
     [SerializeField] private float mass;
@@ -36,24 +38,26 @@ public class Mov_Player_Controller : MonoBehaviour
     void Start()
     {
         player = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     void Update()
     {
         if (!stunned) {
-            movementX = Input.GetAxis("Horizontal");
-            movementZ = Input.GetAxis("Vertical");
+            Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+            movementX = rawDirection.x;
+            movementZ = rawDirection.y;
         }
         else {
             movementX = 0;
             movementZ = 0;
         }
 
-        playerInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
+        directionInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
 
         applyAcceleration();
 
-        velocity += playerInput * speed;
+        velocity += directionInput * speed;
         player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
 
         specialInputs();
@@ -61,12 +65,12 @@ public class Mov_Player_Controller : MonoBehaviour
         player.Move(velocity * Time.deltaTime);
 
         // Esto lo moveré a otro script en el futuro //
-        if(Input.GetKeyDown(KeyCode.E))
+        if(playerInput.actions["PickUp"].triggered)
         {
             pickUp.Invoke(playerWeapon);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if(playerInput.actions["Attack"].triggered)
         {
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
@@ -91,7 +95,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void specialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && Input.GetButtonDown("Jump") && !stunned)
+        if ((player.isGrounded || raycastFloor()) && playerInput.actions["Jump"].triggered && !stunned)
         {
             aceleration.y = jumpForce;
             velocity.y = aceleration.y;
