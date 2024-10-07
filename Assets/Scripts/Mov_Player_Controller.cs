@@ -47,7 +47,7 @@ public class Mov_Player_Controller : MonoBehaviour
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
-        if (SM.ChangeState(SM.walkingState))
+        if (true)
         {
             movementX = rawDirection.x;
             movementZ = rawDirection.y;
@@ -100,11 +100,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void specialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && playerInput.actions["Jump"].triggered && SM.ChangeState(SM.jumpingState))
+        if ((player.isGrounded || raycastFloor()) && jumpButtonPressed && SM.ChangeState(SM.jumpingState))
         {
-            // StartCoroutine(Jump());
-            velocity.y = jumpForce;
-            spriteAnimator.SetBool("IsJumping", true);
+            StartCoroutine(Jump());
         }
     }
 
@@ -189,7 +187,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
         while (jumpButtonPressed && remainingJumpTime > 0)
         {
-            velocity.y = jumpForce;
+            velocity.y = jumpForce / mass;
             spriteAnimator.SetBool("IsJumping", true);
 
             remainingJumpTime -= scanFrequency;

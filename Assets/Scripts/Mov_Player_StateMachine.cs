@@ -45,7 +45,7 @@ public partial class PlayerStateMachine
 		{
 			return false;
 		}
-	}
+	}	
 
 	// Regresar a Idle
 	public void returnToIdle()
