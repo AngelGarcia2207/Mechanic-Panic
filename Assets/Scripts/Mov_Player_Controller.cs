@@ -9,21 +9,24 @@ public class WeaponEvent : UnityEvent<Obj_Weapon> {}
 
 public class Mov_Player_Controller : MonoBehaviour
 {
-    [SerializeField] private CharacterController player;
+    private PlayerStateMachine SM = new PlayerStateMachine();
     private PlayerInput playerInput;
     private float movementX;
     private float movementZ;
-    private Vector3 directionInput;
-    [SerializeField] private Vector3 velocity;
-    [SerializeField] private Vector3 aceleration;
-    [SerializeField] private float mass;
-    [SerializeField] [Range(0f, 1f)] private float airFriction;
+    private Vector3 playerMovementInput;
+    private Vector3 nextMovement;
+    private Vector3 velocity;
+    private bool jumpButtonPressed = false;
+    private float remainingJumpTime;
+    private float scanFrequency = 0.05f;
 
-    [SerializeField] private bool stunned = false;
-
+    [SerializeField] private CharacterController player;
     [SerializeField] private float speed;
+    [SerializeField] private float mass;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpTime;
+    [SerializeField] [Range(0f, 1f)] private float airFriction;
     [SerializeField] private float floorRaycastDistance;
 
     // Esto lo moveré a otro script en el futuro //
@@ -43,26 +46,28 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Update()
     {
-        if (!stunned) {
-            Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        if (SM.ChangeState(SM.walkingState))
+        {
             movementX = rawDirection.x;
             movementZ = rawDirection.y;
         }
-        else {
+        else
+        {
             movementX = 0;
             movementZ = 0;
         }
 
-        directionInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
-
-        applyAcceleration();
-
-        velocity += directionInput * speed;
-        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+        playerMovementInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
 
         specialInputs();
 
-        player.Move(velocity * Time.deltaTime);
+        applyAcceleration();
+
+        nextMovement += playerMovementInput * speed;
+        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+
+        player.Move(nextMovement * Time.deltaTime);
 
         // Esto lo moveré a otro script en el futuro //
         if(playerInput.actions["PickUp"].triggered)
@@ -95,40 +100,40 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void specialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && playerInput.actions["Jump"].triggered && !stunned)
+        if ((player.isGrounded || raycastFloor()) && playerInput.actions["Jump"].triggered && SM.ChangeState(SM.jumpingState))
         {
-            aceleration.y = jumpForce;
-            velocity.y = aceleration.y;
+            // StartCoroutine(Jump());
+            velocity.y = jumpForce;
             spriteAnimator.SetBool("IsJumping", true);
         }
     }
 
     private void applyAcceleration()
     {
-        // Reducir la aceleración horiontal hasta que ya no sea significativa
-        if ((new Vector2(aceleration.x + velocity.x, aceleration.z + velocity.z)).magnitude > speed / 2)
+        // Reducir la velocidad horiontal hasta que ya no sea significativa
+        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > speed / 2)
         {
-            aceleration.x *= (1 - airFriction * Time.deltaTime);
-            aceleration.z *= (1 - airFriction * Time.deltaTime);
+            velocity.x *= (1 - airFriction * Time.deltaTime);
+            velocity.z *= (1 - airFriction * Time.deltaTime);
         }
         else
         {
-            aceleration.x = 0;
-            aceleration.z = 0;
+            velocity.x = 0;
+            velocity.z = 0;
         }
 
         // Gravedad
-        if (player.isGrounded && aceleration.y <= -gravity * 0.1f)
+        if (player.isGrounded && velocity.y <= -gravity * 0.1f && SM.ChangeState(SM.idleState))
         {
-            aceleration.y = -gravity * 0.1f;
+            velocity.y = -gravity * 0.1f;
             spriteAnimator.SetBool("IsJumping", false);
         }
         else
         {
-            aceleration.y -= gravity * Time.deltaTime;
+            velocity.y -= gravity * Time.deltaTime;
         }
 
-        velocity = aceleration;
+        nextMovement = velocity;
     }
 
     private bool raycastFloor()
@@ -149,19 +154,21 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyKnockBack(Vector3 knockback)
     {
-        aceleration = knockback / mass;
+        velocity = knockback / mass;
     }
 
     public void applyStun(float stunDuration)
     {
-        stunned = true;
-        StartCoroutine(stunDelay(stunDuration));
+        if (SM.ChangeState(SM.stunnedState))
+        {
+            StartCoroutine(stunDelay(stunDuration));
+        }
     }
 
     IEnumerator stunDelay(float stunDuration)
     {
         yield return new WaitForSeconds(stunDuration);
-        stunned = false;
+        SM.returnToIdle();
     }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
@@ -175,4 +182,23 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
     // // // // // // // // // // // // // // // //
+
+    IEnumerator Jump()
+    {
+        remainingJumpTime = jumpTime;
+
+        while (jumpButtonPressed && remainingJumpTime > 0)
+        {
+            velocity.y = jumpForce;
+            spriteAnimator.SetBool("IsJumping", true);
+
+            remainingJumpTime -= scanFrequency;
+            yield return new WaitForSeconds(scanFrequency);
+        }
+    }
+
+    private void OnJump()
+    {
+        jumpButtonPressed = !jumpButtonPressed;
+    }
 }
