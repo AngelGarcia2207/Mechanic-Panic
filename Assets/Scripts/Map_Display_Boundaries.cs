@@ -25,7 +25,6 @@ public class Map_Display_Boundaries : MonoBehaviour
         cameraScript = cameraObject.GetComponent<Cam_Default_Controller>();
 
         player = GameObject.FindWithTag("Player"); // Temporalmente solo apuntaré a un jugador, después serán varios
-        Debug.Log(player);
 
         leftBoundary = new GameObject("leftBoundary");
         rightBoundary = new GameObject("rightBoundary");
