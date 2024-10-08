@@ -2,31 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class WeaponEvent : UnityEvent<Obj_Weapon> {}
 
 public class Mov_Player_Controller : MonoBehaviour
 {
-    [SerializeField] private CharacterController player;
+    private PlayerStateMachine SM;
+    private PlayerInput playerInput;
     private float movementX;
     private float movementZ;
-    private Vector3 playerInput;
-    [SerializeField] private Vector3 velocity;
-    [SerializeField] private Vector3 aceleration;
-    [SerializeField] private float mass;
-    [SerializeField] [Range(0f, 1f)] private float airFriction;
+    private Vector3 playerMovementInput;
+    private Vector3 nextMovement;
+    private Vector3 velocity;
+    private bool jumpButtonPressed = false;
+    private float remainingJumpTime;
+    private float scanFrequency = 0.05f;
 
-    [SerializeField] private bool stunned = false;
-
+    public Animator spriteAnimator;
+    [SerializeField] private CharacterController player;
     [SerializeField] private float speed;
+    [SerializeField] private float mass;
     [SerializeField] private float gravity;
     [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpTime;
+    [SerializeField] [Range(0f, 1f)] private float airFriction;
     [SerializeField] private float floorRaycastDistance;
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Animator spriteAnimator;
     [SerializeField] private Obj_Weapon playerWeapon;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUp;
@@ -36,37 +41,63 @@ public class Mov_Player_Controller : MonoBehaviour
     void Start()
     {
         player = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
+        SM = new PlayerStateMachine(spriteAnimator);
     }
 
     void Update()
     {
-        if (!stunned) {
-            movementX = Input.GetAxis("Horizontal");
-            movementZ = Input.GetAxis("Vertical");
+        Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        if (rawDirection.x != 0 || rawDirection.y != 0)
+        {
+            if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.move))
+            {
+                SM.ChangeState(SM.move);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else if (SM.AvailableTransition(SM.jumpMove))
+            {
+                SM.ChangeState(SM.jumpMove);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else
+            {
+                movementX = 0;
+                movementZ = 0;
+            }
         }
-        else {
+        else if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.idle))
+        {
+            SM.ChangeState(SM.idle);
+            movementX = 0;
+            movementZ = 0;
+        }
+        else
+        {
             movementX = 0;
             movementZ = 0;
         }
 
-        playerInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
-
-        applyAcceleration();
-
-        velocity += playerInput * speed;
-        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+        playerMovementInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
 
         specialInputs();
 
-        player.Move(velocity * Time.deltaTime);
+        applyAcceleration();
+
+        nextMovement += playerMovementInput * speed;
+        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+
+        player.Move(nextMovement * Time.deltaTime);
 
         // Esto lo moveré a otro script en el futuro //
-        if(Input.GetKeyDown(KeyCode.E))
+        if(playerInput.actions["PickUp"].triggered)
         {
             pickUp.Invoke(playerWeapon);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if(playerInput.actions["Attack"].triggered)
         {
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
@@ -77,54 +108,43 @@ public class Mov_Player_Controller : MonoBehaviour
             weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
-
-        if(movementX != 0 || movementZ != 0)
-        {
-            spriteAnimator.SetBool("IsMoving", true);
-        }
-        else
-        {
-            spriteAnimator.SetBool("IsMoving", false);
-        }
         // // // // // // // // // // // // // // // //
     }
 
     private void specialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && Input.GetButtonDown("Jump") && !stunned)
+        if ((player.isGrounded || raycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
-            aceleration.y = jumpForce;
-            velocity.y = aceleration.y;
-            spriteAnimator.SetBool("IsJumping", true);
+            SM.ChangeState(SM.jump);
+            StartCoroutine(Jump());
         }
     }
 
     private void applyAcceleration()
     {
-        // Reducir la aceleración horiontal hasta que ya no sea significativa
-        if ((new Vector2(aceleration.x + velocity.x, aceleration.z + velocity.z)).magnitude > speed / 2)
+        // Reducir la velocidad horiontal hasta que ya no sea significativa
+        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > speed / 2)
         {
-            aceleration.x *= (1 - airFriction * Time.deltaTime);
-            aceleration.z *= (1 - airFriction * Time.deltaTime);
+            velocity.x *= (1 - airFriction * Time.deltaTime);
+            velocity.z *= (1 - airFriction * Time.deltaTime);
         }
         else
         {
-            aceleration.x = 0;
-            aceleration.z = 0;
+            velocity.x = 0;
+            velocity.z = 0;
         }
 
         // Gravedad
-        if (player.isGrounded && aceleration.y <= -gravity * 0.1f)
+        if (player.isGrounded && velocity.y <= -gravity * 0.1f)
         {
-            aceleration.y = -gravity * 0.1f;
-            spriteAnimator.SetBool("IsJumping", false);
+            velocity.y = -gravity * 0.1f;
         }
         else
         {
-            aceleration.y -= gravity * Time.deltaTime;
+            velocity.y -= gravity * Time.deltaTime;
         }
 
-        velocity = aceleration;
+        nextMovement = velocity;
     }
 
     private bool raycastFloor()
@@ -145,19 +165,22 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyKnockBack(Vector3 knockback)
     {
-        aceleration = knockback / mass;
+        velocity = knockback / mass;
     }
 
     public void applyStun(float stunDuration)
     {
-        stunned = true;
-        StartCoroutine(stunDelay(stunDuration));
+        if (SM.AvailableTransition(SM.stunned))
+        {
+            SM.ChangeState(SM.stunned);
+            StartCoroutine(stunDelay(stunDuration));
+        }
     }
 
     IEnumerator stunDelay(float stunDuration)
     {
         yield return new WaitForSeconds(stunDuration);
-        stunned = false;
+        SM.returnToIdle();
     }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
@@ -171,4 +194,22 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
     // // // // // // // // // // // // // // // //
+
+    IEnumerator Jump()
+    {
+        remainingJumpTime = jumpTime;
+
+        while (jumpButtonPressed && remainingJumpTime > 0)
+        {
+            velocity.y = jumpForce / mass;
+
+            remainingJumpTime -= scanFrequency;
+            yield return new WaitForSeconds(scanFrequency);
+        }
+    }
+
+    private void OnJump()
+    {
+        jumpButtonPressed = !jumpButtonPressed;
+    }
 }
