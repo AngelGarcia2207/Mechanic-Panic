@@ -9,7 +9,7 @@ public class WeaponEvent : UnityEvent<Obj_Weapon> {}
 
 public class Mov_Player_Controller : MonoBehaviour
 {
-    private PlayerStateMachine SM = new PlayerStateMachine();
+    private PlayerStateMachine SM;
     private PlayerInput playerInput;
     private float movementX;
     private float movementZ;
@@ -20,6 +20,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private float remainingJumpTime;
     private float scanFrequency = 0.05f;
 
+    public Animator spriteAnimator;
     [SerializeField] private CharacterController player;
     [SerializeField] private float speed;
     [SerializeField] private float mass;
@@ -31,7 +32,6 @@ public class Mov_Player_Controller : MonoBehaviour
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Animator spriteAnimator;
     [SerializeField] private Obj_Weapon playerWeapon;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUp;
@@ -42,15 +42,37 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         player = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        SM = new PlayerStateMachine(spriteAnimator);
     }
 
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
-        if (true)
+        if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            movementX = rawDirection.x;
-            movementZ = rawDirection.y;
+            if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.move))
+            {
+                SM.ChangeState(SM.move);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else if (SM.AvailableTransition(SM.jumpMove))
+            {
+                SM.ChangeState(SM.jumpMove);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else
+            {
+                movementX = 0;
+                movementZ = 0;
+            }
+        }
+        else if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.idle))
+        {
+            SM.ChangeState(SM.idle);
+            movementX = 0;
+            movementZ = 0;
         }
         else
         {
@@ -86,22 +108,14 @@ public class Mov_Player_Controller : MonoBehaviour
             weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
-
-        if(movementX != 0 || movementZ != 0)
-        {
-            spriteAnimator.SetBool("IsMoving", true);
-        }
-        else
-        {
-            spriteAnimator.SetBool("IsMoving", false);
-        }
         // // // // // // // // // // // // // // // //
     }
 
     private void specialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && jumpButtonPressed && SM.ChangeState(SM.jumpingState))
+        if ((player.isGrounded || raycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
+            SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
         }
     }
@@ -121,10 +135,9 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // Gravedad
-        if (player.isGrounded && velocity.y <= -gravity * 0.1f && SM.ChangeState(SM.idleState))
+        if (player.isGrounded && velocity.y <= -gravity * 0.1f)
         {
             velocity.y = -gravity * 0.1f;
-            spriteAnimator.SetBool("IsJumping", false);
         }
         else
         {
@@ -157,8 +170,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyStun(float stunDuration)
     {
-        if (SM.ChangeState(SM.stunnedState))
+        if (SM.AvailableTransition(SM.stunned))
         {
+            SM.ChangeState(SM.stunned);
             StartCoroutine(stunDelay(stunDuration));
         }
     }
@@ -188,7 +202,6 @@ public class Mov_Player_Controller : MonoBehaviour
         while (jumpButtonPressed && remainingJumpTime > 0)
         {
             velocity.y = jumpForce / mass;
-            spriteAnimator.SetBool("IsJumping", true);
 
             remainingJumpTime -= scanFrequency;
             yield return new WaitForSeconds(scanFrequency);
