@@ -26,4 +26,9 @@ public abstract class Obj_Item : MonoBehaviour
 
     //Función para quitar el outline al objeto cuando se aleja un jugador
     protected virtual void OnTriggerExit(Collider other) {}
+
+    public void DestroyThis() { Destroy(this.gameObject); }
+    public MeshFilter GetMesh() { return itemMesh; }
+    public MeshRenderer GetRenderer() { return itemRenderer; }
+    public Collider GetCollider() { return gameObject.GetComponent<Collider>(); }
 }

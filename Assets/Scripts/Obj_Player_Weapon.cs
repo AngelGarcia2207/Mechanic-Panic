@@ -21,9 +21,8 @@ public class Obj_Player_Weapon : Obj_Buildable
     
     void Start()
     {
-        //Debug.Log(complementPosition);
         Mov_Player_Controller player = GameObject.FindWithTag("Player").GetComponent<Mov_Player_Controller>();
-        player.pickUp.AddListener(OnPickUp);
+        player.pickUpWeapon.AddListener(OnPickUp);
     }
     
     void Update()
@@ -78,20 +77,18 @@ public class Obj_Player_Weapon : Obj_Buildable
         //Initial data
         weaponComplements.Add(newComplement.GetData() as Obj_Weapon_Complement);
         numberOfElementsPerLocation[closeItemsLocations[closeItems.IndexOf(newComplement)]]++;
-        foreach(Obj_Weapon_Item item in closeItems)
+        /*foreach(Obj_Weapon_Item item in closeItems)
         {
             Debug.Log(item);
         }
         foreach(ComplementLocations item in closeItemsLocations)
         {
             Debug.Log(item);
-        }
+        }*/
         int locationIndex = weaponBase.GetLocationIndex(closeItemsLocations[closeItems.IndexOf(newComplement)]);
 
         //Make instance of complement nad position it
         GameObject instantiatedComplement = Instantiate(complementPrefab, transform.position, new Quaternion(0, 0, 0, 0), this.transform);
-        Debug.Log(instantiatedComplement.transform.rotation.eulerAngles);
-        Debug.Log(weaponBase.GetAngleChange(locationIndex));
         instantiatedComplement.transform.localPosition = closeItemsPositions[closeItems.IndexOf(newComplement)];
         instantiatedComplement.transform.Rotate(weaponBase.GetAngleChange(locationIndex));
         
@@ -258,8 +255,7 @@ public class Obj_Player_Weapon : Obj_Buildable
             availableLocations.Add(location);
         }
         Vector3 tempPosition;
-        
-        //Debug.Log(complementData.GetLocationsList().Count);
+
         for(int i = 0; i < complementData.GetLocationsList().Count; i++)
         {
             bestLocation = Obj_Weapon_Complement.GetBestLocation(numberOfElementsPerLocation, availableLocations);
@@ -267,7 +263,6 @@ public class Obj_Player_Weapon : Obj_Buildable
             {
                 break;
             }
-            //Debug.Log(bestLocation);
             availableLocations.Remove(bestLocation);
 
             tempPosition = weaponBase.GetNewComplementPosition(bestLocation, currentPositions[weaponBase.GetLocationIndex(bestLocation)],

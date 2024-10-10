@@ -42,7 +42,7 @@ public class Ene_EnemyTest : MonoBehaviour
         if(other.CompareTag("WeaponBase"))
         {
             Obj_Player_Weapon playerWeapon = other.GetComponent<Obj_Player_Weapon>();
-            Debug.Log(playerWeapon.DealDamage());
+            //Debug.Log(playerWeapon.DealDamage());
             GameObject newTag = Instantiate(damageTag, other.gameObject.transform.position, Quaternion.identity);
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
             Destroy(newTag, 1f);
@@ -58,7 +58,7 @@ public class Ene_EnemyTest : MonoBehaviour
         else if(other.CompareTag("WeaponComplement"))
         {
             Obj_Player_Weapon playerWeapon = other.transform.parent.GetComponent<Obj_Player_Weapon>();
-            Debug.Log(playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()));
+            //Debug.Log(playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()));
             GameObject newTag = Instantiate(damageTag, other.gameObject.transform.position, Quaternion.identity);
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
@@ -75,10 +75,8 @@ public class Ene_EnemyTest : MonoBehaviour
 
     private void SwayAnimation()
     {
-        //Debug.Log("target: " + targetsQueue.Peek());
         if(swayStart)
         {
-            //Debug.Log("current: " + this.transform.position);
             this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, targetsQueue.Peek().x, Time.deltaTime * shakeSpeed),
                 this.transform.position.y, Mathf.Lerp(this.transform.position.z, targetsQueue.Peek().z, Time.deltaTime * shakeSpeed));
             if(new Vector3(Mathf.Round(this.transform.position.x*1000f), this.transform.position.y, Mathf.Round(this.transform.position.z*1000f))
