@@ -6,15 +6,13 @@ using UnityEngine;
 Esta clase es la plantilla para crear items de arma complementarios.
 */
 
-public enum ComplementPositions
+public enum ComplementLocations
 {
-    Default,
-    Top,
+    Center,
     Front,
     Right,
     Left,
-    Back,
-    Center
+    Back
 }
 
 public enum ColliderType
@@ -28,29 +26,30 @@ public enum ColliderType
 public class Obj_Weapon_Complement : Obj_Weapon_Component
 {
     [SerializeField] protected List<WeaponEffect> effects;
-    [SerializeField] protected List<ComplementPositions> possiblePositions;
+    [SerializeField] protected List<ComplementLocations> possibleLocations;
     [SerializeField] protected ColliderType colliderType;
 
-    public ComplementPositions GetBestPosition(Dictionary<ComplementPositions, int> elementsInPosition)
+    public ColliderType GetColliderType() { return colliderType; }
+    public List<ComplementLocations> GetLocationsList() { return possibleLocations; }
+
+    //Returns the complement location with the least amount of elements
+    public static ComplementLocations GetBestLocation(Dictionary<ComplementLocations, int> numberOfElementsPerLocation, List<ComplementLocations> possibleLocations)
     {
-        ComplementPositions bestPosition = ComplementPositions.Default;
+        ComplementLocations bestLocation = ComplementLocations.Center;
         int counter = 999;
        
-        foreach(ComplementPositions possiblePosition in possiblePositions)
+        foreach(ComplementLocations possibleLocation in possibleLocations)
         {
-            if(elementsInPosition.ContainsKey(possiblePosition))
+            if(numberOfElementsPerLocation.ContainsKey(possibleLocation))
             {
-                if(elementsInPosition[possiblePosition] < counter)
+                if(numberOfElementsPerLocation[possibleLocation] < counter)
                 {
-                    bestPosition = possiblePosition;
-                    counter = elementsInPosition[possiblePosition];
+                    bestLocation = possibleLocation;
+                    counter = numberOfElementsPerLocation[possibleLocation];
                 }
             }
         }
-
-        elementsInPosition[bestPosition]++;
-        return bestPosition;
+        
+        return bestLocation;
     }
-
-    public ColliderType GetColliderType() { return colliderType; }
 }

@@ -17,12 +17,18 @@ MonoBehaviour:
   Size: 2
   Complexity: 2
   attackType: 1
-  complementPositions:
-  - position: 3
-    initialPosition: {x: 0.005, y: -0.08, z: 0.008}
-    maxValues: {x: 0.005, y: -0.058, z: -0.01}
+  complementLocations:
+  - location: 2
+    minLong: -0.08
+    maxLong: -0.06
+    minTall: 0.005
+    maxTall: 0.006
+    thirdValue: 0
     angleChange: {x: 0, y: 90, z: 0}
-  - position: 4
-    initialPosition: {x: -0.005, y: -0.08, z: 0.008}
-    maxValues: {x: -0.005, y: -0.058, z: -0.01}
+  - location: 3
+    minLong: -0.08
+    maxLong: -0.06
+    minTall: -0.005
+    maxTall: -0.006
+    thirdValue: 0
     angleChange: {x: 0, y: -90, z: 0}

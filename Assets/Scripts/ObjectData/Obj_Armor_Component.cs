@@ -6,18 +6,11 @@ using UnityEngine;
 Esta clase es la plantilla para crear items de armadura.
 */
 
-[CreateAssetMenu(fileName = "Armor", menuName = "Armor", order = 0)]
-public class Obj_Armor_Component : ScriptableObject
+public abstract class Obj_Armor_Component : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] protected int Defense;
+    [SerializeField] protected int Weight;
+    [SerializeField] protected List<ArmorEffect> effects;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int GetDefense() { return Defense; }
 }

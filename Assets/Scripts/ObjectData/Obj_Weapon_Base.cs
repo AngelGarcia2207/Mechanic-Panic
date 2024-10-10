@@ -18,15 +18,15 @@ public enum WeaponTypes
 public class Obj_Weapon_Base : Obj_Weapon_Component
 {
     [SerializeField] protected WeaponTypes attackType = WeaponTypes.Default;
-    [SerializeField] protected List<PositionHandler> complementPositions;
+    [SerializeField] protected List<ComplementLocationHandler> complementLocations;
     
-    //Buscar el index de cierto PositionHandler a partir de un tipo de posición dada.
-    //NOTA: no, "IndexOf" no funciona para esto porque tendría que crear un PositionHandler con los mismos datos
-    public int GetPositionIndex(ComplementPositions targetPosition)
+    //Buscar el index de cierto ComplementLocationHandler a partir de un tipo de locación dada.
+    //NOTA: no, "IndexOf" no funciona para esto porque tendría que crear un ComplementLocationHandler con los mismos datos
+    public int GetLocationIndex(ComplementLocations targetLocation)
     {
-        for(int i = 0; i < complementPositions.Count; i++)
+        for(int i = 0; i < complementLocations.Count; i++)
         {
-            if(complementPositions[i].position == targetPosition)
+            if(complementLocations[i].location == targetLocation)
             {
                 return i;
             }
@@ -35,95 +35,110 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
         return -1;
     }
 
-    public List<Vector3> GetInitialPositions(Dictionary<ComplementPositions, int> elementsInPosition)
+    public List<Vector3> GetInitialPositions(Dictionary<ComplementLocations, int> numberOfElementsPerLocation)
     {
         List<Vector3> initialPositions = new();
 
-        foreach(PositionHandler position in complementPositions)
+        foreach(ComplementLocationHandler locationHandler in complementLocations)
         {
-            initialPositions.Add(position.initialPosition);
-            elementsInPosition.Add(position.position, 0);
+            if(locationHandler.location == ComplementLocations.Front || locationHandler.location == ComplementLocations.Back)
+            {
+                initialPositions.Add(new Vector3(locationHandler.thirdValue, locationHandler.minLong, locationHandler.minTall));
+            }
+            else if(locationHandler.location == ComplementLocations.Right || locationHandler.location == ComplementLocations.Left)
+            {
+                initialPositions.Add(new Vector3(locationHandler.minTall, locationHandler.minLong, locationHandler.thirdValue));
+            }
+            else
+            {
+                initialPositions.Add(new Vector3(0, 0, 0));
+            }
+            numberOfElementsPerLocation.Add(locationHandler.location, 0);
         }
 
         return initialPositions;
     }
 
-    public Vector3 GetNewComplementPosition(ComplementPositions newPosition, Vector3 currentPosition, Vector3 meshSize)
+    public Vector3 GetNewComplementPosition(ComplementLocations newLocation, Vector3 currentPosition, Vector3 meshSize)
     {
-        int newPositionIndex = GetPositionIndex(newPosition);
+        int newLocationIndex = GetLocationIndex(newLocation);
 
-        switch(newPosition)
+        switch(newLocation)
         {
-            case ComplementPositions.Front:
-                if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
+            case ComplementLocations.Front:
+                if(currentPosition.y > complementLocations[newLocationIndex].maxLong)
                 {
-                    if(complementPositions[newPositionIndex].initialPosition.z - meshSize.z < complementPositions[newPositionIndex].maxValues.z)
+                    if(currentPosition.z < complementLocations[newLocationIndex].maxTall)
                     {
                         return new Vector3(0, 0, 0);
                     }
                     else
                     {
-                        return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
-                            (complementPositions[newPositionIndex].initialPosition.z - 1.5f*meshSize.z));
+                        return new Vector3(currentPosition.x, (complementLocations[newLocationIndex].minLong + meshSize.y/2),
+                            (currentPosition.z - meshSize.z/2));
                     }
                 }
                 else
                 {
-                    return new Vector3(currentPosition.x, (currentPosition.y + meshSize.y/2), (currentPosition.z - meshSize.z/2));
+                    return new Vector3(currentPosition.x, (currentPosition.y + meshSize.y/2),
+                        (complementLocations[newLocationIndex].minTall - meshSize.z/2));
                 }
                 
-            case ComplementPositions.Right:
-                if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
+            case ComplementLocations.Right:
+                if(currentPosition.y > complementLocations[newLocationIndex].maxLong)
                 {
-                    if(complementPositions[newPositionIndex].initialPosition.x + meshSize.z > complementPositions[newPositionIndex].maxValues.z)
+                    if(currentPosition.x > complementLocations[newLocationIndex].maxTall)
                     {
                         return new Vector3(0, 0, 0);
                     }
                     else
                     {
-                        return new Vector3((complementPositions[newPositionIndex].initialPosition.x + 1.5f*meshSize.z),
-                            (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                        return new Vector3((currentPosition.x + meshSize.z/2),
+                            (complementLocations[newLocationIndex].minLong + meshSize.y/2), currentPosition.z);
                     }
                 }
                 else
                 {
-                    return new Vector3((currentPosition.x + meshSize.z/2), (currentPosition.y + meshSize.y/2), currentPosition.z);
+                    return new Vector3((complementLocations[newLocationIndex].minTall + meshSize.z/2),
+                        (currentPosition.y + meshSize.y/2), currentPosition.z);
                 }
                 
-            case ComplementPositions.Left:
-                if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
+            case ComplementLocations.Left:
+                if(currentPosition.y > complementLocations[newLocationIndex].maxLong)
                 {
-                    if(complementPositions[newPositionIndex].initialPosition.x - meshSize.z < complementPositions[newPositionIndex].maxValues.z)
+                    if(currentPosition.x < complementLocations[newLocationIndex].maxTall)
                     {
                         return new Vector3(0, 0, 0);
                     }
                     else
                     {
-                        return new Vector3((complementPositions[newPositionIndex].initialPosition.x - 1.5f*meshSize.z),
-                            (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2), currentPosition.z);
+                        return new Vector3((currentPosition.x - meshSize.z/2),
+                            (complementLocations[newLocationIndex].minLong + meshSize.y/2), currentPosition.z);
                     }
                 }
                 else
                 {
-                    return new Vector3((currentPosition.x - meshSize.z/2), (currentPosition.y + meshSize.y/2), currentPosition.z);
+                    return new Vector3((complementLocations[newLocationIndex].minTall - meshSize.z/2),
+                        (currentPosition.y + meshSize.y/2), currentPosition.z);
                 }
                 
-            case ComplementPositions.Back:
-                if(currentPosition.y + meshSize.y > complementPositions[newPositionIndex].maxValues.y)
+            case ComplementLocations.Back:
+                if(currentPosition.y > complementLocations[newLocationIndex].maxLong)
                 {
-                    if(complementPositions[newPositionIndex].initialPosition.z + meshSize.z > complementPositions[newPositionIndex].maxValues.z)
+                    if(currentPosition.z > complementLocations[newLocationIndex].maxTall)
                     {
                         return new Vector3(0, 0, 0);
                     }
                     else
                     {
-                        return new Vector3(currentPosition.x, (complementPositions[newPositionIndex].initialPosition.y + meshSize.y/2),
-                            (complementPositions[newPositionIndex].initialPosition.z + 1.5f*meshSize.z));
+                        return new Vector3(currentPosition.x, (complementLocations[newLocationIndex].minLong + meshSize.y/2),
+                            (currentPosition.z + meshSize.z/2));
                     }
                 }
                 else
                 {
-                    return new Vector3(currentPosition.x, (currentPosition.y + meshSize.y/2), (currentPosition.z + meshSize.z/2));
+                    return new Vector3(currentPosition.x, (currentPosition.y + meshSize.y/2),
+                        (complementLocations[newLocationIndex].minTall + meshSize.z/2));
                 }
 
             default:
@@ -131,17 +146,25 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
         }
     }
 
-    public Vector3 GetAngleChange(int positionIndex)
+    public Vector3 GetAngleChange(int locationIndex)
     {
-        return complementPositions[positionIndex].angleChange;
+        return complementLocations[locationIndex].angleChange;
+    }
+
+    public void InitializeComplementLocations()
+    {
+        //
     }
 }
 
 [System.Serializable]
-public struct PositionHandler
+public struct ComplementLocationHandler
 {
-    [SerializeField] public ComplementPositions position;
-    [SerializeField] public Vector3 initialPosition;
-    [SerializeField] public Vector3 maxValues;
-    [SerializeField] public Vector3 angleChange;
+    public ComplementLocations location;
+    public float minLong;
+    public float maxLong;
+    public float minTall;
+    public float maxTall;
+    public float thirdValue;
+    public Vector3 angleChange;
 }

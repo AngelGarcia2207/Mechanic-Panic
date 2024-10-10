@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fb4ea498d3fd66408429bc0e7010416, type: 3}
-  m_Name: Nails
+  m_Script: {fileID: 11500000, guid: 71da98e847f583f4a849d15f53a30dbc, type: 3}
+  m_Name: TestHat
   m_EditorClassIdentifier: 
-  Damage: 15
-  Weight: 5
-  Size: 3
-  Complexity: 4
+  Defense: 3
+  Weight: 1
   effects: []
-  possibleLocations: 010000000200000003000000
-  colliderType: 0
+  isHollow: 0
