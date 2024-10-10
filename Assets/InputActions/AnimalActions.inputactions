@@ -132,7 +132,7 @@
                 {
                     "name": "",
                     "id": "38456fe9-4ff1-49f7-b734-91b907b79188",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -155,7 +155,7 @@
                     "name": "",
                     "id": "5732fc0e-e4f6-4121-9507-4e97924f93c8",
                     "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
+                    "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
