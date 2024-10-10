@@ -10,40 +10,48 @@ public partial class PlayerStateMachine
 	public PlayerState jump;
 	public PlayerState jumpMove;
 	public PlayerState dodge;
+	public PlayerState grab;
 	public PlayerState attack;
 	public PlayerState moveAttack;
 	public PlayerState hold;
+	public PlayerState hurl;
+	public PlayerState parry;
 	public PlayerState stunned;
+	public PlayerState dead;
 
 	private PlayerState currentState;
 	
-	public Animator spriteAnimator;
+	public Animator animator;
 
-	public PlayerStateMachine(Animator spriteAnimator)
+	public PlayerStateMachine(Animator animator)
     {
-		idle = new PlayerIdle(spriteAnimator);
-		move = new PlayerMove(spriteAnimator);
-		jump = new PlayerJump(spriteAnimator);
-		jumpMove = new PlayerJumpMove(spriteAnimator);
-		dodge = new PlayerDodge(spriteAnimator);
-		attack = new PlayerAttack(spriteAnimator);
-		moveAttack = new PlayerMoveAttack(spriteAnimator);
-		hold = new PlayerHold(spriteAnimator);
-		stunned = new PlayerStunned(spriteAnimator);
+		idle = new PlayerIdle(animator);
+		move = new PlayerMove(animator);
+		jump = new PlayerJump(animator);
+		jumpMove = new PlayerJumpMove(animator);
+		dodge = new PlayerDodge(animator);
+		grab = new PlayerGrab(animator);
+		attack = new PlayerAttack(animator);
+		moveAttack = new PlayerMoveAttack(animator);
+		hold = new PlayerHold(animator);
+		hurl = new PlayerHurl(animator);
+		parry = new PlayerParry(animator);
+		stunned = new PlayerStunned(animator);
+		dead = new PlayerDead(animator);
 
         idle.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, attack, hold, stunned });
         move.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, moveAttack, hold, stunned });
         jump.SetPossibleTransitions(new List<PlayerState> { idle, jumpMove, dodge, hold, stunned });
 		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, dodge, hold, stunned });
         dodge.SetPossibleTransitions(new List<PlayerState>()); // Al esquivar, no puede transicionar a otros estados
-        attack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
-		moveAttack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
-        hold.SetPossibleTransitions(new List<PlayerState> { move, jump, dodge, stunned });
+        attack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned });
+		moveAttack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned });
+        hold.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, stunned });
         stunned.SetPossibleTransitions(new List<PlayerState>()); // Al estar aturdido, no puede transicionar a otros estados
 
         currentState = idle;
 
-		this.spriteAnimator = spriteAnimator;
+		this.animator = animator;
     }
 
 	// Comprobar si una transión es válida
@@ -62,11 +70,11 @@ public partial class PlayerStateMachine
 	// Cambiar de estado, si es que el actual permite la transición
 	public void ChangeState(PlayerState state)
 	{
-		if (currentState.IsAPossibleTransition(state))
+		if (currentState.IsAPossibleTransition(state) && currentState != state)
 		{
 			currentState.Exit();
-			state.Enter();
 			currentState = state;
+			currentState.Enter();
 		}
 	}
 	
@@ -84,11 +92,11 @@ public partial class PlayerState
 {
     private List<PlayerState> possibleTransitions;
 
-	public Animator spriteAnimator;
+	public Animator animator;
 
-	public PlayerState(Animator spriteAnimator)
+	public PlayerState(Animator animator)
     {
-		this.spriteAnimator = spriteAnimator;
+		this.animator = animator;
     }
 
 	// Método para verificar si una transición es posible
@@ -123,97 +131,140 @@ public partial class PlayerState
     {
         return;
     }
+
+	public void ChangeAnimation(string animation)
+	{
+		animator.CrossFade(animation, 0.1f);
+	}
 }
 
 public partial class PlayerIdle : PlayerState
 {
-    public PlayerIdle(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerIdle(Animator animator) : base(animator)
     {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("idle");
     }
 }
 
 public partial class PlayerMove : PlayerState
 {
-    public PlayerMove(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerMove(Animator animator) : base(animator)
     {
     }
 
 	public override void Enter()
     {
-        spriteAnimator.SetBool("IsMoving", true);
-    }
-
-	public override void Exit()
-    {
-        spriteAnimator.SetBool("IsMoving", false);
+        ChangeAnimation("move");
     }
 }
 
 public partial class PlayerJump : PlayerState
 {
-    public PlayerJump(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerJump(Animator animator) : base(animator)
     {
     }
 
 	public override void Enter()
     {
-        spriteAnimator.SetBool("IsJumping", true);
-    }
-
-	public override void Exit()
-    {
-        spriteAnimator.SetBool("IsJumping", false);
+        ChangeAnimation("jump");
     }
 }
 
 public partial class PlayerJumpMove : PlayerState
 {
-    public PlayerJumpMove(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerJumpMove(Animator animator) : base(animator)
     {
     }
 
 	public override void Enter()
     {
-        spriteAnimator.SetBool("IsJumping", true);
-    }
-
-	public override void Exit()
-    {
-        spriteAnimator.SetBool("IsJumping", false);
+        ChangeAnimation("jump");
     }
 }
 
 public partial class PlayerDodge : PlayerState
 {
-    public PlayerDodge(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerDodge(Animator animator) : base(animator)
+    {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("dodge");
+    }
+}
+
+public partial class PlayerGrab : PlayerState
+{
+    public PlayerGrab(Animator animator) : base(animator)
     {
     }
 }
 
 public partial class PlayerAttack : PlayerState
 {
-    public PlayerAttack(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerAttack(Animator animator) : base(animator)
     {
     }
 }
 
 public partial class PlayerMoveAttack : PlayerState
 {
-    public PlayerMoveAttack(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerMoveAttack(Animator animator) : base(animator)
     {
     }
 }
 
 public partial class PlayerHold : PlayerState
 {
-    public PlayerHold(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerHold(Animator animator) : base(animator)
     {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("hold");
+    }
+}
+
+public partial class PlayerHurl : PlayerState
+{
+    public PlayerHurl(Animator animator) : base(animator)
+    {
+    }
+}
+
+public partial class PlayerParry : PlayerState
+{
+	public PlayerParry(Animator animator) : base(animator)
+    {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("parry");
     }
 }
 
 public partial class PlayerStunned : PlayerState
 {
-    public PlayerStunned(Animator spriteAnimator) : base(spriteAnimator)
+    public PlayerStunned(Animator animator) : base(animator)
     {
+    }
+}
+
+public partial class PlayerDead : PlayerState
+{
+	public PlayerDead(Animator animator) : base(animator)
+    {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("death");
     }
 }
