@@ -49,7 +49,7 @@ public class Obj_Weapon_Complement : Obj_Weapon_Component
                 }
             }
         }
-
+        
         return bestLocation;
     }
 }

@@ -78,10 +78,20 @@ public class Obj_Player_Weapon : Obj_Buildable
         //Initial data
         weaponComplements.Add(newComplement.GetData() as Obj_Weapon_Complement);
         numberOfElementsPerLocation[closeItemsLocations[closeItems.IndexOf(newComplement)]]++;
+        foreach(Obj_Weapon_Item item in closeItems)
+        {
+            Debug.Log(item);
+        }
+        foreach(ComplementLocations item in closeItemsLocations)
+        {
+            Debug.Log(item);
+        }
         int locationIndex = weaponBase.GetLocationIndex(closeItemsLocations[closeItems.IndexOf(newComplement)]);
 
         //Make instance of complement nad position it
         GameObject instantiatedComplement = Instantiate(complementPrefab, transform.position, new Quaternion(0, 0, 0, 0), this.transform);
+        Debug.Log(instantiatedComplement.transform.rotation.eulerAngles);
+        Debug.Log(weaponBase.GetAngleChange(locationIndex));
         instantiatedComplement.transform.localPosition = closeItemsPositions[closeItems.IndexOf(newComplement)];
         instantiatedComplement.transform.Rotate(weaponBase.GetAngleChange(locationIndex));
         
@@ -199,6 +209,8 @@ public class Obj_Player_Weapon : Obj_Buildable
             closestItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
             closestItem = null;
         }
+        closeItemsLocations.RemoveAt(closeItems.IndexOf(exitItem));
+        closeItemsPositions.RemoveAt(closeItems.IndexOf(exitItem));
         closeItems.Remove(exitItem);
     }
 

@@ -66,7 +66,6 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
         switch(newLocation)
         {
             case ComplementLocations.Front:
-                Debug.Log(meshSize.z/2);
                 if(currentPosition.y > complementLocations[newLocationIndex].maxLong)
                 {
                     if(currentPosition.z < complementLocations[newLocationIndex].maxTall)
