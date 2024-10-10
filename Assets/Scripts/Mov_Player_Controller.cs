@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [System.Serializable]
-public class WeaponEvent : UnityEvent<Obj_Weapon> {}
+public class WeaponEvent : UnityEvent<Obj_Player_Weapon> {}
 
 public class Mov_Player_Controller : MonoBehaviour
 {
@@ -32,7 +32,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Obj_Weapon playerWeapon;
+    [SerializeField] private Obj_Player_Weapon playerWeapon;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUp;
     // // // // // // // // // // // // // // // //

@@ -11,14 +11,32 @@ public class Obj_Weapon_Item : Obj_Item
     //Esta propiedad puede ser un scriptable object de base o de complemento
     [SerializeField] Obj_Weapon_Component itemData;
 
+    void Awake()
+    {
+        if(itemData is Obj_Weapon_Base)
+        {
+            Obj_Weapon_Base temp = itemData as Obj_Weapon_Base;
+            temp.InitializeComplementLocations();
+        }
+        
+    }
+
     //Función para aregar un outline al objeto cuando se aproxima un jugador
     protected override void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
-            player.pickUp.AddListener(OnPickUp);
-            this.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
+            Obj_Player_Weapon playerWeapon = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-1).GetChild(0).GetComponent<Obj_Player_Weapon>();
+            
+            if(playerWeapon.HasBase() == false && itemData is Obj_Weapon_Base)
+            {
+                playerWeapon.AddCloseItem(this);
+            }
+            
+            if(playerWeapon.HasBase() && itemData is Obj_Weapon_Complement && playerWeapon.CheckIfFits(this))
+            {
+                playerWeapon.AddCloseItem(this);
+            }
         }
     }
 
@@ -27,23 +45,14 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Mov_Player_Controller player = other.GetComponent<Mov_Player_Controller>();
-            player.pickUp.RemoveListener(OnPickUp);
-            this.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+            Obj_Player_Weapon playerWeapon = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-1).GetChild(0).GetComponent<Obj_Player_Weapon>();
+            playerWeapon.RemoveCloseItem(this);
         }
     }
 
-    //Adaptación del método PickUp para armas
-    public override void OnPickUp(Obj_Weapon playerWeapon)
-    {
-        if(itemData is Obj_Weapon_Base)
-        {
-            playerWeapon.SetBase(itemData as Obj_Weapon_Base, itemMesh, itemRenderer, gameObject.GetComponent<Collider>());
-        }
-        else
-        {
-            playerWeapon.AddComplement(itemData as Obj_Weapon_Complement, itemMesh, itemRenderer, gameObject.GetComponent<Collider>());
-        }
-        Destroy(this.gameObject);
-    }
+    public void DestroyThis() { Destroy(this.gameObject); }
+    public Obj_Weapon_Component GetData() { return itemData; }
+    public MeshFilter GetMesh() { return itemMesh; }
+    public MeshRenderer GetRenderer() { return itemRenderer; }
+    public Collider GetCollider() { return gameObject.GetComponent<Collider>(); }
 }

@@ -17,5 +17,5 @@ MonoBehaviour:
   Size: 3
   Complexity: 4
   effects: []
-  possiblePositions: 020000000300000004000000
+  possibleLocations: 010000000200000003000000
   colliderType: 0
