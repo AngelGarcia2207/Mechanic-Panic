@@ -5388,18 +5388,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1797bd23b6fa3741a8e6e7fcf9fdeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteAnimator: {fileID: 1073322073277413206}
   player: {fileID: 295775542555662017}
-  velocity: {x: 0, y: 0, z: 0}
-  aceleration: {x: 0, y: 0, z: 0}
-  mass: 1
-  airFriction: 0.9
-  stunned: 0
   speed: 5
+  mass: 1
   gravity: 25
-  jumpForce: 12
+  jumpForce: 8
+  jumpTime: 0.25
+  airFriction: 0.9
   floorRaycastDistance: 1
   weaponAnimator: {fileID: 3510593588728520107}
-  spriteAnimator: {fileID: 1073322073277413206}
   playerWeapon: {fileID: 3452854150108527172}
   weaponTrail: {fileID: 1294605175906394962}
   pickUp:
