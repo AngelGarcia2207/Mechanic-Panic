@@ -27,6 +27,8 @@ public class Mov_Player_Controller : MonoBehaviour
     [SerializeField] private float gravity;
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpTime;
+    [SerializeField] private float dodgeSpeed;
+    [SerializeField] private float dodgeDuration = 1f;
     [SerializeField] [Range(0f, 1f)] private float airFriction;
     [SerializeField] private float floorRaycastDistance;
 
@@ -50,7 +52,7 @@ public class Mov_Player_Controller : MonoBehaviour
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.move))
+            if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
                 movementX = rawDirection.x;
@@ -68,7 +70,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementZ = 0;
             }
         }
-        else if ((player.isGrounded || raycastFloor()) && SM.AvailableTransition(SM.idle))
+        else if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
         {
             SM.ChangeState(SM.idle);
             movementX = 0;
@@ -82,9 +84,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
         playerMovementInput = Vector3.ClampMagnitude(new Vector3(movementX, 0, movementZ), 1);
 
-        specialInputs();
+        SpecialInputs();
 
-        applyAcceleration();
+        ApplyAcceleration();
 
         nextMovement += playerMovementInput * speed;
         player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
@@ -111,22 +113,27 @@ public class Mov_Player_Controller : MonoBehaviour
         // // // // // // // // // // // // // // // //
     }
 
-    private void specialInputs()
+    private void SpecialInputs()
     {
-        if ((player.isGrounded || raycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
+        if ((player.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
         }
+
+        if (playerInput.actions["Dodge"].triggered)
+        {
+            Dodge();
+        }
     }
 
-    private void applyAcceleration()
+    private void ApplyAcceleration()
     {
         // Reducir la velocidad horiontal hasta que ya no sea significativa
         if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > speed / 2)
         {
-            velocity.x *= (1 - airFriction * Time.deltaTime);
-            velocity.z *= (1 - airFriction * Time.deltaTime);
+            velocity.x *= (1 - airFriction * 3 * Time.deltaTime);
+            velocity.z *= (1 - airFriction * 3 * Time.deltaTime);
         }
         else
         {
@@ -147,7 +154,7 @@ public class Mov_Player_Controller : MonoBehaviour
         nextMovement = velocity;
     }
 
-    private bool raycastFloor()
+    private bool RaycastFloor()
     {
         Vector3 origin = transform.position;
         RaycastHit hit;
@@ -163,6 +170,24 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
+    public void Dodge()
+    {
+        if (SM.AvailableTransition(SM.dodge))
+        {
+            SM.ChangeState(SM.dodge);
+            
+            velocity.x = dodgeSpeed * transform.forward.x;
+
+            StartCoroutine(DodgeDelay());
+        }
+    }
+
+    IEnumerator DodgeDelay()
+    {
+        yield return new WaitForSeconds(dodgeDuration);
+        SM.returnToIdle();
+    }
+
     public void applyKnockBack(Vector3 knockback)
     {
         velocity = knockback / mass;
@@ -173,11 +198,11 @@ public class Mov_Player_Controller : MonoBehaviour
         if (SM.AvailableTransition(SM.stunned))
         {
             SM.ChangeState(SM.stunned);
-            StartCoroutine(stunDelay(stunDuration));
+            StartCoroutine(StunDelay(stunDuration));
         }
     }
 
-    IEnumerator stunDelay(float stunDuration)
+    IEnumerator StunDelay(float stunDuration)
     {
         yield return new WaitForSeconds(stunDuration);
         SM.returnToIdle();
