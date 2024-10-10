@@ -5,7 +5,9 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [System.Serializable]
-public class WeaponEvent : UnityEvent<Obj_Weapon> {}
+public class WeaponEvent : UnityEvent<Obj_Player_Weapon> {}
+[System.Serializable]
+public class ArmorEvent : UnityEvent<Obj_Player_Armor> {}
 
 public class Mov_Player_Controller : MonoBehaviour
 {
@@ -34,9 +36,11 @@ public class Mov_Player_Controller : MonoBehaviour
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Obj_Weapon playerWeapon;
+    [SerializeField] private Obj_Player_Weapon playerWeapon;
+    [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
-    public WeaponEvent pickUp;
+    public WeaponEvent pickUpWeapon;
+    public ArmorEvent pickUpArmor;
     // // // // // // // // // // // // // // // //
 
 
@@ -96,10 +100,11 @@ public class Mov_Player_Controller : MonoBehaviour
         // Esto lo moveré a otro script en el futuro //
         if(playerInput.actions["PickUp"].triggered)
         {
-            pickUp.Invoke(playerWeapon);
+            pickUpWeapon.Invoke(playerWeapon);
+            pickUpArmor.Invoke(playerArmor);
         }
 
-        if(playerInput.actions["Attack"].triggered)
+        if(playerWeapon.HasBase() && playerInput.actions["Attack"].triggered)
         {
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
