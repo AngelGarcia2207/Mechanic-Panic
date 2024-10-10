@@ -5638,8 +5638,10 @@ MonoBehaviour:
   speed: 5
   mass: 1
   gravity: 25
-  jumpForce: 12
-  jumpTime: 0
+  jumpForce: 8
+  jumpTime: 0.25
+  dodgeSpeed: 10
+  dodgeDuration: 0.5
   airFriction: 0.9
   floorRaycastDistance: 1
   weaponAnimator: {fileID: 3510593588728520107}
