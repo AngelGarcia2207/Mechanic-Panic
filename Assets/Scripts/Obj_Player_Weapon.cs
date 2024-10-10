@@ -204,13 +204,23 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public void RemoveCloseItem(Obj_Weapon_Item exitItem)
     {
+        if(closeItems.Contains(exitItem) == false)
+        {
+            return;
+        }
+
         if(closestItem == exitItem)
         {
             closestItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
             closestItem = null;
         }
-        closeItemsLocations.RemoveAt(closeItems.IndexOf(exitItem));
-        closeItemsPositions.RemoveAt(closeItems.IndexOf(exitItem));
+        
+        if(exitItem.GetData() is Obj_Weapon_Complement)
+        {
+            closeItemsLocations.RemoveAt(closeItems.IndexOf(exitItem));
+            closeItemsPositions.RemoveAt(closeItems.IndexOf(exitItem));
+        }
+        
         closeItems.Remove(exitItem);
     }
 

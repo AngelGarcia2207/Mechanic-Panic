@@ -47,6 +47,7 @@ public class Obj_Weapon_Item : Obj_Item
         {
             Obj_Player_Weapon playerWeapon = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-1).GetChild(0).GetComponent<Obj_Player_Weapon>();
             playerWeapon.RemoveCloseItem(this);
+            Debug.Log("Here");
         }
     }
 
