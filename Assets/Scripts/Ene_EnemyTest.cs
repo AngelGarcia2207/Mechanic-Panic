@@ -10,6 +10,8 @@ public class Ene_EnemyTest : MonoBehaviour
     [SerializeField] private Vector3 knockbackDirection;
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
     private bool stunned = false, swayStart = false;
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
@@ -18,6 +20,7 @@ public class Ene_EnemyTest : MonoBehaviour
     void Start()
     {
         initialPosition = this.transform.position;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -58,6 +61,7 @@ public class Ene_EnemyTest : MonoBehaviour
                 stunned = true;
                 swayStart = true;
                 GenerateTargets();
+                DamageEnemy();
             }
         }
         else if(other.CompareTag("WeaponComplement"))
@@ -108,6 +112,31 @@ public class Ene_EnemyTest : MonoBehaviour
             stunned = false;
             swayStart = false;
             this.transform.position = initialPosition;
+        }
+    }
+
+    private void DamageEnemy()
+    {
+        currentHealth -= 10;
+        if (currentHealth <= 0)
+        {
+            DestroyEnemy();
+        }
+    }
+
+    private void DestroyEnemy()
+    {
+        StartCoroutine(DisappearEnemy());
+        Destroy(gameObject, 0.45f);
+    }
+
+    IEnumerator DisappearEnemy()
+    {
+        while (transform.localScale.x > 0.02f)
+        {
+            float decrease = -0.02f;
+            transform.localScale += new Vector3(decrease, decrease, decrease);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
