@@ -24,6 +24,8 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public Animator spriteAnimator;
     [SerializeField] private CharacterController player;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
     [SerializeField] private float speed;
     [SerializeField] private float mass;
     [SerializeField] private float gravity;
@@ -49,6 +51,8 @@ public class Mov_Player_Controller : MonoBehaviour
         player = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
         SM = new PlayerStateMachine(spriteAnimator);
+
+        currentHealth = maxHealth;
     }
 
     void Update()
@@ -96,26 +100,6 @@ public class Mov_Player_Controller : MonoBehaviour
         player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
 
         player.Move(nextMovement * Time.deltaTime);
-
-        // Esto lo moveré a otro script en el futuro //
-        if(playerInput.actions["PickUp"].triggered)
-        {
-            pickUpWeapon.Invoke(playerWeapon);
-            pickUpArmor.Invoke(playerArmor);
-        }
-
-        if(playerWeapon.HasBase() && playerInput.actions["Attack"].triggered)
-        {
-            playerWeapon.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
-            {
-                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
-            }
-            StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
-            weaponTrail.Play();
-        }
-        // // // // // // // // // // // // // // // //
     }
 
     private void SpecialInputs()
@@ -129,6 +113,16 @@ public class Mov_Player_Controller : MonoBehaviour
         if (playerInput.actions["Dodge"].triggered)
         {
             Dodge();
+        }
+
+        if (playerInput.actions["PickUp"].triggered)
+        {
+            Grab();
+        }
+
+        if (playerInput.actions["Attack"].triggered)
+        {
+            Attack();
         }
     }
 
@@ -195,7 +189,10 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyKnockBack(Vector3 knockback)
     {
-        velocity = knockback / mass;
+        if (SM.AvailableTransition(SM.stunned))
+        {
+            velocity = knockback / mass;
+        }
     }
 
     public void applyStun(float stunDuration)
@@ -224,6 +221,34 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
     // // // // // // // // // // // // // // // //
+
+    private void Grab()
+    {
+        if (SM.AvailableTransition(SM.grab))
+        {
+            SM.ChangeState(SM.grab);
+
+            pickUpWeapon.Invoke(playerWeapon);
+            pickUpArmor.Invoke(playerArmor);
+        }
+    }
+
+    private void Attack()
+    {
+        if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.attack);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+    }
 
     IEnumerator Jump()
     {
