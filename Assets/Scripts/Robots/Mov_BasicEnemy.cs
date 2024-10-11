@@ -17,6 +17,8 @@ public class Mov_BasicEnemy : MonoBehaviour
     [SerializeField] private float retreatMultiplier = 1.5f;
     [SerializeField] private float attackPush = 10;
 
+    [HideInInspector] public bool stunned = false;
+
     public GameObject[] players;
     public GameObject playerTarget;
 
@@ -43,8 +45,10 @@ public class Mov_BasicEnemy : MonoBehaviour
         }
         if (players.Length >= 1)
         {
-
-            Movement(playerTarget.transform.position);
+            if (stunned == false)
+            { Movement(playerTarget.transform.position); }
+            else
+            { rb.velocity = Vector3.zero; }
         }
 
     }
@@ -80,9 +84,9 @@ public class Mov_BasicEnemy : MonoBehaviour
     {
         if (canBePushed && (other.gameObject.CompareTag("WeaponBase") || other.CompareTag("WeaponComplement")))
         {
-            Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
-            pushDirection.y = 0;
-            rb.AddForce(pushDirection * (rb.mass * attackPush), ForceMode.Impulse);
+            //Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
+            //pushDirection.y = 0;
+            //rb.AddForce(pushDirection * (rb.mass * attackPush), ForceMode.Impulse);
 
             canBePushed = false;
             StartCoroutine(CanBePushedAgain());

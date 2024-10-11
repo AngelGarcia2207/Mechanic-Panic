@@ -10,6 +10,8 @@ public class Ene_EnemyTest : MonoBehaviour
     [SerializeField] private Vector3 knockbackDirection;
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
     private bool stunned = false, swayStart = false;
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
@@ -18,6 +20,7 @@ public class Ene_EnemyTest : MonoBehaviour
     void Start()
     {
         initialPosition = this.transform.position;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -25,6 +28,7 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         if(stunned)  
         {
+            //Debug.Log(stunned);
             SwayAnimation();
         } 
     }
@@ -57,8 +61,11 @@ public class Ene_EnemyTest : MonoBehaviour
                 enemyAnimator.enabled = false;
                 stunned = true;
                 swayStart = true;
+                GetComponent<Mov_BasicEnemy>().stunned = true;
                 GenerateTargets();
+                StartCoroutine(QuitStun());
             }
+            DamageEnemy();
         }
         else if(other.CompareTag("WeaponComplement"))
         {
@@ -73,14 +80,30 @@ public class Ene_EnemyTest : MonoBehaviour
                 enemyAnimator.enabled = false;
                 stunned = true;
                 swayStart = true;
+                GetComponent<Mov_BasicEnemy>().stunned = true;
                 GenerateTargets();
+                StartCoroutine(QuitStun());
             }
         }
     }
 
+    IEnumerator QuitStun()
+    {
+        yield return new WaitForSeconds(0.5f);
+        enemyAnimator.enabled = true;
+        stunned = false;
+        swayStart = false;
+        //this.transform.position = initialPosition;
+        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+        GetComponent<Mov_BasicEnemy>().stunned = false;
+        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+    }
+
     private void SwayAnimation()
     {
-        if(swayStart)
+        Debug.Log(swayStart);
+
+        if (swayStart)
         {
             this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, targetsQueue.Peek().x, Time.deltaTime * shakeSpeed),
                 this.transform.position.y, Mathf.Lerp(this.transform.position.z, targetsQueue.Peek().z, Time.deltaTime * shakeSpeed));
@@ -102,12 +125,40 @@ public class Ene_EnemyTest : MonoBehaviour
             }
         }
 
-        if(targetsQueue.Count == 0)
+        /*if(targetsQueue.Count == 0)
         {
             enemyAnimator.enabled = true;
             stunned = false;
             swayStart = false;
             this.transform.position = initialPosition;
+            Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+            GetComponent<Mov_BasicEnemy>().stunned = false;
+            Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+        }*/
+    }
+
+    private void DamageEnemy()
+    {
+        currentHealth -= 10;
+        if (currentHealth <= 0)
+        {
+            DestroyEnemy();
+        }
+    }
+
+    private void DestroyEnemy()
+    {
+        StartCoroutine(DisappearEnemy());
+        Destroy(gameObject, 0.45f);
+    }
+
+    IEnumerator DisappearEnemy()
+    {
+        while (transform.localScale.x > 0.02f)
+        {
+            float decrease = -0.02f;
+            transform.localScale += new Vector3(decrease, decrease, decrease);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
