@@ -21,7 +21,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHealthBar(int currentHealth, int maxHealth)
     {
-        Debug.Log("Actualizando barra");
         healthBarImage.fillAmount = (float) currentHealth / maxHealth;
     }
 }

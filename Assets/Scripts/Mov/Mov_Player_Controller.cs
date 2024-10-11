@@ -187,6 +187,11 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             currentHealth -= damage;
             UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+
+            if (currentHealth <= 0)
+            {
+                SM.ChangeState(SM.dead);
+            }
         }
     }
 
