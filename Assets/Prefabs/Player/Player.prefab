@@ -5651,6 +5651,9 @@ MonoBehaviour:
   pickUpWeapon:
     m_PersistentCalls:
       m_Calls: []
+  pickUpArmor:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7550322612370440431
 MonoBehaviour:
   m_ObjectHideFlags: 0
