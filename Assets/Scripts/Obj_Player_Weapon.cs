@@ -68,6 +68,7 @@ public class Obj_Player_Weapon : Obj_Buildable
             BoxCollider newBoxCollider = newBase.GetCollider() as BoxCollider;
             boxCollider.center = newBoxCollider.center;
             boxCollider.size = newBoxCollider.size;
+            boxCollider.isTrigger = true;
         }
     }
 
@@ -131,18 +132,21 @@ public class Obj_Player_Weapon : Obj_Buildable
             BoxCollider newBoxCollider = newComplement.GetCollider() as BoxCollider;
             boxCollider.center = newBoxCollider.center;
             boxCollider.size = newBoxCollider.size;
+            boxCollider.isTrigger = true;
         }
         else if(weaponCollider is SphereCollider sphereCollider)
         {
             SphereCollider newSphereCollider = newComplement.GetCollider() as SphereCollider;
             sphereCollider.center = newSphereCollider.center;
             sphereCollider.radius = newSphereCollider.radius;
+            sphereCollider.isTrigger = true;
         }
         else if(weaponCollider is MeshCollider meshCollider)
         {
             MeshCollider newMeshCollider = newComplement.GetCollider() as MeshCollider;
             meshCollider.convex = newMeshCollider.convex;
             meshCollider.sharedMesh = newMeshCollider.sharedMesh;
+            meshCollider.isTrigger = true;
         }
 
         //ReloadCloseItems
