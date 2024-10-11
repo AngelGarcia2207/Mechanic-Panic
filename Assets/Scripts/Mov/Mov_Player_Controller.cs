@@ -181,12 +181,6 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    IEnumerator DodgeDelay()
-    {
-        yield return new WaitForSeconds(dodgeDuration);
-        SM.returnToIdle();
-    }
-
     public void applyKnockBack(Vector3 knockback)
     {
         if (SM.AvailableTransition(SM.stunned))
@@ -204,10 +198,34 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    IEnumerator StunDelay(float stunDuration)
+        private void Grab()
     {
-        yield return new WaitForSeconds(stunDuration);
-        SM.returnToIdle();
+        if (SM.AvailableTransition(SM.grab))
+        {
+            SM.ChangeState(SM.grab);
+            StartCoroutine(GrabDelay());
+
+            pickUpWeapon.Invoke(playerWeapon);
+            pickUpArmor.Invoke(playerArmor);
+        }
+    }
+
+    private void Attack()
+    {
+        if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.attack);
+            StartCoroutine(AttackDelay());
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
     }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
@@ -222,32 +240,28 @@ public class Mov_Player_Controller : MonoBehaviour
     }
     // // // // // // // // // // // // // // // //
 
-    private void Grab()
+    IEnumerator DodgeDelay()
     {
-        if (SM.AvailableTransition(SM.grab))
-        {
-            SM.ChangeState(SM.grab);
-
-            pickUpWeapon.Invoke(playerWeapon);
-            pickUpArmor.Invoke(playerArmor);
-        }
+        yield return new WaitForSeconds(dodgeDuration);
+        SM.returnToIdle();
     }
 
-    private void Attack()
+    IEnumerator StunDelay(float stunDuration)
     {
-        if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
-        {
-            SM.ChangeState(SM.attack);
-            
-            playerWeapon.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
-            {
-                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
-            }
-            StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
-            weaponTrail.Play();
-        }
+        yield return new WaitForSeconds(stunDuration);
+        SM.returnToIdle();
+    }
+
+    IEnumerator GrabDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SM.returnToIdle();
+    }
+
+    IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SM.returnToIdle();
     }
 
     IEnumerator Jump()
