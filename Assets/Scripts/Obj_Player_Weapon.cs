@@ -21,7 +21,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     
     void Start()
     {
-        Mov_Player_Controller player = GameObject.FindWithTag("Player").GetComponent<Mov_Player_Controller>();
+        Mov_Player_Controller player = transform.parent.gameObject.transform.parent.gameObject.GetComponent<Mov_Player_Controller>();
         player.pickUpWeapon.AddListener(OnPickUp);
     }
     

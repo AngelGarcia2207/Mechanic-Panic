@@ -28,6 +28,7 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         if(stunned)  
         {
+            //Debug.Log(stunned);
             SwayAnimation();
         } 
     }
@@ -60,9 +61,11 @@ public class Ene_EnemyTest : MonoBehaviour
                 enemyAnimator.enabled = false;
                 stunned = true;
                 swayStart = true;
+                GetComponent<Mov_BasicEnemy>().stunned = true;
                 GenerateTargets();
-                DamageEnemy();
+                StartCoroutine(QuitStun());
             }
+            DamageEnemy();
         }
         else if(other.CompareTag("WeaponComplement"))
         {
@@ -77,14 +80,30 @@ public class Ene_EnemyTest : MonoBehaviour
                 enemyAnimator.enabled = false;
                 stunned = true;
                 swayStart = true;
+                GetComponent<Mov_BasicEnemy>().stunned = true;
                 GenerateTargets();
+                StartCoroutine(QuitStun());
             }
         }
     }
 
+    IEnumerator QuitStun()
+    {
+        yield return new WaitForSeconds(0.5f);
+        enemyAnimator.enabled = true;
+        stunned = false;
+        swayStart = false;
+        //this.transform.position = initialPosition;
+        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+        GetComponent<Mov_BasicEnemy>().stunned = false;
+        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+    }
+
     private void SwayAnimation()
     {
-        if(swayStart)
+        Debug.Log(swayStart);
+
+        if (swayStart)
         {
             this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, targetsQueue.Peek().x, Time.deltaTime * shakeSpeed),
                 this.transform.position.y, Mathf.Lerp(this.transform.position.z, targetsQueue.Peek().z, Time.deltaTime * shakeSpeed));
@@ -106,13 +125,16 @@ public class Ene_EnemyTest : MonoBehaviour
             }
         }
 
-        if(targetsQueue.Count == 0)
+        /*if(targetsQueue.Count == 0)
         {
             enemyAnimator.enabled = true;
             stunned = false;
             swayStart = false;
             this.transform.position = initialPosition;
-        }
+            Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+            GetComponent<Mov_BasicEnemy>().stunned = false;
+            Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
+        }*/
     }
 
     private void DamageEnemy()
