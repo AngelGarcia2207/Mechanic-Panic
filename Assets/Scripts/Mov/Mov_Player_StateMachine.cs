@@ -39,18 +39,18 @@ public partial class PlayerStateMachine
 		stunned = new PlayerStunned(animator);
 		dead = new PlayerDead(animator);
 
-        idle.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, attack, hold, stunned });
-        move.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, moveAttack, hold, stunned });
-        jump.SetPossibleTransitions(new List<PlayerState> { idle, jump, jumpMove, dodge, hold, stunned });
-		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, dodge, hold, stunned });
+        idle.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, attack, hold, stunned, dead });
+        move.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, moveAttack, hold, stunned, dead });
+        jump.SetPossibleTransitions(new List<PlayerState> { idle, jump, jumpMove, dodge, hold, stunned, dead});
+		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, dodge, hold, stunned, dead });
         dodge.SetPossibleTransitions(new List<PlayerState>()); // Al esquivar, no puede transicionar a otros estados
-		grab.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
+		grab.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
         attack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
-		moveAttack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned });
-        hold.SetPossibleTransitions(new List<PlayerState> { hurl, dodge, stunned });
-		hurl.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
+		moveAttack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned, dead });
+        hold.SetPossibleTransitions(new List<PlayerState> { hurl, dodge, stunned, dead });
+		hurl.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
 		parry.SetPossibleTransitions(new List<PlayerState>()); // Al hacer parry, no puede transicionar a otros estados
-        stunned.SetPossibleTransitions(new List<PlayerState>()); // Al estar aturdido, no puede transicionar a otros estados
+        stunned.SetPossibleTransitions(new List<PlayerState> { dead }); // Al estar aturdido, no puede transicionar a otros estados
 		dead.SetPossibleTransitions(new List<PlayerState>()); // Al estar muerto, no puede transicionar a otros estados
 
         currentState = idle;
