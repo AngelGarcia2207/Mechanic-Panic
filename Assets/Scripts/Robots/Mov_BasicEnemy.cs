@@ -17,7 +17,11 @@ public class Mov_BasicEnemy : MonoBehaviour
     [SerializeField] private float retreatMultiplier = 1.5f;
     [SerializeField] private float attackPush = 10;
 
-    [SerializeField] private GameObject playerTarget;
+    public GameObject[] players;
+    public GameObject playerTarget;
+
+    public Find_Nearest findNearest;
+
 
 
     [Header("Privates")]
@@ -27,11 +31,22 @@ public class Mov_BasicEnemy : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        findNearest = GetComponent<Find_Nearest>();
+        StartCoroutine(FindaAllPlayers());
     }
 
     void FixedUpdate()
     {
-        Movement(playerTarget.transform.position);
+        if(findNearest != null)
+        {
+            playerTarget = findNearest.FindNearest(this.gameObject, players);
+        }
+        if (players.Length >= 1)
+        {
+
+            Movement(playerTarget.transform.position);
+        }
+
     }
 
 
@@ -78,5 +93,14 @@ public class Mov_BasicEnemy : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         canBePushed = true;
+    }
+
+    IEnumerator FindaAllPlayers()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            players = GameObject.FindGameObjectsWithTag("Player");
+        }
     }
 }

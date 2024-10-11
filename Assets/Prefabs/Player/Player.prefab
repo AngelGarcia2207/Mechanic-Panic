@@ -5635,6 +5635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteAnimator: {fileID: 1073322073277413206}
   player: {fileID: 295775542555662017}
+  maxHealth: 100
+  currentHealth: 0
   speed: 5
   mass: 1
   gravity: 25
