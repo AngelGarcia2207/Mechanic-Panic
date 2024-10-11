@@ -10,6 +10,8 @@ public class Ene_EnemyTest : MonoBehaviour
     [SerializeField] private Vector3 knockbackDirection;
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int currentHealth;
     private bool stunned = false, swayStart = false;
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
@@ -18,6 +20,7 @@ public class Ene_EnemyTest : MonoBehaviour
     void Start()
     {
         initialPosition = this.transform.position;
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
