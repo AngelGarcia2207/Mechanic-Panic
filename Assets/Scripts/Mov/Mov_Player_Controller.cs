@@ -181,6 +181,15 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
+    public void receiveDamage(int damage)
+    {
+        if (SM.AvailableTransition(SM.stunned))
+        {
+            currentHealth -= damage;
+            UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+        }
+    }
+
     public void applyKnockBack(Vector3 knockback)
     {
         if (SM.AvailableTransition(SM.stunned))
@@ -227,6 +236,7 @@ public class Mov_Player_Controller : MonoBehaviour
             weaponTrail.Play();
         }
     }
+
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
     IEnumerator SwingCoroutine()
