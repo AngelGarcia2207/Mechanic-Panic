@@ -17,12 +17,13 @@ public class Mov_BasicEnemy : MonoBehaviour
     [SerializeField] private float retreatMultiplier = 1.5f;
     [SerializeField] private float attackPush = 10;
 
-    [HideInInspector] public bool stunned = false;
+    private List<GameObject> playersList = new List<GameObject>();
+    private GameObject[] playersArray;
+    private GameObject playerTarget;
 
-    public GameObject[] players;
-    public GameObject playerTarget;
-
-    public Find_Nearest findNearest;
+    private Ene_EnemyTest enemyTest;
+    private Find_Nearest findNearest;
+    [SerializeField] private Animator enemyAnimator;
 
 
 
@@ -32,6 +33,7 @@ public class Mov_BasicEnemy : MonoBehaviour
 
     void Start()
     {
+        enemyTest = GetComponent<Ene_EnemyTest>();
         rb = GetComponent<Rigidbody>();
         findNearest = GetComponent<Find_Nearest>();
         StartCoroutine(FindaAllPlayers());
@@ -39,16 +41,19 @@ public class Mov_BasicEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(findNearest != null)
+        if (playersList.Count >= 1)
         {
-            playerTarget = findNearest.FindNearest(this.gameObject, players);
+            if (findNearest != null)
+            {
+                playerTarget = findNearest.FindNearest(this.gameObject, playersArray);
+            }
+
+            if (enemyTest.stunned == false)
+            { Movement(playerTarget.transform.position); if (enemyAnimator != null) { enemyAnimator.SetInteger("state", 1); } }
         }
-        if (players.Length >= 1)
+        if(enemyTest.currentHealth <= 0)
         {
-            if (stunned == false)
-            { Movement(playerTarget.transform.position); }
-            else
-            { rb.velocity = Vector3.zero; }
+            rb.velocity = Vector3.zero;
         }
 
     }
@@ -84,9 +89,12 @@ public class Mov_BasicEnemy : MonoBehaviour
     {
         if (canBePushed && (other.gameObject.CompareTag("WeaponBase") || other.CompareTag("WeaponComplement")))
         {
-            //Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
-            //pushDirection.y = 0;
-            //rb.AddForce(pushDirection * (rb.mass * attackPush), ForceMode.Impulse);
+            if(playerTarget != null)
+            {
+                Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
+                pushDirection.y = 0;
+                rb.velocity = pushDirection * attackPush;
+            }
 
             canBePushed = false;
             StartCoroutine(CanBePushedAgain());
@@ -104,7 +112,12 @@ public class Mov_BasicEnemy : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(2f);
-            players = GameObject.FindGameObjectsWithTag("Player");
+            playersArray = GameObject.FindGameObjectsWithTag("Player");
+            playersList.Clear();
+            foreach (GameObject player in playersArray)
+            {
+                playersList.Add(player);
+            }
         }
     }
 }
