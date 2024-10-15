@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 0a476ea3fd003c14fbc4c87514418439
-  - enabled: 1
-    path: Assets/Scenes/Angel.unity
-    guid: b8011cd28fa77fe40a2e5548fb786123
+    path: Assets/Scenes/GaboSalvado.unity
+    guid: 83fd35d3bdc04d5488458989190d7e76
   m_configObjects: {}

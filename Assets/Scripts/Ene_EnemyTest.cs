@@ -6,13 +6,14 @@ using TMPro;
 public class Ene_EnemyTest : MonoBehaviour
 {
     [SerializeField] private GameObject damageTag;
-    [SerializeField] private Animator enemyAnimator;
+    [SerializeField] private Animator enemyAnimator, shakeAnimator;
     [SerializeField] private Vector3 knockbackDirection;
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
+    [SerializeField] private bool showsDamageAnim, showsDeathAnim;
     [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
-    private bool stunned = false, swayStart = false;
+    public int currentHealth;
+    [HideInInspector] public bool stunned = false, swayStart = false;
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
 
@@ -29,7 +30,7 @@ public class Ene_EnemyTest : MonoBehaviour
         if(stunned)  
         {
             //Debug.Log(stunned);
-            SwayAnimation();
+            //SwayAnimation();
         } 
     }
 
@@ -56,15 +57,6 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
             Destroy(newTag, 1f);
 
-            if(stunned == false)
-            {
-                enemyAnimator.enabled = false;
-                stunned = true;
-                swayStart = true;
-                GetComponent<Mov_BasicEnemy>().stunned = true;
-                GenerateTargets();
-                StartCoroutine(QuitStun());
-            }
             DamageEnemy();
         }
         else if(other.CompareTag("WeaponComplement"))
@@ -75,28 +67,8 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
 
-            if(stunned == false)
-            {
-                enemyAnimator.enabled = false;
-                stunned = true;
-                swayStart = true;
-                GetComponent<Mov_BasicEnemy>().stunned = true;
-                GenerateTargets();
-                StartCoroutine(QuitStun());
-            }
+            DamageEnemy();
         }
-    }
-
-    IEnumerator QuitStun()
-    {
-        yield return new WaitForSeconds(0.5f);
-        enemyAnimator.enabled = true;
-        stunned = false;
-        swayStart = false;
-        //this.transform.position = initialPosition;
-        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
-        GetComponent<Mov_BasicEnemy>().stunned = false;
-        Debug.Log(GetComponent<Mov_BasicEnemy>().stunned);
     }
 
     private void SwayAnimation()
@@ -139,27 +111,48 @@ public class Ene_EnemyTest : MonoBehaviour
 
     private void DamageEnemy()
     {
-        currentHealth -= 10;
-        if (currentHealth <= 0)
+        if (stunned == false && currentHealth > 0)
         {
-            DestroyEnemy();
+            shakeAnimator.SetInteger("ShakeState", 1);
+            if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
+            else { enemyAnimator.enabled = false; }
+
+
+            GenerateTargets();
+
+
+            currentHealth -= 10;
+            if (currentHealth <= 0)
+            {
+                QuitStun();
+                if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
+            }
+            StartCoroutine(QuitStunCoroutine(currentHealth));
+
+            swayStart = true;
+            stunned = true;
         }
     }
 
-    private void DestroyEnemy()
+    IEnumerator QuitStunCoroutine(int currentHealth)
     {
-        StartCoroutine(DisappearEnemy());
-        Destroy(gameObject, 0.45f);
+        yield return new WaitForSeconds(0.5f);
+        QuitStun();
+        if(currentHealth <= 0)
+        {
+            shakeAnimator.SetInteger("ShakeState", 2);
+            Destroy(gameObject, 0.5f);
+        }
     }
 
-    IEnumerator DisappearEnemy()
+    private void QuitStun()
     {
-        while (transform.localScale.x > 0.02f)
-        {
-            float decrease = -0.02f;
-            transform.localScale += new Vector3(decrease, decrease, decrease);
-            yield return new WaitForSeconds(0.01f);
-        }
+        shakeAnimator.SetInteger("ShakeState", 0);
+        if (showsDamageAnim) { enemyAnimator.SetBool("damaged", false); }
+        else { enemyAnimator.enabled = true; }
+        stunned = false;
+        swayStart = false;
+        //this.transform.position = initialPosition;
     }
 
     private void GenerateTargets()
