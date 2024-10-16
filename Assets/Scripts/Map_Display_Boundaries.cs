@@ -24,7 +24,6 @@ public class Map_Display_Boundaries : MonoBehaviour
         cameraObject = GameObject.FindWithTag("Camera");
         cameraScript = cameraObject.GetComponent<Cam_Default_Controller>();
 
-        player = GameObject.FindWithTag("Player"); // Temporalmente solo apuntaré a un jugador, después serán varios
 
         leftBoundary = new GameObject("leftBoundary");
         rightBoundary = new GameObject("rightBoundary");
@@ -54,9 +53,17 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     void Update()
     {
-        followPlayers();
+        if(player != null)
+        {
+            followPlayers();
 
-        updateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
+            updateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
+
+        }
+        else
+        {
+            player = GameObject.FindWithTag("Player"); // Temporalmente solo apuntaré a un jugador, después serán varios
+        }
     }
 
     private void followPlayers() {

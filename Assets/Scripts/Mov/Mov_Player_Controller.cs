@@ -12,7 +12,6 @@ public class ArmorEvent : UnityEvent<Obj_Player_Armor> {}
 public class Mov_Player_Controller : MonoBehaviour
 {
     private PlayerStateMachine SM;
-    private PlayerInput playerInput;
     private float movementX;
     private float movementZ;
     private Vector3 playerMovementInput;
@@ -23,6 +22,8 @@ public class Mov_Player_Controller : MonoBehaviour
     private float scanFrequency = 0.05f;
 
     public Animator spriteAnimator;
+    [SerializeField] private Inp_PlayerInstantiator playerInstantiator;
+    [SerializeField] private PlayerInput playerInput;
     [SerializeField] private CharacterController player;
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
@@ -49,7 +50,6 @@ public class Mov_Player_Controller : MonoBehaviour
     void Start()
     {
         player = GetComponent<CharacterController>();
-        playerInput = GetComponent<PlayerInput>();
         SM = new PlayerStateMachine(spriteAnimator);
 
         currentHealth = maxHealth;
@@ -58,6 +58,7 @@ public class Mov_Player_Controller : MonoBehaviour
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        jumpButtonPressed = playerInstantiator.jumpButtonPressed;
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
             if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
@@ -187,6 +188,11 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             currentHealth -= damage;
             UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+
+            if (currentHealth <= 0)
+            {
+                SM.ChangeState(SM.dead);
+            }
         }
     }
 
@@ -285,10 +291,5 @@ public class Mov_Player_Controller : MonoBehaviour
             remainingJumpTime -= scanFrequency;
             yield return new WaitForSeconds(scanFrequency);
         }
-    }
-
-    private void OnJump()
-    {
-        jumpButtonPressed = !jumpButtonPressed;
     }
 }

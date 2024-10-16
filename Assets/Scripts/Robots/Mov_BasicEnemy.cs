@@ -17,7 +17,14 @@ public class Mov_BasicEnemy : MonoBehaviour
     [SerializeField] private float retreatMultiplier = 1.5f;
     [SerializeField] private float attackPush = 10;
 
-    [SerializeField] private GameObject playerTarget;
+    private List<GameObject> playersList = new List<GameObject>();
+    private GameObject[] playersArray;
+    private GameObject playerTarget;
+
+    private Ene_EnemyTest enemyTest;
+    private Find_Nearest findNearest;
+    [SerializeField] private Animator enemyAnimator;
+
 
 
     [Header("Privates")]
@@ -26,12 +33,29 @@ public class Mov_BasicEnemy : MonoBehaviour
 
     void Start()
     {
+        enemyTest = GetComponent<Ene_EnemyTest>();
         rb = GetComponent<Rigidbody>();
+        findNearest = GetComponent<Find_Nearest>();
+        StartCoroutine(FindaAllPlayers());
     }
 
     void FixedUpdate()
     {
-        Movement(playerTarget.transform.position);
+        if (playersList.Count >= 1)
+        {
+            if (findNearest != null)
+            {
+                playerTarget = findNearest.FindNearest(this.gameObject, playersArray);
+            }
+
+            if (enemyTest.stunned == false)
+            { Movement(playerTarget.transform.position); if (enemyAnimator != null) { enemyAnimator.SetInteger("state", 1); } }
+        }
+        if(enemyTest.currentHealth <= 0)
+        {
+            rb.velocity = Vector3.zero;
+        }
+
     }
 
 
@@ -65,9 +89,12 @@ public class Mov_BasicEnemy : MonoBehaviour
     {
         if (canBePushed && (other.gameObject.CompareTag("WeaponBase") || other.CompareTag("WeaponComplement")))
         {
-            Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
-            pushDirection.y = 0;
-            rb.AddForce(pushDirection * (rb.mass * attackPush), ForceMode.Impulse);
+            if(playerTarget != null)
+            {
+                Vector3 pushDirection = (transform.position - playerTarget.transform.position).normalized;
+                pushDirection.y = 0;
+                rb.velocity = pushDirection * attackPush;
+            }
 
             canBePushed = false;
             StartCoroutine(CanBePushedAgain());
@@ -78,5 +105,19 @@ public class Mov_BasicEnemy : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         canBePushed = true;
+    }
+
+    IEnumerator FindaAllPlayers()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            playersArray = GameObject.FindGameObjectsWithTag("Player");
+            playersList.Clear();
+            foreach (GameObject player in playersArray)
+            {
+                playersList.Add(player);
+            }
+        }
     }
 }
