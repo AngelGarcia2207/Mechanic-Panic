@@ -20,11 +20,15 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool jumpButtonPressed = false;
     private float remainingJumpTime;
     private float scanFrequency = 0.05f;
+    private GameObject playerCard;
 
+    [SerializeField] private Sprite headSprite;
+    [SerializeField] private string name;
     public Animator spriteAnimator;
     [SerializeField] private Inp_PlayerInstantiator playerInstantiator;
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private CharacterController player;
+
     [SerializeField] private int maxHealth;
     [SerializeField] private int currentHealth;
     [SerializeField] private float speed;
@@ -52,6 +56,7 @@ public class Mov_Player_Controller : MonoBehaviour
         player = GetComponent<CharacterController>();
         SM = new PlayerStateMachine(spriteAnimator);
 
+        playerCard = UI_PlayerCard.Instance.CreatePlayerCard(headSprite, name);
         currentHealth = maxHealth;
     }
 

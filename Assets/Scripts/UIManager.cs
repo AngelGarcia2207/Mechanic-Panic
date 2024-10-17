@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance { get; private set; }
 
-    void Awake() // Cambia Start a Awake
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
