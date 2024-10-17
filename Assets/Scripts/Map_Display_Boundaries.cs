@@ -11,13 +11,26 @@ public class Map_Display_Boundaries : MonoBehaviour
     private GameObject cameraObject;
     private Cam_Default_Controller cameraScript;
 
-    private GameObject player;
+    [SerializeField] private GameObject[] players = new GameObject[4];
+    private int playerCount = 0;
 
     private GameObject leftBoundary;
     private GameObject rightBoundary;
     private GameObject topBoundary;
     private GameObject backBoundary;
     private GameObject frontBoundary;
+
+    public static Map_Display_Boundaries Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     void Start()
     {
@@ -53,21 +66,40 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     void Update()
     {
-        if(player != null)
+        if (playerCount > 0)
         {
             followPlayers();
-
             updateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
-
-        }
-        else
-        {
-            player = GameObject.FindWithTag("Player"); // Temporalmente solo apuntaré a un jugador, después serán varios
         }
     }
 
-    private void followPlayers() {
-        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+    private void followPlayers()
+    {
+        if (playerCount > 0)
+        {
+            Vector3 averagePosition = Vector3.zero;
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                if (players[i] != null)
+                {
+                    averagePosition += players[i].transform.position;
+                }
+            }
+
+            averagePosition /= playerCount;
+
+            transform.position = new Vector3(averagePosition.x, transform.position.y, transform.position.z);
+        }
+    }
+
+    public void AddPlayer(GameObject newPlayer)
+    {
+        if (playerCount < players.Length)
+        {
+            players[playerCount] = newPlayer;
+            playerCount++;
+        }
     }
 
     private void AddBoxCollider(GameObject obj)

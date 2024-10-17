@@ -56,7 +56,7 @@ public class Mov_Player_Controller : MonoBehaviour
         player = GetComponent<CharacterController>();
         SM = new PlayerStateMachine(spriteAnimator);
 
-        playerCard = UI_PlayerCard.Instance.CreatePlayerCard(headSprite, name);
+        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(headSprite, name);
         currentHealth = maxHealth;
     }
 
@@ -192,7 +192,9 @@ public class Mov_Player_Controller : MonoBehaviour
         if (SM.AvailableTransition(SM.stunned))
         {
             currentHealth -= damage;
-            UIManager.Instance.UpdateHealthBar(currentHealth, maxHealth);
+
+            UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+            playerCardScript.UpdateHealthBar(currentHealth, maxHealth);
 
             if (currentHealth <= 0)
             {

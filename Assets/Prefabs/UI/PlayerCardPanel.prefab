@@ -297,6 +297,7 @@ GameObject:
   - component: {fileID: 2670487550277609354}
   - component: {fileID: 9126007907418787340}
   - component: {fileID: 5555704071001974644}
+  - component: {fileID: 1851327796966320789}
   m_Layer: 5
   m_Name: PlayerCardPanel
   m_TagString: Untagged
@@ -364,6 +365,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1851327796966320789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383216830951053080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6fe8a2ff2496c47b180a5dd33e7bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarImage: {fileID: 9162697216799588173}
 --- !u!1 &8734853284214066958
 GameObject:
   m_ObjectHideFlags: 0

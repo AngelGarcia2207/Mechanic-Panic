@@ -9460,6 +9460,11 @@ MonoBehaviour:
   backBoundaryDistance: 5
   frontBoundaryDistance: 5
   topHeightDistance: 10
+  players:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &1528833783
 Transform:
   m_ObjectHideFlags: 0
@@ -12035,12 +12040,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1784225310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6fe8a2ff2496c47b180a5dd33e7bac, type: 3}
+  m_Script: {fileID: 11500000, guid: 2854dee92c0a3af4e9b45358aa1e037a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerCardPrefab: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
     type: 3}
-  PlayersCards: {fileID: 0}
 --- !u!1 &1784349464
 GameObject:
   m_ObjectHideFlags: 0
@@ -14031,7 +14035,6 @@ GameObject:
   - component: {fileID: 2029861315}
   - component: {fileID: 2029861314}
   - component: {fileID: 2029861313}
-  - component: {fileID: 2029861312}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -14039,19 +14042,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2029861312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029861311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30623923b2e03f44f829e462581819d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarImage: {fileID: 0}
 --- !u!114 &2029861313
 MonoBehaviour:
   m_ObjectHideFlags: 0

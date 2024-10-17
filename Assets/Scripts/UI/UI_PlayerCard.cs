@@ -6,32 +6,10 @@ using TMPro;
 
 public class UI_PlayerCard : MonoBehaviour
 {
-    [SerializeField] private GameObject PlayerCardPrefab;
-    [SerializeField] private GameObject PlayersCards;
-
-    public static UI_PlayerCard Instance { get; private set; }
-
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
+    public Image healthBarImage;
     
-    public GameObject CreatePlayerCard(Sprite headSprite, string name)
+    public void UpdateHealthBar(int currentHealth, int maxHealth)
     {
-        GameObject newCard = Instantiate(PlayerCardPrefab, transform.position, transform.rotation, transform);
-
-        Image newCardImage = newCard.transform.Find("HeadImage").GetComponentInChildren<Image>();
-        TMP_Text newCardText = newCard.GetComponentInChildren<TMP_Text>();
-
-
-        newCardImage.sprite = headSprite;
-        newCardText.text = name;
-
-        return newCard;
+        healthBarImage.fillAmount = (float) currentHealth / maxHealth;
     }
 }
