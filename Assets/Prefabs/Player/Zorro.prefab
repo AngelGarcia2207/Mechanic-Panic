@@ -5497,7 +5497,7 @@ GameObject:
   - component: {fileID: 8196342647522249720}
   - component: {fileID: 7550322612370440431}
   m_Layer: 7
-  m_Name: Player
+  m_Name: Zorro
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5633,7 +5633,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1797bd23b6fa3741a8e6e7fcf9fdeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headSprite: {fileID: 4368298289678972427, guid: 97f32206a8bd5ef4ab695859e16c614f,
+    type: 3}
+  name: Zorro
   spriteAnimator: {fileID: 1073322073277413206}
+  playerInstantiator: {fileID: 0}
+  playerInput: {fileID: 0}
   player: {fileID: 295775542555662017}
   maxHealth: 100
   currentHealth: 0

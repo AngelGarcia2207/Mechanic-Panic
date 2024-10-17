@@ -12,6 +12,7 @@ public class Inp_PlayerInstantiator : MonoBehaviour
     {
         int amountPlayers = FindObjectsOfType<Inp_PlayerInstantiator>().Length;
         characterObj[amountPlayers - 1].SetActive(true);
+        Map_Display_Boundaries.Instance.AddPlayer(characterObj[amountPlayers - 1]);
     }
 
     private void OnJump()

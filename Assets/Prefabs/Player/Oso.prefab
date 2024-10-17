@@ -5445,7 +5445,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1797bd23b6fa3741a8e6e7fcf9fdeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headSprite: {fileID: 6896627509960203096, guid: 0492041fa9cbaab40b101ebe86d5860c,
+    type: 3}
+  name: Oso
   spriteAnimator: {fileID: 6667078473589009302}
+  playerInstantiator: {fileID: 0}
+  playerInput: {fileID: 0}
   player: {fileID: 6456293734006636156}
   maxHealth: 100
   currentHealth: 0
