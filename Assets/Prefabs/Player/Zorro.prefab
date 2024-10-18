@@ -5647,7 +5647,7 @@ MonoBehaviour:
   gravity: 25
   jumpForce: 8
   jumpTime: 0.25
-  dodgeSpeed: 10
+  dodgeSpeed: 15
   dodgeDuration: 0.5
   airFriction: 0.9
   floorRaycastDistance: 1
