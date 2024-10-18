@@ -4011,6 +4011,8 @@ MonoBehaviour:
   stunDuration: 0
   shakeSpeed: 100
   shakeForce: 0.1
+  maxHealth: 0
+  currentHealth: 0
 --- !u!65 &1858609354
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7032,6 +7034,8 @@ MonoBehaviour:
   stunDuration: 0
   shakeSpeed: 100
   shakeForce: 0.1
+  maxHealth: 0
+  currentHealth: 0
 --- !u!114 &6272367039428721668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8036,6 +8040,8 @@ MonoBehaviour:
   stunDuration: 0
   shakeSpeed: 100
   shakeForce: 0.1
+  maxHealth: 0
+  currentHealth: 0
 --- !u!114 &8788147540923445240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8073,7 +8079,10 @@ MonoBehaviour:
   retreats: 1
   retreatMultiplier: 1.5
   attackPush: 10
+  stunned: 0
+  players: []
   playerTarget: {fileID: 1463871032}
+  findNearest: {fileID: 0}
 --- !u!137 &8863126493608207934
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
