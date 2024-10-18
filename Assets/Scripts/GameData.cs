@@ -1,5 +1,5 @@
 [System.Serializable]
 public class GameData
 {
-    private int levelProgress;
+    public int levelProgress;
 }
