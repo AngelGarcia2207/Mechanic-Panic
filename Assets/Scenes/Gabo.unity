@@ -301,16 +301,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 366773193}
   rotationSpeed: 0.1
@@ -5995,16 +5994,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 1350662674}
   rotationSpeed: 0.1
@@ -7256,16 +7254,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 1615004796}
   rotationSpeed: 0.1
@@ -13237,16 +13234,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 240293495}
   rotationSpeed: 0.1
@@ -13695,16 +13691,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 18575933}
   rotationSpeed: 0.1
@@ -25098,16 +25093,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 195195876}
   rotationSpeed: 0.1
@@ -31453,8 +31447,8 @@ MonoBehaviour:
   stunDuration: 0
   shakeSpeed: 100
   shakeForce: 0.1
-  showsDamageAnim: 0
-  showsDeathAnim: 0
+  showsDamageAnim: 1
+  showsDeathAnim: 1
   maxHealth: 100
   currentHealth: 0
   stunned: 0
@@ -31499,16 +31493,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 8
   usesPlayerDistance: 1
-  stateChangeDistance: 0
+  playerDistance: 8
   usesStateChangeDistance: 0
-  retreats: 1
+  stateChangeDistance: 0
   retreatMultiplier: 1.5
+  retreats: 1
   attackPush: 3
   enemyAnimator: {fileID: 0}
   rotationSpeed: 0.1
@@ -31706,16 +31699,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundSpeed: 10
-  airSpeed: 10
   jumpForce: 10
   extraGravityForce: 10
   groundSpeedDivisor: 1.1
-  playerDistance: 2
   usesPlayerDistance: 1
-  stateChangeDistance: 8
+  playerDistance: 2
   usesStateChangeDistance: 1
-  retreats: 0
+  stateChangeDistance: 8
   retreatMultiplier: 3
+  retreats: 0
   attackPush: 3
   enemyAnimator: {fileID: 1120299607}
   rotationSpeed: 0.1
