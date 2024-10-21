@@ -20,8 +20,8 @@ TagManager:
   - Player
   - PlayerBoundary
   - Non-Outline-Items
-  - 
-  - 
+  - EnemyProjectile
+  - Enemy
   - 
   - 
   - 

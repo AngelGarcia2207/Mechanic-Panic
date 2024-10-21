@@ -22,7 +22,7 @@ public enum ColliderType
     Mesh
 }
 
-[CreateAssetMenu(fileName = "WeaponComplement", menuName = "WeaponComplement", order = 0)]
+[CreateAssetMenu(fileName = "WeaponComplement", menuName = "Weapons & Armor/Weapon Complement", order = 0)]
 public class Obj_Weapon_Complement : Obj_Weapon_Component
 {
     [SerializeField] protected List<WeaponEffect> effects;
