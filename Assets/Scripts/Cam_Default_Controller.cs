@@ -26,20 +26,16 @@ public class Cam_Default_Controller : MonoBehaviour
         transform.rotation = rotation;
     }
 
-    public Vector2 CalculateNearPlaneSize() {
-        float height = Mathf.Tan(camera.fieldOfView * Mathf.Deg2Rad / 2) * camera.nearClipPlane;
-        float width = height * camera.aspect;
-
-        return new Vector2(width, height);
+    public void UpdateOrthographicSize(float size)
+    {
+        camera.orthographicSize = size;
+        Map_Display_Boundaries.Instance.UpdateBoundaries();
     }
 
-    public Vector2 CalculateTargetPlaneSize() {
-        Vector2 nearPlaneSize = CalculateNearPlaneSize(); 
-
-        float targetDistance = (target.position - transform.position).magnitude;
-        float height = targetDistance * nearPlaneSize.y / camera.nearClipPlane;
+    public Vector2 CalculateOrthographicPlaneSize() {
+        float height = 2f * camera.orthographicSize;
         float width = height * camera.aspect;
 
-        return new Vector2(width, height);
+        return new Vector2(width, height*1.5f);
     }
 }
