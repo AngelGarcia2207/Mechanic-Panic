@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -27,9 +28,14 @@ public class Mov_Player_Controller : MonoBehaviour
     private Mov_Player_Properties playerProp;
     private int playerIndex = 0;
 
+    // PRIVATE COMPONENTS
     private PlayerInput playerInput;
     private CharacterController charController;
 
+    // ONLINE
+    private Onl_Player_Controller onlController;
+    private bool isOnline = false;
+    public int onlineIndex = 0;
 
     private int currentHealth;
 
@@ -45,21 +51,63 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Start()
     {
+        if (GetComponent<Onl_Player_Controller>() != null)
+        {
+            onlController = GetComponent<Onl_Player_Controller>();
+            isOnline = true;
+        }
+
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
-        playerProp = playerProps[playerIndex];
-        playerProp.spriteAnimator.gameObject.SetActive(true);
+
+        ChangeCharacter();
+
+        // Configuración adicional si es necesario
+    
 
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
-        SM = new PlayerStateMachine(playerProp.spriteAnimator);
 
         playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerProp.headSprite, playerProp.name);
         currentHealth = playerProp.maxHealth;
+
+        Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+    }
+
+    public void ChangeCharacter()
+    {
+        if (isOnline)
+        {
+            playerProp = playerProps[onlineIndex];
+            GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator;
+        }
+        else
+        {
+            playerProp = playerProps[playerIndex];
+        }
+
+        foreach (Mov_Player_Properties prop in playerProps)
+        {
+            if (prop == playerProp)
+            {
+                prop.gameObject.SetActive(true);
+            }
+            else
+            {
+                prop.gameObject.SetActive(false);
+            }
+        }
+
+        SM = new PlayerStateMachine(playerProp.spriteAnimator);
     }
 
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        if (isOnline)
+        {
+            rawDirection = onlController.onlDirection2D;
+            jumpButtonPressed = onlController.onlJumpButtonPressed;
+        }
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
             if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
@@ -112,7 +160,11 @@ public class Mov_Player_Controller : MonoBehaviour
             StartCoroutine(Jump());
         }
 
-        if (playerInput.actions["Dodge"].triggered)
+        if (isOnline == false && playerInput.actions["Dodge"].triggered)
+        {
+            Dodge();
+        }
+        else if(isOnline == true && onlController.onlDodgePressed == true)
         {
             Dodge();
         }
@@ -248,7 +300,8 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void OnJump()
     {
-        jumpButtonPressed = !jumpButtonPressed;
+        if (isOnline == false)
+        { jumpButtonPressed = !jumpButtonPressed; }
     }
 
 

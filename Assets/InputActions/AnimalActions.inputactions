@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DodgeHold",
+                    "type": "Button",
+                    "id": "440046a7-a834-4b6f-90a5-743c79ca02dc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Hurl",
                     "type": "Button",
                     "id": "49bf26cd-74d7-4120-931f-be9454cde6e0",
@@ -265,6 +274,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "DropArmor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13c79037-a62c-4d49-9ea8-fce2d872afae",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DodgeHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c323e8d6-c846-484b-a049-9553093ddfd2",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DodgeHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
