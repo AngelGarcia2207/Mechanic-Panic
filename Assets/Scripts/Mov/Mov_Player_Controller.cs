@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 
 [System.Serializable]
 public class WeaponEvent : UnityEvent<Obj_Player_Weapon> {}
@@ -22,28 +23,19 @@ public class Mov_Player_Controller : MonoBehaviour
     private float scanFrequency = 0.05f;
     private GameObject playerCard;
 
-    [SerializeField] private Sprite headSprite;
-    [SerializeField] private string name;
-    public Animator spriteAnimator;
-    [SerializeField] private Inp_PlayerInstantiator playerInstantiator;
-    [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private CharacterController player;
+    [SerializeField] private Mov_Player_Properties[] playerProps;
+    private Mov_Player_Properties playerProp;
+    private int playerIndex = 0;
 
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
-    [SerializeField] private float speed;
-    [SerializeField] private float mass;
-    [SerializeField] private float gravity;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float jumpTime;
-    [SerializeField] private float dodgeSpeed;
-    [SerializeField] private float dodgeDuration = 1f;
-    [SerializeField] [Range(0f, 1f)] private float airFriction;
-    [SerializeField] private float floorRaycastDistance;
+    private PlayerInput playerInput;
+    private CharacterController charController;
+
+
+    private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Obj_Player_Weapon playerWeapon;
+    public Obj_Player_Weapon playerWeapon;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUpWeapon;
@@ -53,20 +45,24 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Start()
     {
-        player = GetComponent<CharacterController>();
-        SM = new PlayerStateMachine(spriteAnimator);
+        playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
+        playerProp = playerProps[playerIndex];
+        playerProp.spriteAnimator.gameObject.SetActive(true);
 
-        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(headSprite, name);
-        currentHealth = maxHealth;
+        charController = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
+        SM = new PlayerStateMachine(playerProp.spriteAnimator);
+
+        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerProp.headSprite, playerProp.name);
+        currentHealth = playerProp.maxHealth;
     }
 
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
-        jumpButtonPressed = playerInstantiator.jumpButtonPressed;
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
+            if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
                 movementX = rawDirection.x;
@@ -84,7 +80,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementZ = 0;
             }
         }
-        else if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
+        else if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
         {
             SM.ChangeState(SM.idle);
             movementX = 0;
@@ -102,15 +98,15 @@ public class Mov_Player_Controller : MonoBehaviour
 
         ApplyAcceleration();
 
-        nextMovement += playerMovementInput * speed;
-        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+        nextMovement += playerMovementInput * playerProp.speed;
+        charController.transform.LookAt(charController.transform.position + new Vector3(movementX, 0, 0));
 
-        player.Move(nextMovement * Time.deltaTime);
+        charController.Move(nextMovement * Time.deltaTime);
     }
 
     private void SpecialInputs()
     {
-        if ((player.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
+        if ((charController.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
@@ -135,10 +131,10 @@ public class Mov_Player_Controller : MonoBehaviour
     private void ApplyAcceleration()
     {
         // Reducir la velocidad horiontal hasta que ya no sea significativa
-        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > speed / 2)
+        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > playerProp.speed / 2)
         {
-            velocity.x *= (1 - airFriction * 3 * Time.deltaTime);
-            velocity.z *= (1 - airFriction * 3 * Time.deltaTime);
+            velocity.x *= (1 - playerProp.airFriction * 3 * Time.deltaTime);
+            velocity.z *= (1 - playerProp.airFriction * 3 * Time.deltaTime);
         }
         else
         {
@@ -147,13 +143,13 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // Gravedad
-        if (player.isGrounded && velocity.y <= -gravity * 0.1f)
+        if (charController.isGrounded && velocity.y <= -playerProp.gravity * 0.1f)
         {
-            velocity.y = -gravity * 0.1f;
+            velocity.y = -playerProp.gravity * 0.1f;
         }
         else
         {
-            velocity.y -= gravity * Time.deltaTime;
+            velocity.y -= playerProp.gravity * Time.deltaTime;
         }
 
         nextMovement = velocity;
@@ -165,7 +161,7 @@ public class Mov_Player_Controller : MonoBehaviour
         RaycastHit hit;
         Vector3 direction = -transform.up;
 
-        if (Physics.Raycast(origin, direction, out hit, floorRaycastDistance))
+        if (Physics.Raycast(origin, direction, out hit, playerProp.floorRaycastDistance))
         {
             return true;
         }
@@ -181,7 +177,7 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             SM.ChangeState(SM.dodge);
             
-            velocity.x = dodgeSpeed * transform.forward.x;
+            velocity.x = playerProp.dodgeSpeed * transform.forward.x;
 
             StartCoroutine(DodgeDelay());
         }
@@ -194,7 +190,7 @@ public class Mov_Player_Controller : MonoBehaviour
             currentHealth -= damage;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
-            playerCardScript.UpdateHealthBar(currentHealth, maxHealth);
+            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
 
             if (currentHealth <= 0)
             {
@@ -207,7 +203,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.stunned))
         {
-            velocity = knockback / mass;
+            velocity = knockback / playerProp.mass;
         }
     }
 
@@ -250,6 +246,11 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
+    private void OnJump()
+    {
+        jumpButtonPressed = !jumpButtonPressed;
+    }
+
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
     IEnumerator SwingCoroutine()
@@ -265,7 +266,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     IEnumerator DodgeDelay()
     {
-        yield return new WaitForSeconds(dodgeDuration);
+        yield return new WaitForSeconds(playerProp.dodgeDuration);
         SM.returnToIdle();
     }
 
@@ -289,11 +290,11 @@ public class Mov_Player_Controller : MonoBehaviour
 
     IEnumerator Jump()
     {
-        remainingJumpTime = jumpTime;
+        remainingJumpTime = playerProp.jumpTime;
 
         while (jumpButtonPressed && remainingJumpTime > 0)
         {
-            velocity.y = jumpForce / mass;
+            velocity.y = playerProp.jumpForce / playerProp.mass;
 
             remainingJumpTime -= scanFrequency;
             yield return new WaitForSeconds(scanFrequency);
