@@ -324,7 +324,6 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
     IEnumerator SwingCoroutine()
     {

@@ -55,9 +55,9 @@ public class Map_Display_Boundaries : MonoBehaviour
         AddBoxCollider(frontBoundary);
 
         // Descomenta estas lineas si quieres que se vean las cajas
-        // AddMeshComponents(leftBoundary);
-        // AddMeshComponents(rightBoundary);
-        // AddMeshComponents(topBoundary);
+        AddMeshComponents(leftBoundary);
+        AddMeshComponents(rightBoundary);
+        AddMeshComponents(topBoundary);
         // AddMeshComponents(backBoundary);
         // AddMeshComponents(frontBoundary);
     }
