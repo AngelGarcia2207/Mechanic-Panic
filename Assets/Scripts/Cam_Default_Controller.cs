@@ -8,14 +8,17 @@ public class Cam_Default_Controller : MonoBehaviour
     [SerializeField] private Vector3 angle;
     private new Camera camera;
     private Transform target;
+    enum LockCursor { Locked, Unlocked }
+    [SerializeField] private LockCursor cursorLock;
 
     void Start()
     {   
         camera = GetComponent<Camera>();
 
         target = GameObject.FindWithTag("CameraCenter").transform;
-        
-        Cursor.lockState = CursorLockMode.Locked;
+
+        if (cursorLock == LockCursor.Locked)
+        { Cursor.lockState = CursorLockMode.Locked; }
     }
 
     void Update()
