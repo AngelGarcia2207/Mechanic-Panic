@@ -10,8 +10,7 @@ public class Map_Display_Boundaries : MonoBehaviour
     private GameObject cameraObject;
     private Cam_Default_Controller cameraScript;
 
-    [SerializeField] private GameObject[] players = new GameObject[4];
-    private int playerCount = 0;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
 
     private GameObject leftBoundary;
     private GameObject rightBoundary;
@@ -65,7 +64,7 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     void Update()
     {
-        if (playerCount > 0)
+        if (players.Count > 0)
         {
             followPlayers();
             UpdateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
@@ -74,19 +73,16 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     private void followPlayers()
     {
-        if (playerCount > 0)
+        if (players.Count > 0)
         {
             Vector3 averagePosition = Vector3.zero;
 
-            for (int i = 0; i < playerCount; i++)
+            foreach (GameObject player in players)
             {
-                if (players[i] != null)
-                {
-                    averagePosition += players[i].transform.position;
-                }
+                averagePosition += player.transform.position;
             }
 
-            averagePosition /= playerCount;
+            averagePosition /= players.Count;
 
             transform.position = new Vector3(averagePosition.x, transform.position.y, transform.position.z);
         }
@@ -94,10 +90,17 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     public void AddPlayer(GameObject newPlayer)
     {
-        if (playerCount < players.Length)
+        if (players.Count < 4)
         {
-            players[playerCount] = newPlayer;
-            playerCount++;
+            players.Add(newPlayer);
+        }
+    }
+
+    public void RemovePlayer(GameObject playerToRemove)
+    {
+        if (players.Count > 0)
+        {
+            players.Remove(playerToRemove);
         }
     }
 
