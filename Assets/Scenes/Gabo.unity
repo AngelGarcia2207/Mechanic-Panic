@@ -8711,7 +8711,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2854dee92c0a3af4e9b45358aa1e037a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCardPrefab: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
+  PlayerCardPrefabLocal: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
+    type: 3}
+  PlayerCardPrefabOnline: {fileID: 8383216830951053080, guid: 1a74c9d59434f194383daac046a6ba39,
     type: 3}
 --- !u!114 &602298759
 MonoBehaviour:
@@ -31117,6 +31119,7 @@ MonoBehaviour:
   playerProps:
   - {fileID: 1490312814828035783}
   - {fileID: 6975948843836721692}
+  onlManager: {fileID: 0}
   onlineIndex: 0
   weaponAnimator: {fileID: 4516933916548344236}
   playerWeapon: {fileID: 2448970551463104067}
