@@ -16,6 +16,8 @@ public class Onl_Player_Controller : NetworkBehaviour
     [HideInInspector] public Vector2 onlDirection2D;
     [HideInInspector] public bool isSever;
 
+    [HideInInspector] public GameObject playerCard;
+
     void Start()
     {
         clientServer = 0;
@@ -79,7 +81,11 @@ public class Onl_Player_Controller : NetworkBehaviour
 
 
 
-
+    // Asegúrate de que `playerCard` se establezca cuando se crea en `Mov_Player_Controller`.
+    public void SetPlayerCard(GameObject card)
+    {
+        playerCard = card;
+    }
 
     // Player ID
 

@@ -1314,12 +1314,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1089}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -8793,7 +8793,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2854dee92c0a3af4e9b45358aa1e037a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCardPrefab: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
+  PlayerCardPrefabLocal: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
+    type: 3}
+  PlayerCardPrefabOnline: {fileID: 8383216830951053080, guid: 1a74c9d59434f194383daac046a6ba39,
     type: 3}
 --- !u!114 &602298759
 MonoBehaviour:
@@ -13364,8 +13366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5300cd3f175514c8ccba69d34e6e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCurrentID:
-    m_InternalValue: 0
+  playerCards: []
 --- !u!1 &930203119
 GameObject:
   m_ObjectHideFlags: 0
@@ -14049,7 +14050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: -348.35953}
+  m_AnchoredPosition: {x: -184, y: 462}
   m_SizeDelta: {x: 629.4797, y: 119.281}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &977753223
@@ -15764,7 +15765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 562.34094, y: -393.82413}
+  m_AnchoredPosition: {x: 562.34094, y: 400}
   m_SizeDelta: {x: 701.6738, y: 228.6483}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1075934451
@@ -15814,8 +15815,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 88.4
-  m_fontSizeBase: 88.4
+  m_fontSize: 68.7
+  m_fontSizeBase: 68.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -16258,6 +16259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1120299613}
   - component: {fileID: 1120299607}
+  - component: {fileID: 1120299614}
   m_Layer: 0
   m_Name: "Le\xF1adorAnimated"
   m_TagString: Untagged
@@ -16306,6 +16308,20 @@ Transform:
   - {fileID: 603108744}
   m_Father: {fileID: 1758961664}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1120299614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120299606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1120299607}
 --- !u!1 &1122820709
 GameObject:
   m_ObjectHideFlags: 0
@@ -17670,8 +17686,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -741, y: -270}
-  m_SizeDelta: {x: 352.4597, y: 130.52}
+  m_AnchoredPosition: {x: -736.68616, y: 485.71777}
+  m_SizeDelta: {x: 361.0873, y: 51.0845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1205065728
 MonoBehaviour:
@@ -22586,8 +22602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1e9d4abfc9adf46bf0105f410da0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backBoundaryDistance: 5
-  frontBoundaryDistance: 5
+  backFrontBoundaryDistance: 0
   topHeightDistance: 10
   players:
   - {fileID: 0}
@@ -24441,8 +24456,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -741, y: -423}
-  m_SizeDelta: {x: 352.4597, y: 130.52}
+  m_AnchoredPosition: {x: -736.68616, y: 425.83484}
+  m_SizeDelta: {x: 361.0873, y: 51.0845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1639108791
 MonoBehaviour:
@@ -26895,6 +26910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1758961664}
   - component: {fileID: 1758961665}
+  - component: {fileID: 1758961666}
   m_Layer: 0
   m_Name: "Le\xF1adorShake"
   m_TagString: Untagged
@@ -26939,6 +26955,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1758961666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758961663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1758961665}
 --- !u!1 &1759691735
 GameObject:
   m_ObjectHideFlags: 0
@@ -32755,6 +32785,8 @@ MonoBehaviour:
   playerProps:
   - {fileID: 1490312814828035783}
   - {fileID: 6975948843836721692}
+  onlManager: {fileID: 0}
+  onlineIndex: 0
   weaponAnimator: {fileID: 4516933916548344236}
   playerWeapon: {fileID: 2448970551463104067}
   playerArmor: {fileID: 0}
@@ -39559,6 +39591,9 @@ GameObject:
   - component: {fileID: 8788147540923445237}
   - component: {fileID: 8788147540923445238}
   - component: {fileID: 8788147540923445242}
+  - component: {fileID: 8788147540923445244}
+  - component: {fileID: 8788147540923445246}
+  - component: {fileID: 8788147540923445245}
   m_Layer: 0
   m_Name: "Le\xF1ador_Enemy"
   m_TagString: Untagged
@@ -42608,6 +42643,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2ee761533a70844eb643ceb6d1513d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8788147540923445244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777417019717781073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1581383019
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &8788147540923445245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777417019717781073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8788147540923445246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3777417019717781073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 1
+  SyncScaleY: 1
+  SyncScaleZ: 1
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!4 &8832368488836069198
 Transform:
   m_ObjectHideFlags: 0
