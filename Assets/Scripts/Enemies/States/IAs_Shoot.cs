@@ -15,6 +15,17 @@ public class IAs_Shoot<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyStat
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {
         stateMachine = SM;
+        stateMachine.waitForTime.AddListener(OnAttackReady);
+        stateMachine.StartCoroutine("WaitTime", 1f);
+    }
+
+    public override void ExitState()
+    {
+        stateMachine.waitForTime.RemoveListener(OnAttackReady);
+    }
+
+    public void OnAttackReady()
+    {
         stateMachine.InstantiateObject();
         stateMachine.ChangeToState(idleStateKey);
     }

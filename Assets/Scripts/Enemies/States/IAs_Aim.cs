@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class IAs_Aim<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState : Enum
 {
-    public IAs_Aim(EnemyState aim, EnemyState attack, EnemyState idle, float speed, bool aimingClose = true) : base(aim)
+    public IAs_Aim(EnemyState aim, EnemyState attack, EnemyState idle, float speed, float time, bool aimingClose = true) : base(aim)
     {
         attackStateKey = attack;
         isAimingToClosest = aimingClose;
         turnSpeed = speed;
+        waitTime = time;
     }
 
     protected EnemyState attackStateKey;
@@ -17,6 +18,8 @@ public class IAs_Aim<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState 
     protected GameObject[] activePlayers;
     protected Transform targetPlayer;
     protected float turnSpeed;
+    protected float waitTime;
+    protected float sideFactor = 1;
     private bool isAimingToClosest;
 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
@@ -25,17 +28,12 @@ public class IAs_Aim<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState 
         activePlayers = stateMachine.GetActivePlayers();
         if(activePlayers.Length <= 0)
         {
+            Debug.Log("No hay jugadores");
             stateMachine.ChangeToState(idle);
+            return;
         }
         stateMachine.waitForTime.AddListener(OnAttackReady);
-        if(isAimingToClosest)
-        {
-            stateMachine.StartCoroutine("WaitTime", 2f);
-        }
-        else
-        {
-            stateMachine.StartCoroutine("WaitTime", 3f);
-        }
+        stateMachine.StartCoroutine("WaitTime", waitTime);
     }
 
     public override void UpdateState(float deltaTime)
@@ -45,8 +43,6 @@ public class IAs_Aim<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState 
         stateMachine.GetEnemyTransform().LookAt(targetPlayer);
         Vector3 targetAngle = new Vector3(0, stateMachine.GetEnemyTransform().eulerAngles.y, 0);
         stateMachine.GetEnemyTransform().eulerAngles = Vector3.MoveTowards(initialAngle, targetAngle, deltaTime*turnSpeed);
-        //stateMachine.GetEnemyTransform().eulerAngles = new Vector3(0, stateMachine.GetEnemyTransform().eulerAngles.y, 0);
-        //Debug.Log("Aim");
     }
 
     public override void ExitState()

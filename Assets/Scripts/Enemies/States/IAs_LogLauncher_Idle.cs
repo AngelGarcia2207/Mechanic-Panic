@@ -5,19 +5,24 @@ using UnityEngine;
 
 public class IAs_LogLauncher_Idle<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState : Enum
 {
-    public IAs_LogLauncher_Idle(EnemyState idle, EnemyState shoot, EnemyState charge, int min, int max) : base(idle)
+    public IAs_LogLauncher_Idle(EnemyState idle, EnemyState shoot, EnemyState charge, EnemyState change, int min, int max) : base(idle)
     {
         aimLogStateKey = shoot;
         aimChargeStateKey = charge;
+        changeSidesStateKey = change;
         minIdle = min;
         maxIdle = max;
+        idleCount = 0;
+        idleLimit = UnityEngine.Random.Range(2, 3);
     }
 
     protected EnemyState aimLogStateKey;
     protected EnemyState aimChargeStateKey;
+    protected EnemyState changeSidesStateKey;
     protected GameObject[] activePlayers;
     protected Transform closestPlayer;
     protected int minIdle, maxIdle;
+    protected int idleCount, idleLimit;
 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {
@@ -29,6 +34,11 @@ public class IAs_LogLauncher_Idle<EnemyState> : IAs_Enemy_State<EnemyState> wher
 
     public override void UpdateState(float deltaTime)
     {
+        if(idleCount >= idleLimit)
+        {
+            Reset();
+        }
+        
         closestPlayer = GetClosestPlayer();
 
         if(Vector3.Distance(closestPlayer.position, stateMachine.GetEnemyTransform().position) <= 8f)
@@ -43,6 +53,7 @@ public class IAs_LogLauncher_Idle<EnemyState> : IAs_Enemy_State<EnemyState> wher
 
     public override void ExitState()
     {
+        idleCount++;
         stateMachine.waitForTime.RemoveListener(OnWaitOver);
     }
 
@@ -65,5 +76,12 @@ public class IAs_LogLauncher_Idle<EnemyState> : IAs_Enemy_State<EnemyState> wher
         }
 
         return newTarget;
+    }
+
+    private void Reset()
+    {
+        idleCount = -1;
+        idleLimit = UnityEngine.Random.Range(2, 3);
+        stateMachine.ChangeToState(changeSidesStateKey);
     }
 }

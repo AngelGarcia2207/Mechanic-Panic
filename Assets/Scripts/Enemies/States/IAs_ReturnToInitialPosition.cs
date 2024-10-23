@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class IAs_ReturnToInitialPosition<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState : Enum
 {
-    public IAs_ReturnToInitialPosition(EnemyState returning, EnemyState idle, Vector3 initialAngle, float speed) : base(returning)
+    public IAs_ReturnToInitialPosition(EnemyState returning, EnemyState idle, float speed) : base(returning)
     {
         idleStateKey = idle;
-        targetAngle = initialAngle;
         turningSpeed = speed;
     }
 
     protected EnemyState idleStateKey;
-    protected Vector3 targetAngle;
+    protected Vector3 targetAngle = new Vector3(0, 270, 0);
     protected float turningSpeed;
+    protected float sideFactor = 1;
 
     public override void UpdateState(float deltaTime)
     {
@@ -23,5 +23,11 @@ public class IAs_ReturnToInitialPosition<EnemyState> : IAs_Enemy_State<EnemyStat
         {
             stateMachine.ChangeToState(idleStateKey);
         }
+    }
+
+    public void OnSideChanged()
+    {
+        targetAngle = new Vector3(0, targetAngle.y-180*sideFactor, 0);
+        sideFactor *= -1;
     }
 }

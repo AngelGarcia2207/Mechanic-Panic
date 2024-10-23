@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 // Use this event to call void functions in any state //
-[System.Serializable] public class MachineVoidEvent : UnityEvent {}
+[Serializable] public class MachineVoidEvent : UnityEvent {}
 
 // This state machine specifically handles states of type "IAs_Enemy_State" //
 public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where EnemyState : Enum
@@ -41,6 +41,7 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
     // Use this function to end current state and initialize next state //
     public void ChangeToState(EnemyState newStateKey)
     {
+        StopAllCoroutines();
         isTransitioning = true;
         if(currentState != null)
         {
@@ -49,6 +50,7 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
         currentState = machineStates[newStateKey];
         currentState.EnterState(this);
         isTransitioning = false;
+        //Debug.Log(currentState);
     }
 
     // Use this function to call a "TriggerEnter" response in current state //
