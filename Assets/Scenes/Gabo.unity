@@ -12211,6 +12211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: {x: 0, y: 7.5, z: -10}
   angle: {x: 35, y: 0, z: 0}
+  cursorLock: 0
 --- !u!114 &881180462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21106,8 +21107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1e9d4abfc9adf46bf0105f410da0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backBoundaryDistance: 5
-  frontBoundaryDistance: 5
+  backFrontBoundaryDistance: 0
   topHeightDistance: 10
   players:
   - {fileID: 0}
@@ -31117,6 +31117,7 @@ MonoBehaviour:
   playerProps:
   - {fileID: 1490312814828035783}
   - {fileID: 6975948843836721692}
+  onlineIndex: 0
   weaponAnimator: {fileID: 4516933916548344236}
   playerWeapon: {fileID: 2448970551463104067}
   playerArmor: {fileID: 0}
@@ -40026,7 +40027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e395c144ce6b842bbd15eef9fad3f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterObj: []
 --- !u!4 &7202383920048123457
 Transform:
   m_ObjectHideFlags: 0

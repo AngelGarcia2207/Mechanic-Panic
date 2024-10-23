@@ -34,6 +34,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     // ONLINE
     private Onl_Player_Controller onlController;
+    [HideInInspector] public Onl_Player_Manager onlManager;
     private bool isOnline = false;
     public int onlineIndex = 0;
 
@@ -67,7 +68,6 @@ public class Mov_Player_Controller : MonoBehaviour
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
-        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerProp.headSprite, playerProp.name);
         currentHealth = playerProp.maxHealth;
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
@@ -98,6 +98,24 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         SM = new PlayerStateMachine(playerProp.spriteAnimator);
+
+        // Crear el player card y referenciarlo en el `Onl_Player_Controller`.
+        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerCard, playerProp.headSprite, playerProp.name);
+        if (isOnline == true && onlController != null)
+        {
+            onlController.SetPlayerCard(playerCard);
+        }
+
+        AddPlayerCardToNetManager(null);
+    }
+
+    public void AddPlayerCardToNetManager(Onl_Player_Manager _onlManager)
+    {
+        if (_onlManager != null)
+        { onlManager = _onlManager; }
+
+        if (isOnline && onlManager != null)
+        { onlManager.playerCards.Add(playerCard); }
     }
 
     void Update()
