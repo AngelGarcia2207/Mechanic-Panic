@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Map_Display_Boundaries : MonoBehaviour
 {
-    [SerializeField] private float backBoundaryDistance;
-    [SerializeField] private float frontBoundaryDistance;
+    [SerializeField] private float backFrontBoundaryDistance;
     [SerializeField] private float topHeightDistance;
 
     private GameObject cameraObject;
@@ -69,7 +68,7 @@ public class Map_Display_Boundaries : MonoBehaviour
         if (playerCount > 0)
         {
             followPlayers();
-            updateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
+            UpdateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
         }
     }
 
@@ -161,27 +160,26 @@ public class Map_Display_Boundaries : MonoBehaviour
         return mesh;
     }
 
-    public void updateBoundaries()
-    {
-        Vector2 targetPlaneSize = cameraScript.CalculateTargetPlaneSize();
+    public void UpdateBoundaries() {
+        Vector2 orthographicPlaneSize = cameraScript.CalculateOrthographicPlaneSize();
 
-        Vector3 backFrontScale = new Vector3(targetPlaneSize.x * 2, topHeightDistance, 1);
-        Vector3 leftRightScale = new Vector3(1, topHeightDistance, targetPlaneSize.y);
-        Vector3 topScale = new Vector3(targetPlaneSize.x * 2, topHeightDistance, targetPlaneSize.y);
+        Vector3 backFrontScale = new Vector3(orthographicPlaneSize.x, orthographicPlaneSize.y, 1);
+        Vector3 leftRightScale = new Vector3(1, orthographicPlaneSize.y, backFrontBoundaryDistance);
+        Vector3 topScale = new Vector3(orthographicPlaneSize.x, 1, backFrontBoundaryDistance);
 
-        backBoundary.transform.position = transform.position + new Vector3(0, 0, backBoundaryDistance);
+        backBoundary.transform.position = transform.position + new Vector3(0, 0, backFrontBoundaryDistance / 2);
         backBoundary.transform.localScale = backFrontScale;
 
-        frontBoundary.transform.position = transform.position + new Vector3(0, 0, -frontBoundaryDistance);
+        frontBoundary.transform.position = transform.position + new Vector3(0, 0, -backFrontBoundaryDistance / 2);
         frontBoundary.transform.localScale = backFrontScale;
-        
-        leftBoundary.transform.position = transform.position + new Vector3(-targetPlaneSize.x, 0, 0);
+
+        leftBoundary.transform.position = transform.position + new Vector3(-orthographicPlaneSize.x / 2, 0, 0);
         leftBoundary.transform.localScale = leftRightScale;
 
-        rightBoundary.transform.position = transform.position + new Vector3(targetPlaneSize.x, 0, 0);
+        rightBoundary.transform.position = transform.position + new Vector3(orthographicPlaneSize.x / 2, 0, 0);
         rightBoundary.transform.localScale = leftRightScale;
 
-        topBoundary.transform.position = transform.position + new Vector3(0, topHeightDistance, 0);
+        topBoundary.transform.position = transform.position + new Vector3(0, orthographicPlaneSize.y / 2, 0);
         topBoundary.transform.localScale = topScale;
     }
 }
