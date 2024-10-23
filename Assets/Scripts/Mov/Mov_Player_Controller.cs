@@ -38,6 +38,9 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool isOnline = false;
     public int onlineIndex = 0;
 
+    // ONLINE INPUTS
+    private bool canOnlPickUp = false, canOnlAttack = false;
+
     private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
@@ -172,29 +175,50 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void SpecialInputs()
     {
+        // JUMP
         if ((charController.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
         }
 
+        // DODGE
         if (isOnline == false && playerInput.actions["Dodge"].triggered)
         {
             Dodge();
         }
-        else if(isOnline == true && onlController.onlDodgePressed == true)
+        else if (isOnline == true && onlController.onlDodgePressed == true)
         {
             Dodge();
         }
 
-        if (playerInput.actions["PickUp"].triggered)
+        // PICK UP
+        if(isOnline == false && playerInput.actions["PickUp"].triggered)
         {
             Grab();
         }
+        else if (isOnline == true)
+        {
+            if (onlController.onlPickUpPressed == false)
+            { canOnlPickUp = true; }
+            else if(onlController.onlPickUpPressed == true && canOnlPickUp == true)
+            {
+                if (onlController != null) { Grab(); }
+                canOnlPickUp = false;
+            }
+        }
 
-        if (playerInput.actions["Attack"].triggered)
+        // ATTACK
+        if (isOnline == false && playerInput.actions["Attack"].triggered)
         {
             Attack();
+        }
+        else if (isOnline == true)
+        {
+            if (onlController.onlAttackPressed == false)
+            { canOnlAttack = true; }
+            else if (onlController.onlAttackPressed == true && canOnlAttack == true)
+            { Attack(); canOnlAttack = false; }
         }
     }
 
@@ -286,7 +310,8 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-        private void Grab()
+    // Esta función será llamada también en Onl_Player_Controller.cs
+    public void Grab()
     {
         if (SM.AvailableTransition(SM.grab))
         {
