@@ -70,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.5
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.9
@@ -118,11 +118,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Comic Book Bold SDF
+  m_Name: Comic Book Bold Outlined
   m_EditorClassIdentifier: 
-  hashCode: 1038229814
+  hashCode: -1585725
   material: {fileID: -2304637351874196037}
-  materialHashCode: -1694935978
+  materialHashCode: 723086083
   m_Version: 1.1.0
   m_SourceFontFileGUID: c9c3541b59ddf8148b239221ffb7ce04
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: c9c3541b59ddf8148b239221ffb7ce04,

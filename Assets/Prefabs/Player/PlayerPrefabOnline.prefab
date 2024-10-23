@@ -6575,7 +6575,7 @@ GameObject:
   - component: {fileID: 1006171220485351466}
   - component: {fileID: 4163012537091015072}
   - component: {fileID: 7548758276034463505}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerPrefabOnline
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6618,6 +6618,8 @@ MonoBehaviour:
   clientServer: 0
   onlDirection2D: {x: 0, y: 0}
   isSever: 0
+  playerID:
+    m_InternalValue: 0
 --- !u!114 &7468466555714822358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6633,6 +6635,7 @@ MonoBehaviour:
   playerProps:
   - {fileID: 8863532313106995935}
   - {fileID: 1108092994006191620}
+  onlineIndex: 0
   weaponAnimator: {fileID: 5836787443314912692}
   playerWeapon: {fileID: 5643940020183108187}
   playerArmor: {fileID: 0}

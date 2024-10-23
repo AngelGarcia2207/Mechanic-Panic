@@ -117,9 +117,9 @@ public class Ene_EnemyTest : MonoBehaviour
             if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
             else { enemyAnimator.enabled = false; }
 
+            GameManager.Instance.increaseLevelScore(73);
 
             GenerateTargets();
-
 
             currentHealth -= 10;
             if (currentHealth <= 0)
