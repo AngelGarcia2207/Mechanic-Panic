@@ -253,6 +253,7 @@ public class Mov_Player_Controller : MonoBehaviour
             {
                 SM.ChangeState(SM.dead);
                 Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
+                playerCardScript.ToggleDeadPanel();
             }
         }
     }
@@ -320,6 +321,7 @@ public class Mov_Player_Controller : MonoBehaviour
             Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+            playerCardScript.ToggleDeadPanel();
             playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
         }
     }
