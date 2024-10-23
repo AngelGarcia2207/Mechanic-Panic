@@ -17,6 +17,7 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
     protected Vector3 fixedTarget;
     protected Vector3 returnPosition;
     protected float chargeStrenght, acceleration;
+    protected float sideFactor = 1;
     protected bool isPreparing, isCharging, isResting, isBacking;
 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
@@ -38,6 +39,8 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
             }
         }
 
+        fixedTarget = new Vector3(targetedPlayer.position.x, stateMachine.GetEnemyTransform().position.y, targetedPlayer.position.z);
+
         isPreparing = true;
         isCharging = true;
         isResting = true;
@@ -48,15 +51,13 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
     {
         if(isPreparing)
         {
-            //stateMachine.GetEnemyTransform().LookAt(targetedPlayer);
-            //stateMachine.GetEnemyTransform().eulerAngles = new Vector3(0, stateMachine.GetEnemyTransform().eulerAngles.y, 0);
             return;
         }
 
         if(isCharging)
         {
             stateMachine.GetEnemyTransform().position = Vector3.MoveTowards(stateMachine.GetEnemyTransform().position, fixedTarget, deltaTime*acceleration);
-            if(Vector3.Distance(stateMachine.GetEnemyTransform().position, fixedTarget) == 0f || Vector3.Distance(stateMachine.GetEnemyTransform().position, returnPosition) >= 8f)
+            if(Vector3.Distance(stateMachine.GetEnemyTransform().position, fixedTarget) == 0f || Vector3.Distance(stateMachine.GetEnemyTransform().position, returnPosition) >= 5f)
             {
                 isCharging = false;
                 stateMachine.StartCoroutine("WaitTime", 2f);
@@ -93,12 +94,15 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
         if(isPreparing)
         {
             isPreparing = false;
-            fixedTarget = targetedPlayer.position;
-            fixedTarget = new Vector3(fixedTarget.x, stateMachine.GetEnemyTransform().position.y, fixedTarget.z);
         }
         else
         {
             isResting = false;
         }
+    }
+
+    public void OnSideChanged()
+    {
+        sideFactor *= -1;
     }
 }

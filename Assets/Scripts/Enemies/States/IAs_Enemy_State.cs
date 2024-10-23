@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[Serializable] public class StateVoidEvent : UnityEvent {}
 
 // Base class for creating enemy behavior states //
 public abstract class IAs_Enemy_State<EnemyState> where EnemyState : Enum
