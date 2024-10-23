@@ -7,10 +7,12 @@ using UnityEngine.InputSystem;
 
 public class Onl_Player_Controller : NetworkBehaviour
 {
-    public Mov_Player_Controller playerController;
+    public Mov_Player_Controller movController;
     private PlayerInput playerInput;
     [HideInInspector] public bool onlJumpButtonPressed = false;
     [HideInInspector] public bool onlDodgePressed = false;
+    [HideInInspector] public bool onlPickUpPressed = false;
+    [HideInInspector] public bool onlAttackPressed = false;
 
     [HideInInspector] public int clientServer;
     [HideInInspector] public Vector2 onlDirection2D;
@@ -30,6 +32,8 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         // Suscribirse al cambio de valor de la NetworkVariable.
         playerID.OnValueChanged += OnPlayerIDChanged;
+
+        movController = GetComponent<Mov_Player_Controller>();
     }
 
     void FixedUpdate()
@@ -63,7 +67,7 @@ public class Onl_Player_Controller : NetworkBehaviour
     }
 
 
-
+    // DODGE INPUT
     private void OnDodgeHold()
     {
         if (!IsOwner) { return; }
@@ -77,6 +81,54 @@ public class Onl_Player_Controller : NetworkBehaviour
     void DodgeHold()
     {
         onlDodgePressed = !onlDodgePressed;
+    }
+
+    // PICKUP INPUT
+    private void OnPickUpHold()
+    {
+        if (!IsOwner) { return; }
+        if (IsServer) { PickUpHold(); }
+        else { PickUpHoldServerRPC(); }
+    }
+
+    [ServerRpc]
+    void PickUpHoldServerRPC() { PickUpHold(); }
+
+    void PickUpHold()
+    {
+        onlPickUpPressed = !onlPickUpPressed;
+    }
+
+    // GRAB ACTION
+    public void TryOnlineGrab()
+    {
+        if (!IsOwner) { return; }
+        if (IsServer) { Grab(); }
+        else { Grab(); }
+    }
+
+    [ServerRpc]
+    void GrabServerRPC() { Grab(); }
+
+    void Grab()
+    {
+        movController.Grab();
+    }
+
+    // ATTACK INPUT
+    private void OnAttackHold()
+    {
+        if (!IsOwner) { return; }
+        if (IsServer) { AttackHold(); }
+        else { AttackHoldServerRPC(); }
+    }
+
+    [ServerRpc]
+    void AttackHoldServerRPC() { AttackHold(); }
+
+    void AttackHold()
+    {
+        onlAttackPressed = !onlAttackPressed;
     }
 
 

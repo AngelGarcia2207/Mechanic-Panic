@@ -33,12 +33,30 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AttackHold",
+                    "type": "Button",
+                    "id": "da9083b7-65d7-49de-8806-c8c4f603b2f4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PickUp",
                     "type": "Button",
                     "id": "05831e92-3496-4cfa-b7c9-210d0041b4b6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PickUpHold",
+                    "type": "Button",
+                    "id": "78cc724f-b9b9-435a-8945-424acf8a2858",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
                     "initialStateCheck": false
                 },
                 {
@@ -296,6 +314,50 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "DodgeHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92b4c224-0ad2-43a3-a3ad-25122ccae2de",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "PickUpHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6c4b26d-1850-4775-beb8-fc9e5414b7a5",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PickUpHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e4675b7-1bbe-4eab-ab40-57c8ec9f41e2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "AttackHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e0bb67b-03ce-4cf4-ac32-ca980c8b35ca",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AttackHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
