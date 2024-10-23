@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 7942332781983116386}
   - component: {fileID: 664188873220459775}
   - component: {fileID: 8407796733083464798}
-  - component: {fileID: 2864535399940606647}
   m_Layer: 5
   m_Name: RemainingLivesPanel
   m_TagString: Untagged
@@ -213,19 +212,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2864535399940606647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5777261789506601290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be6fe8a2ff2496c47b180a5dd33e7bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBarImage: {fileID: 0}
 --- !u!1 &7503097083926745493
 GameObject:
   m_ObjectHideFlags: 0

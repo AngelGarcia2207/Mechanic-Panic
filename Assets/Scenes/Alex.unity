@@ -16135,7 +16135,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2864535399940606647, guid: 338245554a1d2854a90112437255ca01, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -16208,6 +16209,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayersCardsPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 5337305093685537465, guid: 44610d730d082d84994fa317380011dc,
+        type: 3}
+      propertyPath: PlayerCardPrefabLocal
+      value: 
+      objectReference: {fileID: 8383216830951053080, guid: e35d9821a4e314441b4f1ca7a56eaaa5,
+        type: 3}
+    - target: {fileID: 5337305093685537465, guid: 44610d730d082d84994fa317380011dc,
+        type: 3}
+      propertyPath: PlayerCardPrefabOnline
+      value: 
+      objectReference: {fileID: 8383216830951053080, guid: 1a74c9d59434f194383daac046a6ba39,
+        type: 3}
     - target: {fileID: 5698346853254350792, guid: 44610d730d082d84994fa317380011dc,
         type: 3}
       propertyPath: m_Pivot.x
