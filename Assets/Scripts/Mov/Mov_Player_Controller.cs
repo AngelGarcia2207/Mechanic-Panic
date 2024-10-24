@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 
 [System.Serializable]
 public class WeaponEvent : UnityEvent<Obj_Player_Weapon> {}
@@ -22,28 +24,28 @@ public class Mov_Player_Controller : MonoBehaviour
     private float scanFrequency = 0.05f;
     private GameObject playerCard;
 
-    [SerializeField] private Sprite headSprite;
-    [SerializeField] private string name;
-    public Animator spriteAnimator;
-    [SerializeField] private Inp_PlayerInstantiator playerInstantiator;
-    [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private CharacterController player;
+    [SerializeField] private Mov_Player_Properties[] playerProps;
+    private Mov_Player_Properties playerProp;
+    private int playerIndex = 0;
 
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int currentHealth;
-    [SerializeField] private float speed;
-    [SerializeField] private float mass;
-    [SerializeField] private float gravity;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float jumpTime;
-    [SerializeField] private float dodgeSpeed;
-    [SerializeField] private float dodgeDuration = 1f;
-    [SerializeField] [Range(0f, 1f)] private float airFriction;
-    [SerializeField] private float floorRaycastDistance;
+    // PRIVATE COMPONENTS
+    private PlayerInput playerInput;
+    private CharacterController charController;
+
+    // ONLINE
+    private Onl_Player_Controller onlController;
+    [HideInInspector] public Onl_Player_Manager onlManager;
+    private bool isOnline = false;
+    public int onlineIndex = 0;
+
+    // ONLINE INPUTS
+    private bool canOnlPickUp = false, canOnlAttack = false;
+
+    private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private Animator weaponAnimator;
-    [SerializeField] private Obj_Player_Weapon playerWeapon;
+    public Obj_Player_Weapon playerWeapon;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUpWeapon;
@@ -53,20 +55,83 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Start()
     {
-        player = GetComponent<CharacterController>();
-        SM = new PlayerStateMachine(spriteAnimator);
+        if (GetComponent<Onl_Player_Controller>() != null)
+        {
+            onlController = GetComponent<Onl_Player_Controller>();
+            isOnline = true;
+        }
 
-        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(headSprite, name);
-        currentHealth = maxHealth;
+        playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
+
+        ChangeCharacter();
+
+        // Configuración adicional si es necesario
+    
+
+        charController = GetComponent<CharacterController>();
+        playerInput = GetComponent<PlayerInput>();
+
+        currentHealth = playerProp.maxHealth;
+
+        Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+    }
+
+    public void ChangeCharacter()
+    {
+        if (isOnline)
+        {
+            playerProp = playerProps[onlineIndex];
+            GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator;
+        }
+        else
+        {
+            playerProp = playerProps[playerIndex];
+        }
+
+        foreach (Mov_Player_Properties prop in playerProps)
+        {
+            if (prop == playerProp)
+            {
+                prop.gameObject.SetActive(true);
+            }
+            else
+            {
+                prop.gameObject.SetActive(false);
+            }
+        }
+
+        SM = new PlayerStateMachine(playerProp.spriteAnimator);
+
+        // Crear el player card y referenciarlo en el `Onl_Player_Controller`.
+        playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerCard, playerProp.headSprite, playerProp.name);
+        if (isOnline == true && onlController != null)
+        {
+            onlController.SetPlayerCard(playerCard);
+        }
+
+        AddPlayerCardToNetManager(null);
+    }
+
+    public void AddPlayerCardToNetManager(Onl_Player_Manager _onlManager)
+    {
+        if (_onlManager != null)
+        { onlManager = _onlManager; }
+
+        if (isOnline && onlManager != null)
+        { onlManager.playerCards.Add(playerCard); }
     }
 
     void Update()
     {
         Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
-        jumpButtonPressed = playerInstantiator.jumpButtonPressed;
+        if (isOnline)
+        {
+            rawDirection = onlController.onlDirection2D;
+            jumpButtonPressed = onlController.onlJumpButtonPressed;
+        }
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
+            if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
                 movementX = rawDirection.x;
@@ -84,7 +149,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementZ = 0;
             }
         }
-        else if ((player.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
+        else if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
         {
             SM.ChangeState(SM.idle);
             movementX = 0;
@@ -102,43 +167,73 @@ public class Mov_Player_Controller : MonoBehaviour
 
         ApplyAcceleration();
 
-        nextMovement += playerMovementInput * speed;
-        player.transform.LookAt(player.transform.position + new Vector3(movementX, 0, 0));
+        nextMovement += playerMovementInput * playerProp.speed;
+        charController.transform.LookAt(charController.transform.position + new Vector3(movementX, 0, 0));
 
-        player.Move(nextMovement * Time.deltaTime);
+        charController.Move(nextMovement * Time.deltaTime);
     }
 
     private void SpecialInputs()
     {
-        if ((player.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
+        // JUMP
+        if ((charController.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
         }
 
-        if (playerInput.actions["Dodge"].triggered)
+        // DODGE
+        if (isOnline == false && playerInput.actions["Dodge"].triggered)
+        {
+            Dodge();
+        }
+        else if (isOnline == true && onlController.onlDodgePressed == true)
         {
             Dodge();
         }
 
-        if (playerInput.actions["PickUp"].triggered)
+        // PICK UP
+        if(isOnline == false && playerInput.actions["PickUp"].triggered)
         {
             Grab();
         }
+        else if (isOnline == true)
+        {
+            if (onlController.onlPickUpPressed == false)
+            { canOnlPickUp = true; }
+            else if(onlController.onlPickUpPressed == true && canOnlPickUp == true)
+            {
+                if (onlController != null) { Grab(); }
+                canOnlPickUp = false;
+            }
+        }
 
-        if (playerInput.actions["Attack"].triggered)
+        // ATTACK
+        if (isOnline == false && playerInput.actions["Attack"].triggered)
         {
             Attack();
+        }
+        else if (isOnline == true)
+        {
+            if (onlController.onlAttackPressed == false)
+            { canOnlAttack = true; }
+            else if (onlController.onlAttackPressed == true && canOnlAttack == true)
+            { Attack(); canOnlAttack = false; }
+        }
+        
+        if (SM.GetCurrentState() == SM.dead && jumpButtonPressed)
+        {
+            Revive();
         }
     }
 
     private void ApplyAcceleration()
     {
         // Reducir la velocidad horiontal hasta que ya no sea significativa
-        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > speed / 2)
+        if ((new Vector2(velocity.x + nextMovement.x, velocity.z + nextMovement.z)).magnitude > playerProp.speed / 2)
         {
-            velocity.x *= (1 - airFriction * 3 * Time.deltaTime);
-            velocity.z *= (1 - airFriction * 3 * Time.deltaTime);
+            velocity.x *= (1 - playerProp.airFriction * 3 * Time.deltaTime);
+            velocity.z *= (1 - playerProp.airFriction * 3 * Time.deltaTime);
         }
         else
         {
@@ -147,13 +242,13 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // Gravedad
-        if (player.isGrounded && velocity.y <= -gravity * 0.1f)
+        if (charController.isGrounded && velocity.y <= -playerProp.gravity * 0.1f)
         {
-            velocity.y = -gravity * 0.1f;
+            velocity.y = -playerProp.gravity * 0.1f;
         }
         else
         {
-            velocity.y -= gravity * Time.deltaTime;
+            velocity.y -= playerProp.gravity * Time.deltaTime;
         }
 
         nextMovement = velocity;
@@ -165,7 +260,7 @@ public class Mov_Player_Controller : MonoBehaviour
         RaycastHit hit;
         Vector3 direction = -transform.up;
 
-        if (Physics.Raycast(origin, direction, out hit, floorRaycastDistance))
+        if (Physics.Raycast(origin, direction, out hit, playerProp.floorRaycastDistance))
         {
             return true;
         }
@@ -181,7 +276,7 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             SM.ChangeState(SM.dodge);
             
-            velocity.x = dodgeSpeed * transform.forward.x;
+            velocity.x = playerProp.dodgeSpeed * transform.forward.x;
 
             StartCoroutine(DodgeDelay());
         }
@@ -194,11 +289,13 @@ public class Mov_Player_Controller : MonoBehaviour
             currentHealth -= damage;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
-            playerCardScript.UpdateHealthBar(currentHealth, maxHealth);
+            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
 
             if (currentHealth <= 0)
             {
                 SM.ChangeState(SM.dead);
+                Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
+                playerCardScript.ToggleDeadPanel();
             }
         }
     }
@@ -207,7 +304,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.stunned))
         {
-            velocity = knockback / mass;
+            velocity = knockback / playerProp.mass;
         }
     }
 
@@ -220,7 +317,8 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-        private void Grab()
+    // Esta función será llamada también en Onl_Player_Controller.cs
+    public void Grab()
     {
         if (SM.AvailableTransition(SM.grab))
         {
@@ -250,6 +348,26 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
+    private void OnJump()
+    {
+        if (isOnline == false)
+        { jumpButtonPressed = !jumpButtonPressed; }
+    }
+
+    private void Revive()
+    {
+        if (GameManager.Instance.ConsumeALive())
+        {
+            currentHealth = playerProp.maxHealth;
+            SM.ReturnToIdle();
+
+            Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+
+            UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+            playerCardScript.ToggleDeadPanel();
+            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+        }
+    }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
     IEnumerator SwingCoroutine()
@@ -265,35 +383,35 @@ public class Mov_Player_Controller : MonoBehaviour
 
     IEnumerator DodgeDelay()
     {
-        yield return new WaitForSeconds(dodgeDuration);
-        SM.returnToIdle();
+        yield return new WaitForSeconds(playerProp.dodgeDuration);
+        SM.ReturnToIdle();
     }
 
     IEnumerator StunDelay(float stunDuration)
     {
         yield return new WaitForSeconds(stunDuration);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator GrabDelay()
     {
         yield return new WaitForSeconds(0.3f);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator AttackDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator Jump()
     {
-        remainingJumpTime = jumpTime;
+        remainingJumpTime = playerProp.jumpTime;
 
         while (jumpButtonPressed && remainingJumpTime > 0)
         {
-            velocity.y = jumpForce / mass;
+            velocity.y = playerProp.jumpForce / playerProp.mass;
 
             remainingJumpTime -= scanFrequency;
             yield return new WaitForSeconds(scanFrequency);

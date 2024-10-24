@@ -671,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8573840043724625008
 Transform:
   m_ObjectHideFlags: 0
@@ -1072,7 +1072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5444444958183066118
 Transform:
   m_ObjectHideFlags: 0
@@ -1421,7 +1421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7809658714821978940}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -0.86, y: 1.05, z: 6.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1445,6 +1445,7 @@ MonoBehaviour:
   logs:
   - {fileID: 6150200418189678349}
   - {fileID: 4030563658312480657}
+  mouseClickSpeed: 0
 --- !u!114 &8807616846122364590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1471,7 +1472,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: VirtuMap
   m_SplitScreenIndex: -1

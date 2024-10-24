@@ -26,7 +26,7 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Weapon playerWeapon = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-2).GetChild(0).GetComponent<Obj_Player_Weapon>();
+            Obj_Player_Weapon playerWeapon = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeapon;
             
             if(playerWeapon.HasBase() == false && itemData is Obj_Weapon_Base)
             {
@@ -45,7 +45,7 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Weapon playerWeapon = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-2).GetChild(0).GetComponent<Obj_Player_Weapon>();
+            Obj_Player_Weapon playerWeapon = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeapon;
             playerWeapon.RemoveCloseItem(this);
         }
     }

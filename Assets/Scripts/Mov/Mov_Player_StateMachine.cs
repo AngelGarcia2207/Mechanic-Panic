@@ -83,11 +83,16 @@ public partial class PlayerStateMachine
 	}
 	
 	// Regresar a Idle
-	public void returnToIdle()
+	public void ReturnToIdle()
 	{
 		currentState.Exit();
 		currentState = idle;
 		currentState.Enter();
+	}
+
+	public PlayerState GetCurrentState()
+	{
+		return currentState;
 	}
 }
 

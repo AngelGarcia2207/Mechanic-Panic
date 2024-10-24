@@ -6,10 +6,23 @@ using TMPro;
 
 public class UI_PlayerCard : MonoBehaviour
 {
-    public Image healthBarImage;
+    [SerializeField] private Image healthBarImage;
+    [SerializeField] private GameObject DeadPanel;
     
     public void UpdateHealthBar(int currentHealth, int maxHealth)
     {
         healthBarImage.fillAmount = (float) currentHealth / maxHealth;
+    }
+
+    public void ToggleDeadPanel()
+    {
+        if (DeadPanel.activeSelf)
+        {
+            DeadPanel.SetActive(false);
+        }
+        else
+        {
+            DeadPanel.SetActive(true);
+        }
     }
 }
