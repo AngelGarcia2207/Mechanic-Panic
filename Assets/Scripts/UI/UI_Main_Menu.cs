@@ -5,9 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class UI_Main_Menu : MonoBehaviour
 {
+    [SerializeField] private string Level1Scene;
+
     public void Play()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(Level1Scene);
+    }
+
+    public void Config()
+    {
+        SceneManager.LoadScene(Level1Scene);
     }
 
     public void Exit()
