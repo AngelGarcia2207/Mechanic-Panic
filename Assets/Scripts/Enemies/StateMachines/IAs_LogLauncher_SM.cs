@@ -40,18 +40,16 @@ public class IAs_LogLauncher_SM : IAs_Enemy_State_Machine<IAs_LogLauncher_SM.Log
 
         machineStates.Add(LogLauncherStates.Charge,
         new IAs_ChargeForward_Short<IAs_LogLauncher_SM.LogLauncherStates>(LogLauncherStates.Charge, LogLauncherStates.BackToInitialPose, chargeStrenght));
-        IAs_ChargeForward_Short<IAs_LogLauncher_SM.LogLauncherStates> temp = machineStates[LogLauncherStates.Charge] as IAs_ChargeForward_Short<IAs_LogLauncher_SM.LogLauncherStates>;
-        changeSides.AddListener(temp.OnSideChanged);
 
         machineStates.Add(LogLauncherStates.BackToInitialPose,
         new IAs_ReturnToInitialPosition<IAs_LogLauncher_SM.LogLauncherStates>(LogLauncherStates.BackToInitialPose, LogLauncherStates.Idle, turnSpeed*0.5f));
-        IAs_ReturnToInitialPosition<IAs_LogLauncher_SM.LogLauncherStates> temp2 = machineStates[LogLauncherStates.BackToInitialPose] as IAs_ReturnToInitialPosition<IAs_LogLauncher_SM.LogLauncherStates>;
-        changeSides.AddListener(temp2.OnSideChanged);
+        IAs_ReturnToInitialPosition<IAs_LogLauncher_SM.LogLauncherStates> temp = machineStates[LogLauncherStates.BackToInitialPose] as IAs_ReturnToInitialPosition<IAs_LogLauncher_SM.LogLauncherStates>;
+        changeSides.AddListener(temp.OnSideChanged);
 
         machineStates.Add(LogLauncherStates.ChangeSides,
         new IAs_LogLauncher_ChangeSide<IAs_LogLauncher_SM.LogLauncherStates>(LogLauncherStates.ChangeSides, LogLauncherStates.Idle));
-        IAs_LogLauncher_ChangeSide<IAs_LogLauncher_SM.LogLauncherStates> temp3 = machineStates[LogLauncherStates.ChangeSides] as IAs_LogLauncher_ChangeSide<IAs_LogLauncher_SM.LogLauncherStates>;
-        temp3.changingSide.AddListener(OnChangingSides);
+        IAs_LogLauncher_ChangeSide<IAs_LogLauncher_SM.LogLauncherStates> temp2 = machineStates[LogLauncherStates.ChangeSides] as IAs_LogLauncher_ChangeSide<IAs_LogLauncher_SM.LogLauncherStates>;
+        temp2.changingSide.AddListener(OnChangingSides);
 
         currentState = machineStates[LogLauncherStates.Idle];
     }

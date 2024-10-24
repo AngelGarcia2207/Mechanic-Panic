@@ -17,7 +17,6 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
     protected Vector3 fixedTarget;
     protected Vector3 returnPosition;
     protected float chargeStrenght, acceleration;
-    protected float sideFactor = 1;
     protected bool isPreparing, isCharging, isResting, isBacking;
 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
@@ -99,10 +98,5 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
         {
             isResting = false;
         }
-    }
-
-    public void OnSideChanged()
-    {
-        sideFactor *= -1;
     }
 }
