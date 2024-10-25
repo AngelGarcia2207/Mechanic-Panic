@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemyQueue;
     [SerializeField] private Transform[] fixedSpawnPoints;
+    [SerializeField] private Transform miniBossSpawn;
     [SerializeField] private int maxActiveEnemies;
     [SerializeField] private float spawnCooldown;
     private int activeEnemies;
@@ -15,7 +16,16 @@ public class EnemySpawner : MonoBehaviour
     {
         if(readyToSpawn)
         {
-            GameObject newEnemy = Instantiate(enemyQueue[0], fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemyQueue[0]);
+            newEnemy.GetComponent<Ene_EnemyTest>().death.AddListener(OnEnemyDeath);
+            if(newEnemy.transform.GetChild(1).gameObject.TryGetComponent(out IAs_SmallBot_SM comp))
+            {
+                newEnemy.transform.position = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position;
+            }
+            else
+            {
+                newEnemy.transform.position = miniBossSpawn.position;
+            }
             enemyQueue.RemoveAt(0);
             activeEnemies++;
             readyToSpawn = false;
@@ -48,5 +58,10 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnCooldown);
         readyToSpawn = true;
+    }
+
+    public void OnEnemyDeath()
+    {
+        activeEnemies--;
     }
 }
