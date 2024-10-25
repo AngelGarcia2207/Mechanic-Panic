@@ -14,11 +14,14 @@ public class IAs_SmallBot_SM : IAs_Enemy_State_Machine<IAs_SmallBot_SM.SmallBotS
 
     [SerializeField] public float chargeStrenght = 7f;
     [SerializeField] public float stunTime = 3f;
+    [SerializeField] private Vector3 center;
 
     void Awake()
     {
         machineStates.Add(SmallBotStates.Idle,
         new IAs_RandomWander<IAs_SmallBot_SM.SmallBotStates>(SmallBotStates.Idle, SmallBotStates.Charge, SmallBotStates.Spin));
+        IAs_RandomWander<IAs_SmallBot_SM.SmallBotStates> temp = machineStates[SmallBotStates.Idle] as IAs_RandomWander<IAs_SmallBot_SM.SmallBotStates>;
+        temp.SetCenter(center);
 
         machineStates.Add(SmallBotStates.Charge,
         new IAs_ChargeForward_Long<IAs_SmallBot_SM.SmallBotStates>(SmallBotStates.Charge, SmallBotStates.Idle, SmallBotStates.Stunned, chargeStrenght));

@@ -16,6 +16,7 @@ public class Ene_EnemyTest : MonoBehaviour
     [HideInInspector] public bool stunned = false, swayStart = false;
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
+    private List<Collider> hittingColliders = new();
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +58,8 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
             Destroy(newTag, 1f);
 
-            DamageEnemy();
+            Debug.Log("sc");
+            DamageEnemy(playerWeapon.DealDamage(), other);
         }
         else if(other.CompareTag("WeaponComplement"))
         {
@@ -67,7 +69,8 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
 
-            DamageEnemy();
+            Debug.Log("sc2");
+            DamageEnemy(playerWeapon.DealDamage(), other);
         }
     }
 
@@ -109,19 +112,19 @@ public class Ene_EnemyTest : MonoBehaviour
         }*/
     }
 
-    private void DamageEnemy()
+    private void DamageEnemy(int damage, Collider hittingCollider)
     {
-        if (stunned == false && currentHealth > 0)
+        if((stunned == false || (stunned && hittingColliders.Contains(hittingCollider) == false)) && currentHealth > 0)
         {
             shakeAnimator.SetInteger("ShakeState", 1);
             if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
             else { enemyAnimator.enabled = false; }
 
-            GameManager.Instance.increaseLevelScore(73);
+            GameManager.Instance.increaseLevelScore(damage);
 
             GenerateTargets();
 
-            currentHealth -= 10;
+            currentHealth -= damage;
             if (currentHealth <= 0)
             {
                 QuitStun();
@@ -131,6 +134,7 @@ public class Ene_EnemyTest : MonoBehaviour
 
             swayStart = true;
             stunned = true;
+            hittingColliders.Add(hittingCollider);
         }
     }
 
@@ -138,6 +142,7 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         QuitStun();
+        hittingColliders.Clear();
         if(currentHealth <= 0)
         {
             shakeAnimator.SetInteger("ShakeState", 2);
