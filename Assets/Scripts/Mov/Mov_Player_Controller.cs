@@ -55,6 +55,8 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Start()
     {
+        transform.position = GameObject.FindObjectOfType<PlayerInputManager>().gameObject.transform.position;
+
         if (GetComponent<Onl_Player_Controller>() != null)
         {
             onlController = GetComponent<Onl_Player_Controller>();
