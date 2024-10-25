@@ -45,7 +45,7 @@ public partial class PlayerStateMachine
 		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, dodge, hold, stunned, dead });
         dodge.SetPossibleTransitions(new List<PlayerState>()); // Al esquivar, no puede transicionar a otros estados
 		grab.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
-        attack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned });
+        attack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
 		moveAttack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned, dead });
         hold.SetPossibleTransitions(new List<PlayerState> { hurl, dodge, stunned, dead });
 		hurl.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
