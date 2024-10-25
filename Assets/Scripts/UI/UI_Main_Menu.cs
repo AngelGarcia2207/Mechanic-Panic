@@ -14,7 +14,7 @@ public class UI_Main_Menu : MonoBehaviour
 
     public void Config()
     {
-        SceneManager.LoadScene(Level1Scene);
+        
     }
 
     public void Exit()

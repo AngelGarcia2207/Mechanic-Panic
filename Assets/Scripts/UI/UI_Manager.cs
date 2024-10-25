@@ -6,6 +6,7 @@ using TMPro;
 
 public class UI_Manager : MonoBehaviour
 {
+    [SerializeField] private GameObject pausePanel;
     [SerializeField] private TMP_Text remainingLivesAmount;
     [SerializeField] private TMP_Text scoreAmount;
     [SerializeField] private float scoreScaleMultiplier = 2f;
@@ -33,6 +34,11 @@ public class UI_Manager : MonoBehaviour
     public void UpdateRemainingLivesText(int remainingLives)
     {
         remainingLivesAmount.text = remainingLives.ToString();
+    }
+
+    public void TogglePausePanel(bool isPaused)
+    {
+        pausePanel.SetActive(isPaused);
     }
 
     public void UpdateScoreText(int score)
