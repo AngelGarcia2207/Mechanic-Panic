@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
         if(readyToSpawn)
         {
             GameObject newEnemy = Instantiate(enemyQueue[0], fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position, Quaternion.identity);
+            newEnemy.GetComponent<Ene_EnemyTest>().death.AddListener(OnEnemyDeath);
             enemyQueue.RemoveAt(0);
             activeEnemies++;
             readyToSpawn = false;
@@ -48,5 +49,10 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnCooldown);
         readyToSpawn = true;
+    }
+
+    public void OnEnemyDeath()
+    {
+        activeEnemies--;
     }
 }
