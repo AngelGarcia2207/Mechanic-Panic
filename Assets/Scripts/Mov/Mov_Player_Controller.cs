@@ -24,6 +24,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private float scanFrequency = 0.05f;
     private bool invulnerable = false;
     private float invulnerabilityDuration = 1f;
+    private bool alive = true;
     
     private GameObject playerCard;
 
@@ -80,6 +81,7 @@ public class Mov_Player_Controller : MonoBehaviour
         currentHealth = playerProp.maxHealth;
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+        GameManager.Instance.AddPlayer(this.gameObject);
     }
 
     public void ChangeCharacter()
@@ -313,6 +315,8 @@ public class Mov_Player_Controller : MonoBehaviour
             if (currentHealth <= 0)
             {
                 SM.ChangeState(SM.dead);
+                alive = false;
+                GameManager.Instance.checkForAlivePlayers();
                 Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
                 playerCardScript.ToggleDeadPanel();
             }
@@ -388,6 +392,11 @@ public class Mov_Player_Controller : MonoBehaviour
             playerCardScript.ToggleDeadPanel();
             playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
         }
+    }
+
+    public bool GetAliveStatus()
+    {
+        return alive;
     }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//

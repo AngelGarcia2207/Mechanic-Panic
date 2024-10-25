@@ -7,6 +7,7 @@ using TMPro;
 public class UI_Manager : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text remainingLivesAmount;
     [SerializeField] private TMP_Text scoreAmount;
     [SerializeField] private float scoreScaleMultiplier = 2f;
@@ -45,6 +46,11 @@ public class UI_Manager : MonoBehaviour
     {
         scoreAmount.text = score.ToString();
         StartCoroutine(ScaleScoreText());
+    }
+
+    public void ShowGameOverPanel()
+    {
+        gameOverPanel.SetActive(true);
     }
 
     private IEnumerator ScaleScoreText()

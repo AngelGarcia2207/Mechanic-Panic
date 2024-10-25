@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int remainingLives = 10;
     [SerializeField] private int levelScore = 0;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
     private bool isPaused = false;
 
     public static GameManager Instance { get; private set; }
@@ -19,6 +20,32 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    public void AddPlayer(GameObject newPlayer)
+    {
+        if (players.Count < 4)
+        {
+            players.Add(newPlayer);
+        }
+    }
+
+    public void checkForAlivePlayers()
+    {
+        bool atLeastOnePlayerAlive = false;
+        foreach (GameObject player in players)
+        {
+            Mov_Player_Controller playerScript = player.GetComponent<Mov_Player_Controller>();
+            if (playerScript.GetAliveStatus() == true)
+            {
+                atLeastOnePlayerAlive = true;
+            }
+        }
+
+        if (!atLeastOnePlayerAlive && remainingLives < 1)
+        {
+            UI_Manager.Instance.ShowGameOverPanel();
+        }
     }
 
     public int GetRemainingLives()
@@ -64,6 +91,12 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
     }
 }
