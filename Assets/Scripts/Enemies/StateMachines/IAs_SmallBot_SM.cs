@@ -12,8 +12,8 @@ public class IAs_SmallBot_SM : IAs_Enemy_State_Machine<IAs_SmallBot_SM.SmallBotS
         Stunned
     }
 
-    [SerializeField] float chargeStrenght;
-    [SerializeField] float stunTime;
+    [SerializeField] public float chargeStrenght = 7f;
+    [SerializeField] public float stunTime = 3f;
 
     void Awake()
     {
@@ -30,5 +30,11 @@ public class IAs_SmallBot_SM : IAs_Enemy_State_Machine<IAs_SmallBot_SM.SmallBotS
         new IAs_Stunned<IAs_SmallBot_SM.SmallBotStates>(SmallBotStates.Stunned, SmallBotStates.Idle, stunTime));
 
         currentState = machineStates[SmallBotStates.Idle];
+    }
+
+    public void UpdateCenter(Vector3 center)
+    {
+        IAs_RandomWander<IAs_SmallBot_SM.SmallBotStates> temp = machineStates[SmallBotStates.Idle] as IAs_RandomWander<IAs_SmallBot_SM.SmallBotStates>;
+        temp.SetCenter(center);
     }
 }
