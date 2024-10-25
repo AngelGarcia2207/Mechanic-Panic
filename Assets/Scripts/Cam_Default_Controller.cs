@@ -6,6 +6,7 @@ public class Cam_Default_Controller : MonoBehaviour
 {
     [SerializeField] private Vector3 distance;
     [SerializeField] private Vector3 angle;
+    [SerializeField] [Range(0f, 1f)] private float LerpValue;
     private new Camera camera;
     private Transform target;
     enum LockCursor { Locked, Unlocked }
@@ -23,10 +24,15 @@ public class Cam_Default_Controller : MonoBehaviour
 
     void Update()
     {
-        transform.position = target.position + distance;
+        UpdatePosition();
 
         Quaternion rotation = Quaternion.Euler(angle);
         transform.rotation = rotation;
+    }
+
+    public void UpdatePosition()
+    {
+        transform.position = Vector3.Lerp(transform.position, target.position + distance, LerpValue);
     }
 
     public void UpdateOrthographicSize(float size)

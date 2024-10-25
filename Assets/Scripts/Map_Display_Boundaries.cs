@@ -6,12 +6,11 @@ public class Map_Display_Boundaries : MonoBehaviour
 {
     [SerializeField] private float backFrontBoundaryDistance;
     [SerializeField] private float topHeightDistance;
-
+    [SerializeField] private GameObject boundaryPrefab;
     private GameObject cameraObject;
     private Cam_Default_Controller cameraScript;
 
-    [SerializeField] private GameObject[] players = new GameObject[4];
-    private int playerCount = 0;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
 
     private GameObject leftBoundary;
     private GameObject rightBoundary;
@@ -36,36 +35,16 @@ public class Map_Display_Boundaries : MonoBehaviour
         cameraObject = GameObject.FindWithTag("Camera");
         cameraScript = cameraObject.GetComponent<Cam_Default_Controller>();
 
-
-        leftBoundary = new GameObject("leftBoundary");
-        rightBoundary = new GameObject("rightBoundary");
-        topBoundary = new GameObject("topBoundary");
-        backBoundary = new GameObject("backBoundary");
-        frontBoundary = new GameObject("frontBoundary");
-
-        leftBoundary.transform.parent = this.transform;
-        rightBoundary.transform.parent = this.transform;
-        topBoundary.transform.parent = this.transform;
-        backBoundary.transform.parent = this.transform;
-        frontBoundary.transform.parent = this.transform;
-
-        AddBoxCollider(leftBoundary);
-        AddBoxCollider(rightBoundary);
-        AddBoxCollider(topBoundary);
-        AddBoxCollider(backBoundary);
-        AddBoxCollider(frontBoundary);
-
-        // Descomenta estas lineas si quieres que se vean las cajas
-        // AddMeshComponents(leftBoundary);
-        // AddMeshComponents(rightBoundary);
-        // AddMeshComponents(topBoundary);
-        // AddMeshComponents(backBoundary);
-        // AddMeshComponents(frontBoundary);
+        leftBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
+        rightBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
+        topBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
+        backBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
+        frontBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
     }
 
     void Update()
     {
-        if (playerCount > 0)
+        if (players.Count > 0)
         {
             followPlayers();
             UpdateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
@@ -74,19 +53,16 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     private void followPlayers()
     {
-        if (playerCount > 0)
+        if (players.Count > 0)
         {
             Vector3 averagePosition = Vector3.zero;
 
-            for (int i = 0; i < playerCount; i++)
+            foreach (GameObject player in players)
             {
-                if (players[i] != null)
-                {
-                    averagePosition += players[i].transform.position;
-                }
+                averagePosition += player.transform.position;
             }
 
-            averagePosition /= playerCount;
+            averagePosition /= players.Count;
 
             transform.position = new Vector3(averagePosition.x, transform.position.y, transform.position.z);
         }
@@ -94,70 +70,18 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     public void AddPlayer(GameObject newPlayer)
     {
-        if (playerCount < players.Length)
+        if (players.Count < 4)
         {
-            players[playerCount] = newPlayer;
-            playerCount++;
+            players.Add(newPlayer);
         }
     }
 
-    private void AddBoxCollider(GameObject obj)
+    public void RemovePlayer(GameObject playerToRemove)
     {
-        BoxCollider boxCollider = obj.AddComponent<BoxCollider>();
-        boxCollider.size = Vector3.one;
-        obj.layer = LayerMask.NameToLayer("PlayerBoundary");
-    }
-
-    private void AddMeshComponents(GameObject obj)
-    {
-        MeshFilter meshFilter = obj.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = obj.AddComponent<MeshRenderer>();
-
-        meshFilter.mesh = CreateCubeMesh();
-
-        meshRenderer.material = new Material(Shader.Find("Standard"));  
-    }
-
-    private Mesh CreateCubeMesh()
-    {
-        Mesh mesh = new Mesh();
-
-        mesh.vertices = new Vector3[]
+        if (players.Count > 0)
         {
-            new Vector3(-0.5f, -0.5f, -0.5f),
-            new Vector3(0.5f, -0.5f, -0.5f),
-            new Vector3(0.5f, 0.5f, -0.5f),
-            new Vector3(-0.5f, 0.5f, -0.5f),
-            new Vector3(-0.5f, -0.5f, 0.5f),
-            new Vector3(0.5f, -0.5f, 0.5f),
-            new Vector3(0.5f, 0.5f, 0.5f),
-            new Vector3(-0.5f, 0.5f, 0.5f)
-        };
-
-        mesh.triangles = new int[]
-        {
-            0, 2, 1, 0, 3, 2,
-            4, 5, 6, 4, 6, 7,
-            0, 1, 5, 0, 5, 4,
-            2, 3, 7, 2, 7, 6,
-            0, 4, 7, 0, 7, 3,
-            1, 2, 6, 1, 6, 5
-        };
-
-        mesh.uv = new Vector2[]
-        {
-            new Vector2(0, 0),
-            new Vector2(1, 0),
-            new Vector2(1, 1),
-            new Vector2(0, 1),
-            new Vector2(0, 0),
-            new Vector2(1, 0),
-            new Vector2(1, 1),
-            new Vector2(0, 1)
-        };
-
-        mesh.RecalculateNormals();
-        return mesh;
+            players.Remove(playerToRemove);
+        }
     }
 
     public void UpdateBoundaries() {

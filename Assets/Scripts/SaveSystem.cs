@@ -8,6 +8,7 @@ public class SaveSystem
 
     public static void SaveGame(GameData data)
     {
+        Debug.Log("Guardando en: " + savePath);
         string json_data = JsonUtility.ToJson(data);
         string encryptedData = AESMethod.EncryptText(json_data);
         File.WriteAllText(savePath, encryptedData);

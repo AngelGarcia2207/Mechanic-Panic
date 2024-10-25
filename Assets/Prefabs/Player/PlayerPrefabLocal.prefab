@@ -916,7 +916,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6561171504113032830}
   - component: {fileID: 8863532313106995935}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Zorro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1009,7 +1009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456414462833892713}
   - component: {fileID: 1108092994006191620}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Oso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1318,7 +1318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4995590036174220376}
   - component: {fileID: 3909993940761174084}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6570,7 +6570,7 @@ GameObject:
   - component: {fileID: 1823020374086817304}
   - component: {fileID: 1326237582076574792}
   - component: {fileID: 6796187269012063490}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerPrefabLocal
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -6610,6 +6610,7 @@ MonoBehaviour:
   playerProps:
   - {fileID: 8863532313106995935}
   - {fileID: 1108092994006191620}
+  onlineIndex: 0
   weaponAnimator: {fileID: 5836787443314912692}
   playerWeapon: {fileID: 5643940020183108187}
   playerArmor: {fileID: 0}
@@ -7843,7 +7844,7 @@ GameObject:
   - component: {fileID: 4441553006755527247}
   - component: {fileID: 1866868205599946414}
   - component: {fileID: 1750599797784611076}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8625,7 +8626,7 @@ GameObject:
   - component: {fileID: 6199220548351428257}
   - component: {fileID: 8107469252674276964}
   - component: {fileID: 5150573868671205535}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8728,7 +8729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9022361193241807523}
   - component: {fileID: 3315309660677231613}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

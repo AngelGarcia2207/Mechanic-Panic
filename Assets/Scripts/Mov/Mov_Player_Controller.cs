@@ -220,6 +220,16 @@ public class Mov_Player_Controller : MonoBehaviour
             else if (onlController.onlAttackPressed == true && canOnlAttack == true)
             { Attack(); canOnlAttack = false; }
         }
+        
+        if (SM.GetCurrentState() == SM.dead && jumpButtonPressed)
+        {
+            Revive();
+        }
+
+        if (playerInput.actions["Pause"].triggered)
+        {
+            GameManager.Instance.TogglePause();
+        }
     }
 
     private void ApplyAcceleration()
@@ -289,6 +299,8 @@ public class Mov_Player_Controller : MonoBehaviour
             if (currentHealth <= 0)
             {
                 SM.ChangeState(SM.dead);
+                Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
+                playerCardScript.ToggleDeadPanel();
             }
         }
     }
@@ -347,6 +359,20 @@ public class Mov_Player_Controller : MonoBehaviour
         { jumpButtonPressed = !jumpButtonPressed; }
     }
 
+    private void Revive()
+    {
+        if (GameManager.Instance.ConsumeALive())
+        {
+            currentHealth = playerProp.maxHealth;
+            SM.ReturnToIdle();
+
+            Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+
+            UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+            playerCardScript.ToggleDeadPanel();
+            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+        }
+    }
 
     // Esto lo moveré a otro script en el futuro (Código de Gael)//
     IEnumerator SwingCoroutine()
@@ -363,25 +389,25 @@ public class Mov_Player_Controller : MonoBehaviour
     IEnumerator DodgeDelay()
     {
         yield return new WaitForSeconds(playerProp.dodgeDuration);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator StunDelay(float stunDuration)
     {
         yield return new WaitForSeconds(stunDuration);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator GrabDelay()
     {
         yield return new WaitForSeconds(0.3f);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator AttackDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        SM.returnToIdle();
+        SM.ReturnToIdle();
     }
 
     IEnumerator Jump()
