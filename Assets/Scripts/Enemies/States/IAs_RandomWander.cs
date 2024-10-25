@@ -15,7 +15,7 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
     protected EnemyState spinStateKey;
     protected GameObject[] activePlayers;
     protected int numberOfWanders;
-    protected Vector3 targetPosition;
+    protected Vector3 targetPosition, center;
     protected bool hasEnoughTimePassed, awaitingNext;
 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
@@ -78,12 +78,14 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
     {
         float newX = UnityEngine.Random.Range(0, 5)-2;
         float newZ = UnityEngine.Random.Range(0, 5)-2;
+        Debug.Log(center);
+        Debug.Log(new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ));
 
-        while(currentPosition.x + newX > 7 || currentPosition.x + newX < -7)
+        while(currentPosition.x + newX > center.x + 7 || currentPosition.x + newX < center.x - 7)
         {
             newX = UnityEngine.Random.Range(0, 5)-2;
         }
-        while(currentPosition.z + newZ > 7 || currentPosition.z + newZ < -7)
+        while(currentPosition.z + newZ > center.z + 4.5f || currentPosition.z + newZ < center.z - 4.5f)
         {
             newZ = UnityEngine.Random.Range(0, 5)-2;
         }
@@ -124,5 +126,10 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
         {
             hasEnoughTimePassed = true;
         }
+    }
+
+    public void SetCenter(Vector3 center)
+    {
+        this.center = center;
     }
 }
