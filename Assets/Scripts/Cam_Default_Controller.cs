@@ -18,8 +18,8 @@ public class Cam_Default_Controller : MonoBehaviour
 
         target = GameObject.FindWithTag("CameraCenter").transform;
 
-        if (cursorLock == LockCursor.Locked)
-        { Cursor.lockState = CursorLockMode.Locked; }
+        // if (cursorLock == LockCursor.Locked)
+        // { Cursor.lockState = CursorLockMode.Locked; }
     }
 
     void Update()
