@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform miniBossSpawn;
     [SerializeField] private int maxActiveEnemies;
     [SerializeField] private float spawnCooldown;
-    private int activeEnemies;
+    [SerializeField] private int activeEnemies;
     private bool readyToSpawn = false;
     
     void Update()
@@ -41,16 +41,17 @@ public class EnemySpawner : MonoBehaviour
             Map_Display_Boundaries.Instance.ToggleMovementLock(false);
             Debug.Log("Enemigos derrotados");
         }
+
+        Debug.Log(activeEnemies);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            //iniciar pelea, quitar follow de camara
+            Map_Display_Boundaries.Instance.ToggleMovementLock(true);
             StartCoroutine(SpawnCooldown());
             Destroy(gameObject.GetComponent<Collider>());
-            Map_Display_Boundaries.Instance.ToggleMovementLock(true);
         }
     }
 
@@ -63,5 +64,9 @@ public class EnemySpawner : MonoBehaviour
     public void OnEnemyDeath()
     {
         activeEnemies--;
+        if(activeEnemies < maxActiveEnemies && enemyQueue.Count > 0)
+        {
+            StartCoroutine(SpawnCooldown());
+        }
     }
 }
