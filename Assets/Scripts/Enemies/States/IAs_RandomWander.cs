@@ -33,6 +33,11 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
 
     public override void UpdateState(float deltaTime)
     {
+        activePlayers = stateMachine.GetActivePlayers();
+        if(activePlayers.Length == 0)
+        {
+            return;
+        }
         LookAtPlayer(deltaTime);
 
         if(awaitingNext)
@@ -78,24 +83,23 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
     {
         float newX = UnityEngine.Random.Range(0, 5)-2;
         float newZ = UnityEngine.Random.Range(0, 5)-2;
-        Debug.Log(center);
-        Debug.Log(new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ));
+        /*Debug.Log(center);
+        Debug.Log(new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ));*/
 
-        while(currentPosition.x + newX > center.x + 7 || currentPosition.x + newX < center.x - 7)
+        /*while(currentPosition.x + newX > center.x + 7 || currentPosition.x + newX < center.x - 7)
         {
             newX = UnityEngine.Random.Range(0, 5)-2;
         }
         while(currentPosition.z + newZ > center.z + 4.5f || currentPosition.z + newZ < center.z - 4.5f)
         {
             newZ = UnityEngine.Random.Range(0, 5)-2;
-        }
+        }*/
 
         return new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ);
     }
 
     public void LookAtPlayer(float deltaTime)
     {
-        //Debug.Log("look");
         Transform newTarget = activePlayers[0].transform;
 
         for(int i = 1; i < activePlayers.Length; i++)
