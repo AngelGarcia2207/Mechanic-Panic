@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private int remainingLives = 10;
     [SerializeField] private int levelScore = 0;
+    private bool isPaused = false;
 
     public static GameManager Instance { get; private set; }
 
@@ -42,5 +43,20 @@ public class GameManager : MonoBehaviour
     {
         levelScore += scoreToAdd;
         UI_Manager.Instance.UpdateScoreText(levelScore);
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        UI_Manager.Instance.TogglePausePanel(isPaused);
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
 }

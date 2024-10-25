@@ -225,6 +225,11 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             Revive();
         }
+
+        if (playerInput.actions["Pause"].triggered)
+        {
+            GameManager.Instance.TogglePause();
+        }
     }
 
     private void ApplyAcceleration()
