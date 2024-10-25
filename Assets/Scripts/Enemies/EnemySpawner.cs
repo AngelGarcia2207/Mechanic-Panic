@@ -6,7 +6,6 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemyQueue;
     [SerializeField] private Transform[] fixedSpawnPoints;
-    [SerializeField] private Cam_Default_Controller camera;
     [SerializeField] private int maxActiveEnemies;
     [SerializeField] private float spawnCooldown;
     private int activeEnemies;
@@ -18,10 +17,6 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject newEnemy = Instantiate(enemyQueue[0], fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position, Quaternion.identity);
             enemyQueue.RemoveAt(0);
-            if(newEnemy.transform.GetChild(1).gameObject.TryGetComponent<IAs_SmallBot_SM>(out IAs_SmallBot_SM smallSM))
-            {
-                smallSM.UpdateCenter(new Vector3(camera.transform.position.x, 0, 0));
-            }
             activeEnemies++;
             readyToSpawn = false;
 
@@ -33,7 +28,8 @@ public class EnemySpawner : MonoBehaviour
 
         if(activeEnemies == 0 && enemyQueue.Count == 0)
         {
-            //terminar pelea, devolver follow de camara
+            Map_Display_Boundaries.Instance.ToggleMovementLock(false);
+            Debug.Log("Enemigos derrotados");
         }
     }
 
@@ -44,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
             //iniciar pelea, quitar follow de camara
             StartCoroutine(SpawnCooldown());
             Destroy(gameObject.GetComponent<Collider>());
+            Map_Display_Boundaries.Instance.ToggleMovementLock(true);
         }
     }
 

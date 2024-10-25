@@ -7,6 +7,7 @@ public class Map_Display_Boundaries : MonoBehaviour
     [SerializeField] private float backFrontBoundaryDistance;
     [SerializeField] private float topHeightDistance;
     [SerializeField] private GameObject boundaryPrefab;
+    [SerializeField] private bool movementLocked = false;
     private GameObject cameraObject;
     private Cam_Default_Controller cameraScript;
 
@@ -53,7 +54,7 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     private void followPlayers()
     {
-        if (players.Count > 0)
+        if (players.Count > 0 && !movementLocked)
         {
             Vector3 averagePosition = Vector3.zero;
 
@@ -66,6 +67,11 @@ public class Map_Display_Boundaries : MonoBehaviour
 
             transform.position = new Vector3(averagePosition.x, transform.position.y, transform.position.z);
         }
+    }
+
+    public void ToggleMovementLock(bool movementLocked)
+    {
+        this.movementLocked = movementLocked;
     }
 
     public void AddPlayer(GameObject newPlayer)
