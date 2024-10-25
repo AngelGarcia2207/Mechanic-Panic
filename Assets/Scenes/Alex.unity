@@ -1861,7 +1861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &218484154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1885,7 +1885,6 @@ MonoBehaviour:
   - {fileID: 1067054019}
   - {fileID: 107583779}
   - {fileID: 703261470}
-  camera: {fileID: 0}
   maxActiveEnemies: 3
   spawnCooldown: 2
 --- !u!65 &218484155
