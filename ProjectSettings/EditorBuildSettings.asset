@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 0a476ea3fd003c14fbc4c87514418439
   - enabled: 1
+    path: Assets/Scenes/Online.unity
+    guid: 0a5608b98dfe87748b9515a0b7a726c7
+  - enabled: 1
     path: Assets/Scenes/Alex.unity
     guid: 7c90c8820362ed5438d594af58734e9d
+  - enabled: 1
+    path: Assets/Scenes/GaboNew.unity
+    guid: ab4b657a187a4e24fa37ddf162ff9a36
   m_configObjects: {}
