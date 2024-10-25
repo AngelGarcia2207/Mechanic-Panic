@@ -22,6 +22,9 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool jumpButtonPressed = false;
     private float remainingJumpTime;
     private float scanFrequency = 0.05f;
+    private bool invulnerable = false;
+    private float invulnerabilityDuration = 1f;
+    
     private GameObject playerCard;
 
     [SerializeField] private Mov_Player_Properties[] playerProps;
@@ -299,8 +302,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void receiveDamage(int damage)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
+            StartCoroutine(InvulnerabilityDelay());
             currentHealth -= damage;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
@@ -376,6 +380,8 @@ public class Mov_Player_Controller : MonoBehaviour
             currentHealth = playerProp.maxHealth;
             SM.ReturnToIdle();
 
+            StartCoroutine(InvulnerabilityDelay());
+
             Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
@@ -418,6 +424,13 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         SM.ReturnToIdle();
+    }
+
+    IEnumerator InvulnerabilityDelay()
+    {
+        invulnerable = true;
+        yield return new WaitForSeconds(invulnerabilityDuration);
+        invulnerable = false;
     }
 
     IEnumerator Jump()
