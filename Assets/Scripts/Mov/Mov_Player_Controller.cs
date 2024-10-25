@@ -52,11 +52,12 @@ public class Mov_Player_Controller : MonoBehaviour
     public ArmorEvent pickUpArmor;
     // // // // // // // // // // // // // // // //
 
+    // Extras
+    private bool changedPositionStart = false;
+
 
     void Start()
     {
-        transform.position = GameObject.FindObjectOfType<PlayerInputManager>().gameObject.transform.position;
-
         if (GetComponent<Onl_Player_Controller>() != null)
         {
             onlController = GetComponent<Onl_Player_Controller>();
@@ -173,6 +174,13 @@ public class Mov_Player_Controller : MonoBehaviour
         charController.transform.LookAt(charController.transform.position + new Vector3(movementX, 0, 0));
 
         charController.Move(nextMovement * Time.deltaTime);
+
+        // Esto debe de ir al final de Update()
+        if (changedPositionStart == false && isOnline == false)
+        {
+            charController.transform.position = GameObject.Find("CameraCenter").transform.position;
+            changedPositionStart = true;
+        }
     }
 
     private void SpecialInputs()
