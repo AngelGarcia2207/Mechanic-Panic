@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 792219200446568652}
   - component: {fileID: 850391505503322149}
   - component: {fileID: 144329371848631658}
-  - component: {fileID: 8002642324058491830}
+  - component: {fileID: 7974788084506844500}
   m_Layer: 10
   m_Name: Log
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.03438672, y: 0.1079637, z: 0.034386724}
   m_Center: {x: 0, y: 0.06574881, z: 0.049864776}
---- !u!54 &8002642324058491830
+--- !u!54 &7974788084506844500
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

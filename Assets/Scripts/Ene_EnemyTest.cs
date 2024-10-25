@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using TMPro;
 
 public class Ene_EnemyTest : MonoBehaviour
@@ -17,6 +18,7 @@ public class Ene_EnemyTest : MonoBehaviour
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
     private List<Collider> hittingColliders = new();
+    public UnityEvent death = new();
 
     // Start is called before the first frame update
     void Start()
@@ -128,6 +130,7 @@ public class Ene_EnemyTest : MonoBehaviour
             if (currentHealth <= 0)
             {
                 QuitStun();
+                death.Invoke();
                 if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
             }
             StartCoroutine(QuitStunCoroutine(currentHealth));

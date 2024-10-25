@@ -6,16 +6,26 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> enemyQueue;
     [SerializeField] private Transform[] fixedSpawnPoints;
+    [SerializeField] private Transform miniBossSpawn;
     [SerializeField] private int maxActiveEnemies;
     [SerializeField] private float spawnCooldown;
-    private int activeEnemies;
+    [SerializeField] private int activeEnemies;
     private bool readyToSpawn = false;
     
     void Update()
     {
         if(readyToSpawn)
         {
-            GameObject newEnemy = Instantiate(enemyQueue[0], fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemyQueue[0]);
+            newEnemy.GetComponent<Ene_EnemyTest>().death.AddListener(OnEnemyDeath);
+            if(newEnemy.transform.GetChild(1).gameObject.TryGetComponent(out IAs_SmallBot_SM comp))
+            {
+                newEnemy.transform.position = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position;
+            }
+            else
+            {
+                newEnemy.transform.position = miniBossSpawn.position;
+            }
             enemyQueue.RemoveAt(0);
             activeEnemies++;
             readyToSpawn = false;
@@ -31,16 +41,17 @@ public class EnemySpawner : MonoBehaviour
             Map_Display_Boundaries.Instance.ToggleMovementLock(false);
             Debug.Log("Enemigos derrotados");
         }
+
+        Debug.Log(activeEnemies);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            //iniciar pelea, quitar follow de camara
+            Map_Display_Boundaries.Instance.ToggleMovementLock(true);
             StartCoroutine(SpawnCooldown());
             Destroy(gameObject.GetComponent<Collider>());
-            Map_Display_Boundaries.Instance.ToggleMovementLock(true);
         }
     }
 
@@ -48,5 +59,14 @@ public class EnemySpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnCooldown);
         readyToSpawn = true;
+    }
+
+    public void OnEnemyDeath()
+    {
+        activeEnemies--;
+        if(activeEnemies < maxActiveEnemies && enemyQueue.Count > 0)
+        {
+            StartCoroutine(SpawnCooldown());
+        }
     }
 }

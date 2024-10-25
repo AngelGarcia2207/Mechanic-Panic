@@ -41,13 +41,14 @@ public class IAs_LogLauncher_Idle<EnemyState> : IAs_Enemy_State<EnemyState> wher
         
         closestPlayer = GetClosestPlayer();
 
-        if(Vector3.Distance(closestPlayer.position, stateMachine.GetEnemyTransform().position) <= 8f)
+        if(Vector3.Distance(closestPlayer.position, stateMachine.GetEnemyTransform().position) <= 5f)
         {
-            if(UnityEngine.Random.Range(1, 90) > Mathf.Pow(1.75f, Vector3.Distance(closestPlayer.position, stateMachine.GetEnemyTransform().position)))
+            stateMachine.StopCoroutine("WaitTime");
+            stateMachine.ChangeToState(aimChargeStateKey);
+            /*if(UnityEngine.Random.Range(1, 90) > Mathf.Pow(1.75f, Vector3.Distance(closestPlayer.position, stateMachine.GetEnemyTransform().position)))
             {
-                stateMachine.StopCoroutine("WaitTime");
-                stateMachine.ChangeToState(aimChargeStateKey);
-            }
+                
+            }*/
         }
     }
 
