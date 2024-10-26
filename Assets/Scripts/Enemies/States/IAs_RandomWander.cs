@@ -28,7 +28,6 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
         awaitingNext = false;
         stateMachine.waitForTime.AddListener(OnWaitOver);
         stateMachine.StartCoroutine("WaitTime", 2f);
-        Debug.Log(numberOfWanders);
     }
 
     public override void UpdateState(float deltaTime)
