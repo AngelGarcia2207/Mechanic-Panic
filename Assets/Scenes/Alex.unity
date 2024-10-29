@@ -1344,7 +1344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &167447311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2003,6 +2003,7 @@ MonoBehaviour:
   miniBossSpawn: {fileID: 0}
   maxActiveEnemies: 3
   spawnCooldown: 2
+  activeEnemies: 0
 --- !u!65 &218484155
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12763,6 +12764,7 @@ MonoBehaviour:
   miniBossSpawn: {fileID: 1763251193}
   maxActiveEnemies: 3
   spawnCooldown: 2
+  activeEnemies: 0
 --- !u!65 &1501313880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19215,6 +19217,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 151751585001812279, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3854241237023990315, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
       propertyPath: followSpeed
@@ -19374,5 +19381,4 @@ SceneRoots:
   - {fileID: 863731895}
   - {fileID: 1177483686}
   - {fileID: 1896291388}
-  - {fileID: 67520319}
   - {fileID: 167447315}

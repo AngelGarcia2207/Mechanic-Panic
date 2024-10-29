@@ -108,7 +108,10 @@ public class Mov_Player_Controller : MonoBehaviour
             }
         }
 
-        SM = new PlayerStateMachine(playerProp.spriteAnimator);
+        GameObject SMObject = new GameObject("StateMachine");
+        SMObject.transform.parent = this.transform;
+        SM = SMObject.AddComponent<PlayerStateMachine>();
+        SM.Initialize(playerProp.spriteAnimator);
 
         // Crear el player card y referenciarlo en el `Onl_Player_Controller`.
         playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerCard, playerProp.headSprite, playerProp.name);
@@ -294,11 +297,9 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.dodge))
         {
-            SM.ChangeState(SM.dodge);
+            SM.ChangeState(SM.dodge, playerProp.dodgeDelay);
             
             velocity.x = playerProp.dodgeSpeed * transform.forward.x;
-
-            StartCoroutine(DodgeDelay());
         }
     }
 
@@ -335,8 +336,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.stunned))
         {
-            SM.ChangeState(SM.stunned);
-            StartCoroutine(StunDelay(stunDuration));
+            SM.ChangeState(SM.stunned, stunDuration);
         }
     }
 
@@ -345,8 +345,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.grab))
         {
-            SM.ChangeState(SM.grab);
-            StartCoroutine(GrabDelay());
+            SM.ChangeState(SM.grab, playerProp.grabDelay);
 
             pickUpWeapon.Invoke(playerWeapon);
             pickUpArmor.Invoke(playerArmor);
@@ -357,8 +356,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
         {
-            SM.ChangeState(SM.attack);
-            StartCoroutine(AttackDelay());
+            SM.ChangeState(SM.attack, playerProp.attackDelay);
             
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
@@ -387,6 +385,7 @@ public class Mov_Player_Controller : MonoBehaviour
             StartCoroutine(InvulnerabilityDelay());
 
             Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+            transform.position = Map_Display_Boundaries.Instance.transform.position;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
             playerCardScript.ToggleDeadPanel();
@@ -410,30 +409,6 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
     // // // // // // // // // // // // // // // //
-
-    IEnumerator DodgeDelay()
-    {
-        yield return new WaitForSeconds(playerProp.dodgeDuration);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator StunDelay(float stunDuration)
-    {
-        yield return new WaitForSeconds(stunDuration);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator GrabDelay()
-    {
-        yield return new WaitForSeconds(0.3f);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator AttackDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        SM.ReturnToIdle();
-    }
 
     IEnumerator InvulnerabilityDelay()
     {
