@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Máquina de estados
-public partial class PlayerStateMachine
+public partial class PlayerStateMachine : MonoBehaviour
 {
 	public PlayerState idle;
 	public PlayerState move;
@@ -23,7 +23,7 @@ public partial class PlayerStateMachine
 	
 	public Animator animator;
 
-	public PlayerStateMachine(Animator animator)
+	public void Initialize(Animator animator)
     {
 		idle = new PlayerIdle(animator);
 		move = new PlayerMove(animator);
@@ -76,18 +76,39 @@ public partial class PlayerStateMachine
 	{
 		if (currentState.IsAPossibleTransition(state) && currentState != state)
 		{
+			StopAllCoroutines();
 			currentState.Exit();
 			currentState = state;
 			currentState.Enter();
+		}
+	}
+
+	// Cambiar de estado, con una duración antes de regresar a Idle
+	public void ChangeState(PlayerState state, float delay)
+	{
+		if (currentState.IsAPossibleTransition(state) && currentState != state)
+		{
+			StopAllCoroutines();
+			currentState.Exit();
+			currentState = state;
+			currentState.Enter();
+			StartCoroutine(ActionDelay(delay));
 		}
 	}
 	
 	// Regresar a Idle
 	public void ReturnToIdle()
 	{
+		StopAllCoroutines();
 		currentState.Exit();
 		currentState = idle;
 		currentState.Enter();
+	}
+
+	IEnumerator ActionDelay(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+        ReturnToIdle();
 	}
 
 	public PlayerState GetCurrentState()

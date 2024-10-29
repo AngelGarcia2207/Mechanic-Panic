@@ -39,7 +39,10 @@ public class UI_Manager : MonoBehaviour
 
     public void TogglePausePanel(bool isPaused)
     {
-        pausePanel.SetActive(isPaused);
+        if (!gameOverPanel.activeSelf)
+        {
+            pausePanel.SetActive(isPaused);
+        }
     }
 
     public void UpdateScoreText(int score)
