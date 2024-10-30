@@ -169,7 +169,8 @@ Transform:
   m_LocalPosition: {x: -0.77000046, y: 6.165, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8040387225228879099}
   m_Father: {fileID: 7536486909007655609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7334186712292206927
@@ -964,9 +965,11 @@ MonoBehaviour:
   jumpForce: 8
   jumpTime: 0.25
   dodgeSpeed: 15
-  dodgeDuration: 0.5
   airFriction: 0.9
   floorRaycastDistance: 1
+  dodgeDelay: 0.5
+  grabDelay: 0.3
+  attackDelay: 0.5
 --- !u!1 &2419854799042227790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4456414462833892713
 Transform:
   m_ObjectHideFlags: 0
@@ -1057,9 +1060,11 @@ MonoBehaviour:
   jumpForce: 8
   jumpTime: 0.25
   dodgeSpeed: 15
-  dodgeDuration: 0.5
   airFriction: 0.9
   floorRaycastDistance: 1
+  dodgeDelay: 0.5
+  grabDelay: 0.3
+  attackDelay: 0.5
 --- !u!1 &2616685365324446699
 GameObject:
   m_ObjectHideFlags: 0
@@ -6592,7 +6597,6 @@ Transform:
   m_Children:
   - {fileID: 6561171504113032830}
   - {fileID: 4456414462833892713}
-  - {fileID: 8040387225228879099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7468466555714822358
@@ -6610,6 +6614,7 @@ MonoBehaviour:
   playerProps:
   - {fileID: 8863532313106995935}
   - {fileID: 1108092994006191620}
+  onlManager: {fileID: 0}
   onlineIndex: 0
   weaponAnimator: {fileID: 5836787443314912692}
   playerWeapon: {fileID: 5643940020183108187}
@@ -7169,13 +7174,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4277116991765586469}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 2.827147, y: 2.9180279, z: 0.14780702}
+  m_LocalScale: {x: 2.0247498, y: 2.0247498, z: 2.0247498}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2142310185314874615}
-  m_Father: {fileID: 4392093558722110124}
+  m_Father: {fileID: 1530608620643070806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5836787443314912692
 Animator:

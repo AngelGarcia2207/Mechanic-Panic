@@ -42,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
             Debug.Log("Enemigos derrotados");
         }
 
-        Debug.Log(activeEnemies);
+        // Debug.Log(activeEnemies);
     }
 
     void OnTriggerEnter(Collider other)
