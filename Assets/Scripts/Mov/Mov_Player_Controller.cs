@@ -154,6 +154,11 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementX = rawDirection.x;
                 movementZ = rawDirection.y;
             }
+            else if (SM.GetCurrentState() == SM.moveAttack || SM.GetCurrentState() == SM.jumpAttack)
+            {
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
             else
             {
                 movementX = 0;
@@ -326,7 +331,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyKnockBack(Vector3 knockback)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             velocity = knockback / playerProp.mass;
         }
@@ -334,7 +339,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyStun(float stunDuration)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             SM.ChangeState(SM.stunned, stunDuration);
         }
@@ -357,6 +362,32 @@ public class Mov_Player_Controller : MonoBehaviour
         if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
         {
             SM.ChangeState(SM.attack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
             
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
