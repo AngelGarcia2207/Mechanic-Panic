@@ -48,7 +48,6 @@ public class Mov_Player_Controller : MonoBehaviour
     private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
-    [SerializeField] private Animator weaponAnimator;
     public Obj_Player_Weapon playerWeapon;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
@@ -78,6 +77,7 @@ public class Mov_Player_Controller : MonoBehaviour
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
+        transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
         currentHealth = playerProp.maxHealth;
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
@@ -151,6 +151,11 @@ public class Mov_Player_Controller : MonoBehaviour
             else if (SM.AvailableTransition(SM.jumpMove))
             {
                 SM.ChangeState(SM.jumpMove);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else if (SM.GetCurrentState() == SM.moveAttack || SM.GetCurrentState() == SM.jumpAttack)
+            {
                 movementX = rawDirection.x;
                 movementZ = rawDirection.y;
             }
@@ -315,18 +320,14 @@ public class Mov_Player_Controller : MonoBehaviour
 
             if (currentHealth <= 0)
             {
-                SM.ChangeState(SM.dead);
-                alive = false;
-                GameManager.Instance.checkForAlivePlayers();
-                Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
-                playerCardScript.ToggleDeadPanel();
+                Die();
             }
         }
     }
 
     public void applyKnockBack(Vector3 knockback)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             velocity = knockback / playerProp.mass;
         }
@@ -334,7 +335,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyStun(float stunDuration)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             SM.ChangeState(SM.stunned, stunDuration);
         }
@@ -364,7 +365,30 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
     }
@@ -375,11 +399,24 @@ public class Mov_Player_Controller : MonoBehaviour
         { jumpButtonPressed = !jumpButtonPressed; }
     }
 
+    private void Die()
+    {
+        SM.ChangeState(SM.dead);
+        gameObject.tag = "Untagged";
+        alive = false;
+        GameManager.Instance.checkForAlivePlayers();
+        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+        Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
+        playerCardScript.ToggleDeadPanel();
+    }
+
     private void Revive()
     {
         if (GameManager.Instance.ConsumeALive())
         {
             currentHealth = playerProp.maxHealth;
+            transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
+            gameObject.tag = "Player";
             SM.ReturnToIdle();
 
             StartCoroutine(InvulnerabilityDelay());

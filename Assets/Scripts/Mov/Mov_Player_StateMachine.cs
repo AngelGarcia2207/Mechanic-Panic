@@ -13,6 +13,7 @@ public partial class PlayerStateMachine : MonoBehaviour
 	public PlayerState grab;
 	public PlayerState attack;
 	public PlayerState moveAttack;
+	public PlayerState jumpAttack;
 	public PlayerState hold;
 	public PlayerState hurl;
 	public PlayerState parry;
@@ -33,6 +34,7 @@ public partial class PlayerStateMachine : MonoBehaviour
 		grab = new PlayerGrab(animator);
 		attack = new PlayerAttack(animator);
 		moveAttack = new PlayerMoveAttack(animator);
+		jumpAttack = new PlayerJumpAttack(animator);
 		hold = new PlayerHold(animator);
 		hurl = new PlayerHurl(animator);
 		parry = new PlayerParry(animator);
@@ -41,14 +43,15 @@ public partial class PlayerStateMachine : MonoBehaviour
 
         idle.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, attack, hold, stunned, dead });
         move.SetPossibleTransitions(new List<PlayerState> { idle, move, jump, dodge, grab, moveAttack, hold, stunned, dead });
-        jump.SetPossibleTransitions(new List<PlayerState> { idle, jump, jumpMove, dodge, hold, stunned, dead});
-		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, dodge, hold, stunned, dead });
+        jump.SetPossibleTransitions(new List<PlayerState> { idle, jump, jumpMove, jumpAttack, dodge, hold, stunned, dead });
+		jumpMove.SetPossibleTransitions(new List<PlayerState> { idle, move, jumpMove, jumpAttack, dodge, hold, stunned, dead });
         dodge.SetPossibleTransitions(new List<PlayerState>()); // Al esquivar, no puede transicionar a otros estados
 		grab.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
-        attack.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
-		moveAttack.SetPossibleTransitions(new List<PlayerState> { idle, dodge, stunned, dead });
-        hold.SetPossibleTransitions(new List<PlayerState> { hurl, dodge, stunned, dead });
-		hurl.SetPossibleTransitions(new List<PlayerState> { dodge, stunned, dead });
+        attack.SetPossibleTransitions(new List<PlayerState> { stunned, dead });
+		moveAttack.SetPossibleTransitions(new List<PlayerState> { stunned, dead });
+		jumpAttack.SetPossibleTransitions(new List<PlayerState> { stunned, dead });
+        hold.SetPossibleTransitions(new List<PlayerState> { hurl, stunned, dead });
+		hurl.SetPossibleTransitions(new List<PlayerState> { stunned, dead });
 		parry.SetPossibleTransitions(new List<PlayerState>()); // Al hacer parry, no puede transicionar a otros estados
         stunned.SetPossibleTransitions(new List<PlayerState> { dead }); // Al estar aturdido, no puede transicionar a otros estados
 		dead.SetPossibleTransitions(new List<PlayerState>()); // Al estar muerto, no puede transicionar a otros estados
@@ -256,6 +259,23 @@ public partial class PlayerMoveAttack : PlayerState
 {
     public PlayerMoveAttack(Animator animator) : base(animator)
     {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("moveAttack");
+    }
+}
+
+public partial class PlayerJumpAttack : PlayerState
+{
+    public PlayerJumpAttack(Animator animator) : base(animator)
+    {
+    }
+
+	public override void Enter()
+    {
+        ChangeAnimation("jumpAttack");
     }
 }
 

@@ -75,6 +75,15 @@ public class IAs_ChargeForward_Long<EnemyState> : IAs_Enemy_State<EnemyState> wh
         stateMachine.waitForTime.RemoveListener(OnWaitOver);
     }
 
+    public override void CollisionEnter(Collision collision)
+    {
+        if(isCharging)
+        {
+            isCharging = false;
+            stateMachine.StartCoroutine("WaitTime", 1f);
+        }
+    }
+
     public void LookAtPlayer(float deltaTime)
     {
         //Debug.Log("look");
