@@ -1969,6 +1969,7 @@ GameObject:
   m_Component:
   - component: {fileID: 218484156}
   - component: {fileID: 218484155}
+  - component: {fileID: 218484157}
   - component: {fileID: 218484154}
   m_Layer: 0
   m_Name: EnemySpawner
@@ -2043,6 +2044,33 @@ Transform:
   - {fileID: 703261470}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &218484157
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218484153}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &220280518
 GameObject:
   m_ObjectHideFlags: 0
@@ -10283,7 +10311,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1898948949}
     m_Modifications:
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
@@ -10313,7 +10341,7 @@ PrefabInstance:
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
@@ -10345,6 +10373,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d895d293b829b68448408c4ea3cf4f47, type: 3}
+--- !u!4 &1177483687 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
+    type: 3}
+  m_PrefabInstance: {fileID: 1177483686}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1194554144
 GameObject:
   m_ObjectHideFlags: 0
@@ -12732,6 +12766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1501313881}
   - component: {fileID: 1501313880}
+  - component: {fileID: 1501313882}
   - component: {fileID: 1501313879}
   m_Layer: 0
   m_Name: EnemySpawner (1)
@@ -12805,6 +12840,33 @@ Transform:
   - {fileID: 1763251193}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1501313882
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501313878}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &1542793206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16303,6 +16365,7 @@ Transform:
   - {fileID: 1941944866}
   - {fileID: 1215763857}
   - {fileID: 1393525383}
+  - {fileID: 1177483687}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1920864280
@@ -18853,7 +18916,7 @@ PrefabInstance:
     - target: {fileID: 5886826828867346825, guid: e4f4ab0804434fa40b4e6eb47f2937db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -17.36
       objectReference: {fileID: 0}
     - target: {fileID: 5886826828867346825, guid: e4f4ab0804434fa40b4e6eb47f2937db,
         type: 3}
@@ -19217,10 +19280,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 151751585001812279, guid: a899e394f194f2146a6ef84eb17a0fec,
+    - target: {fileID: 624671704291972362, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3854241237023990315, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
@@ -19379,6 +19442,5 @@ SceneRoots:
   - {fileID: 628595780}
   - {fileID: 552210429}
   - {fileID: 863731895}
-  - {fileID: 1177483686}
   - {fileID: 1896291388}
   - {fileID: 167447315}

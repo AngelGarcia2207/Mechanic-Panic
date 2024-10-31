@@ -46,4 +46,9 @@ public abstract class IAs_Enemy_State<EnemyState> where EnemyState : Enum
     {
         // This function is called ONCE when a "OnTriggerExit" is called in the state machine //
     }
+
+    public virtual void CollisionEnter(Collision collision)
+    {
+        // //
+    }
 }

@@ -65,6 +65,11 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
         currentState.TriggerExit(other);
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        currentState.CollisionEnter(collision);
+    }
+
     // Use this function to create an object and do something with it //
     public virtual void InstantiateObject()
     {

@@ -9,11 +9,18 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform miniBossSpawn;
     [SerializeField] private int maxActiveEnemies;
     [SerializeField] private float spawnCooldown;
-    [SerializeField] private int activeEnemies;
+    [SerializeField] private int activeEnemies = 0;
     private bool readyToSpawn = false;
     
     void Update()
     {
+        if(activeEnemies == 0 && enemyQueue.Count == 0)
+        {
+            Map_Display_Boundaries.Instance.ToggleMovementLock(false);
+            Destroy(gameObject);
+            return;
+        }
+        
         if(readyToSpawn)
         {
             GameObject newEnemy = Instantiate(enemyQueue[0]);
@@ -30,24 +37,16 @@ public class EnemySpawner : MonoBehaviour
             activeEnemies++;
             readyToSpawn = false;
 
-            if(enemyQueue.Count > 0 && activeEnemies <= maxActiveEnemies)
+            if(enemyQueue.Count > 0 && activeEnemies < maxActiveEnemies)
             {
                 StartCoroutine(SpawnCooldown());
             }
         }
-
-        if(activeEnemies == 0 && enemyQueue.Count == 0)
-        {
-            Map_Display_Boundaries.Instance.ToggleMovementLock(false);
-            Debug.Log("Enemigos derrotados");
-        }
-
-        // Debug.Log(activeEnemies);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("CameraCenter"))
         {
             Map_Display_Boundaries.Instance.ToggleMovementLock(true);
             StartCoroutine(SpawnCooldown());
