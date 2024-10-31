@@ -48,7 +48,6 @@ public class Mov_Player_Controller : MonoBehaviour
     private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
-    [SerializeField] private Animator weaponAnimator;
     public Obj_Player_Weapon playerWeapon;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
@@ -366,7 +365,6 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
         else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
@@ -379,7 +377,6 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
         else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
@@ -392,7 +389,6 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
     }

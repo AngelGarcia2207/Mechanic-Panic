@@ -6596,7 +6596,6 @@ Transform:
   m_Children:
   - {fileID: 6561171504113032830}
   - {fileID: 4456414462833892713}
-  - {fileID: 8040387225228879099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7468466555714822358
@@ -6616,7 +6615,6 @@ MonoBehaviour:
   - {fileID: 1108092994006191620}
   onlManager: {fileID: 0}
   onlineIndex: 0
-  weaponAnimator: {fileID: 5836787443314912692}
   playerWeapon: {fileID: 5643940020183108187}
   playerArmor: {fileID: 0}
   weaponTrail: {fileID: 8092706339553006413}
@@ -7158,7 +7156,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8040387225228879099}
-  - component: {fileID: 5836787443314912692}
   m_Layer: 7
   m_Name: SwingPivot
   m_TagString: Untagged
@@ -7174,35 +7171,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4277116991765586469}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -0.27, y: -0.6, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2142310185314874615}
-  m_Father: {fileID: 4392093558722110124}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &5836787443314912692
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4277116991765586469}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 60459ab511b158e439967855d63134b7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_Father: {fileID: 615568467904495669}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!1 &4793845078709095952
 GameObject:
   m_ObjectHideFlags: 0
@@ -7326,7 +7302,8 @@ Transform:
   m_LocalPosition: {x: 0.5454507, y: -0.00000016258359, z: 0}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8040387225228879099}
   m_Father: {fileID: 1542469286094939325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5209789612617490213
