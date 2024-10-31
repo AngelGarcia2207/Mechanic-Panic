@@ -366,7 +366,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            // weaponAnimator.SetTrigger("Swing");
+            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
         else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
@@ -379,7 +379,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            // weaponAnimator.SetTrigger("Swing");
+            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
         else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
@@ -392,7 +392,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            // weaponAnimator.SetTrigger("Swing");
+            weaponAnimator.SetTrigger("Swing");
             weaponTrail.Play();
         }
     }
@@ -406,9 +406,10 @@ public class Mov_Player_Controller : MonoBehaviour
     private void Die()
     {
         SM.ChangeState(SM.dead);
-        gameObject.tag = "Default";
+        gameObject.tag = "Untagged";
         alive = false;
         GameManager.Instance.checkForAlivePlayers();
+        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
         Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
         playerCardScript.ToggleDeadPanel();
     }
