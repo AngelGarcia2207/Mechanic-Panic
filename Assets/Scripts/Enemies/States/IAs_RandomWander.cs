@@ -24,10 +24,9 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
         activePlayers = stateMachine.GetActivePlayers();
         numberOfWanders = UnityEngine.Random.Range(2, 5);
         targetPosition = GetNewPosition(stateMachine.GetEnemyTransform().position);
-        hasEnoughTimePassed = false;
-        awaitingNext = false;
+        awaitingNext = true;
         stateMachine.waitForTime.AddListener(OnWaitOver);
-        stateMachine.StartCoroutine("WaitTime", 2f);
+        stateMachine.StartCoroutine("WaitTime", 1.5f);
     }
 
     public override void UpdateState(float deltaTime)
@@ -54,6 +53,7 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
             {
                 stateMachine.ChangeToState(chargeStateKey);
             }
+            awaitingNext = true;
             return;
         }
         
@@ -82,17 +82,23 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
     {
         float newX = UnityEngine.Random.Range(0, 5)-2;
         float newZ = UnityEngine.Random.Range(0, 5)-2;
-        /*Debug.Log(center);
-        Debug.Log(new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ));*/
+        float dis = Mathf.Sqrt(newX*newX + newZ*newZ);
 
-        /*while(currentPosition.x + newX > center.x + 7 || currentPosition.x + newX < center.x - 7)
+        int layerMask = LayerMask.GetMask("Default") | LayerMask.GetMask("PlayerBoundary") | LayerMask.GetMask("Enemy");
+        
+        for(int i = 0; i < 100; i++)
         {
+            Debug.DrawRay(currentPosition, new Vector3(newX, 0, newZ), Color.yellow, 2);
+
+            if(Physics.Raycast(currentPosition, new Vector3(newX, 0, newZ), dis, layerMask) == false)
+            {
+                break;
+            }
+
             newX = UnityEngine.Random.Range(0, 5)-2;
-        }
-        while(currentPosition.z + newZ > center.z + 4.5f || currentPosition.z + newZ < center.z - 4.5f)
-        {
             newZ = UnityEngine.Random.Range(0, 5)-2;
-        }*/
+            dis = Mathf.Sqrt(newX*newX + newZ*newZ);
+        }
 
         return new Vector3(currentPosition.x+newX, currentPosition.y, currentPosition.z+newZ);
     }
@@ -124,6 +130,7 @@ public class IAs_RandomWander<EnemyState> : IAs_Enemy_State<EnemyState> where En
             awaitingNext = false;
             hasEnoughTimePassed = false;
             targetPosition = GetNewPosition(stateMachine.GetEnemyTransform().position);
+            stateMachine.StartCoroutine("WaitTime", 1f);
         }
         else
         {
