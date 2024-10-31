@@ -18,8 +18,11 @@ public class Mov_Player_Properties : MonoBehaviour
     public float jumpForce = 8;
     public float jumpTime = 0.25f;
     public float dodgeSpeed = 15;
-    public float dodgeDuration = 0.5f;
     [Range(0f, 1f)] public float airFriction = 0.9f;
-    public float floorRaycastDistance = 1;
+    public float floorRaycastDistance = 0;
 
+    // Action Delays
+    public float dodgeDelay = 0.5f;
+    public float grabDelay = 0.3f;
+    public float attackDelay = 0.5f;
 }

@@ -48,7 +48,6 @@ public class Mov_Player_Controller : MonoBehaviour
     private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
-    [SerializeField] private Animator weaponAnimator;
     public Obj_Player_Weapon playerWeapon;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
@@ -78,6 +77,7 @@ public class Mov_Player_Controller : MonoBehaviour
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
+        transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
         currentHealth = playerProp.maxHealth;
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
@@ -108,7 +108,10 @@ public class Mov_Player_Controller : MonoBehaviour
             }
         }
 
-        SM = new PlayerStateMachine(playerProp.spriteAnimator);
+        GameObject SMObject = new GameObject("StateMachine");
+        SMObject.transform.parent = this.transform;
+        SM = SMObject.AddComponent<PlayerStateMachine>();
+        SM.Initialize(playerProp.spriteAnimator);
 
         // Crear el player card y referenciarlo en el `Onl_Player_Controller`.
         playerCard = UI_PlayerCard_Manager.Instance.CreatePlayerCard(playerCard, playerProp.headSprite, playerProp.name);
@@ -148,6 +151,11 @@ public class Mov_Player_Controller : MonoBehaviour
             else if (SM.AvailableTransition(SM.jumpMove))
             {
                 SM.ChangeState(SM.jumpMove);
+                movementX = rawDirection.x;
+                movementZ = rawDirection.y;
+            }
+            else if (SM.GetCurrentState() == SM.moveAttack || SM.GetCurrentState() == SM.jumpAttack)
+            {
                 movementX = rawDirection.x;
                 movementZ = rawDirection.y;
             }
@@ -294,11 +302,9 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.dodge))
         {
-            SM.ChangeState(SM.dodge);
+            SM.ChangeState(SM.dodge, playerProp.dodgeDelay);
             
             velocity.x = playerProp.dodgeSpeed * transform.forward.x;
-
-            StartCoroutine(DodgeDelay());
         }
     }
 
@@ -314,18 +320,14 @@ public class Mov_Player_Controller : MonoBehaviour
 
             if (currentHealth <= 0)
             {
-                SM.ChangeState(SM.dead);
-                alive = false;
-                GameManager.Instance.checkForAlivePlayers();
-                Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
-                playerCardScript.ToggleDeadPanel();
+                Die();
             }
         }
     }
 
     public void applyKnockBack(Vector3 knockback)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             velocity = knockback / playerProp.mass;
         }
@@ -333,10 +335,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void applyStun(float stunDuration)
     {
-        if (SM.AvailableTransition(SM.stunned))
+        if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
-            SM.ChangeState(SM.stunned);
-            StartCoroutine(StunDelay(stunDuration));
+            SM.ChangeState(SM.stunned, stunDuration);
         }
     }
 
@@ -345,8 +346,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.grab))
         {
-            SM.ChangeState(SM.grab);
-            StartCoroutine(GrabDelay());
+            SM.ChangeState(SM.grab, playerProp.grabDelay);
 
             pickUpWeapon.Invoke(playerWeapon);
             pickUpArmor.Invoke(playerArmor);
@@ -357,8 +357,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
         {
-            SM.ChangeState(SM.attack);
-            StartCoroutine(AttackDelay());
+            SM.ChangeState(SM.attack, playerProp.attackDelay);
             
             playerWeapon.gameObject.tag = "WeaponBase";
             for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
@@ -366,7 +365,30 @@ public class Mov_Player_Controller : MonoBehaviour
                 playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
-            weaponAnimator.SetTrigger("Swing");
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
+            weaponTrail.Play();
+        }
+        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
+        {
+            SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
+            
+            playerWeapon.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            {
+                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+            }
+            StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
     }
@@ -377,16 +399,30 @@ public class Mov_Player_Controller : MonoBehaviour
         { jumpButtonPressed = !jumpButtonPressed; }
     }
 
+    private void Die()
+    {
+        SM.ChangeState(SM.dead);
+        gameObject.tag = "Untagged";
+        alive = false;
+        GameManager.Instance.checkForAlivePlayers();
+        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+        Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
+        playerCardScript.ToggleDeadPanel();
+    }
+
     private void Revive()
     {
         if (GameManager.Instance.ConsumeALive())
         {
             currentHealth = playerProp.maxHealth;
+            transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
+            gameObject.tag = "Player";
             SM.ReturnToIdle();
 
             StartCoroutine(InvulnerabilityDelay());
 
             Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
+            transform.position = Map_Display_Boundaries.Instance.transform.position;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
             playerCardScript.ToggleDeadPanel();
@@ -410,30 +446,6 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
     // // // // // // // // // // // // // // // //
-
-    IEnumerator DodgeDelay()
-    {
-        yield return new WaitForSeconds(playerProp.dodgeDuration);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator StunDelay(float stunDuration)
-    {
-        yield return new WaitForSeconds(stunDuration);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator GrabDelay()
-    {
-        yield return new WaitForSeconds(0.3f);
-        SM.ReturnToIdle();
-    }
-
-    IEnumerator AttackDelay()
-    {
-        yield return new WaitForSeconds(0.5f);
-        SM.ReturnToIdle();
-    }
 
     IEnumerator InvulnerabilityDelay()
     {
