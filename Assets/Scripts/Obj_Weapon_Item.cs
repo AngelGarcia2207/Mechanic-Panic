@@ -26,16 +26,16 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Weapon playerWeapon = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeapon;
+            Obj_Player_Weapon playerWeaponScript = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeaponScript;
             
-            if(playerWeapon.HasBase() == false && itemData is Obj_Weapon_Base)
+            if(playerWeaponScript.HasBase() == false && itemData is Obj_Weapon_Base)
             {
-                playerWeapon.AddCloseItem(this);
+                playerWeaponScript.AddCloseItem(this);
             }
             
-            if(playerWeapon.HasBase() && itemData is Obj_Weapon_Complement && playerWeapon.CheckIfFits(this))
+            if(playerWeaponScript.HasBase() && itemData is Obj_Weapon_Complement && playerWeaponScript.CheckIfFits(this))
             {
-                playerWeapon.AddCloseItem(this);
+                playerWeaponScript.AddCloseItem(this);
             }
         }
     }
@@ -45,8 +45,8 @@ public class Obj_Weapon_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Weapon playerWeapon = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeapon;
-            playerWeapon.RemoveCloseItem(this);
+            Obj_Player_Weapon playerWeaponScript = other.gameObject.GetComponent<Mov_Player_Controller>().playerWeaponScript;
+            playerWeaponScript.RemoveCloseItem(this);
         }
     }
 
