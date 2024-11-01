@@ -8,20 +8,20 @@ Esta es la clase para el arma que lleva el jugador
 
 public class Obj_Player_Weapon : Obj_Buildable
 {
-   [SerializeField] protected int damage;
-   [SerializeField] protected Obj_Weapon_Base weaponBase;
-   [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
-   [SerializeField] protected GameObject complementPrefab;
-   protected List<Vector3> currentPositions;
-   protected Dictionary<ComplementLocations, int> numberOfElementsPerLocation = new();
-   protected List<Obj_Weapon_Item> closeItems = new();
-   protected List<ComplementLocations> closeItemsLocations = new();
-   protected List<Vector3> closeItemsPositions = new();
-   protected Obj_Weapon_Item closestItem;
-    
-    void Start()
+    [SerializeField] protected int damage;
+    [SerializeField] protected Obj_Weapon_Base weaponBase;
+    [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
+    [SerializeField] protected GameObject complementPrefab;
+    protected List<Vector3> currentPositions;
+    protected Dictionary<ComplementLocations, int> numberOfElementsPerLocation = new();
+    protected List<Obj_Weapon_Item> closeItems = new();
+    protected List<ComplementLocations> closeItemsLocations = new();
+    protected List<Vector3> closeItemsPositions = new();
+    protected Obj_Weapon_Item closestItem;
+
+    void Awake()
     {
-        Mov_Player_Controller player = ComponentFinder.FindComponentInParents<Mov_Player_Controller>(transform);
+        Mov_Player_Controller player = Finder.FindComponentInParents<Mov_Player_Controller>(transform);
         player.pickUpWeapon.AddListener(OnPickUp);
     }
     
