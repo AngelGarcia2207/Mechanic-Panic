@@ -25,6 +25,8 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool invulnerable = false;
     private float invulnerabilityDuration = 1f;
     private bool alive = true;
+    [SerializeField] private float floorRaycastDistance = 0.3f;
+    [SerializeField] private GameObject rayCastOrigin;
     
     private GameObject playerCard;
 
@@ -48,7 +50,8 @@ public class Mov_Player_Controller : MonoBehaviour
     private int currentHealth;
 
     // Esto lo moveré a otro script en el futuro //
-    public Obj_Player_Weapon playerWeapon;
+    [SerializeField] private GameObject weapon;
+    public Obj_Player_Weapon playerWeaponScript;
     [SerializeField] private Obj_Player_Armor playerArmor;
     [SerializeField] private ParticleSystem weaponTrail;
     public WeaponEvent pickUpWeapon;
@@ -101,6 +104,7 @@ public class Mov_Player_Controller : MonoBehaviour
             if (prop == playerProp)
             {
                 prop.gameObject.SetActive(true);
+                weapon.transform.SetParent(Finder.FindChildRecursive(prop.gameObject.transform, "weaponSpot"));
             }
             else
             {
@@ -142,7 +146,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.move))
+            if (RaycastFloor() && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
                 movementX = rawDirection.x;
@@ -165,7 +169,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementZ = 0;
             }
         }
-        else if ((charController.isGrounded || RaycastFloor()) && SM.AvailableTransition(SM.idle))
+        else if (RaycastFloor() && SM.AvailableTransition(SM.idle))
         {
             SM.ChangeState(SM.idle);
             movementX = 0;
@@ -199,7 +203,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private void SpecialInputs()
     {
         // JUMP
-        if ((charController.isGrounded || RaycastFloor()) && jumpButtonPressed && SM.AvailableTransition(SM.jump))
+        if (RaycastFloor() && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
@@ -270,7 +274,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // Gravedad
-        if (charController.isGrounded && velocity.y <= -playerProp.gravity * 0.1f)
+        if (RaycastFloor() && velocity.y <= -playerProp.gravity * 0.1f)
         {
             velocity.y = -playerProp.gravity * 0.1f;
         }
@@ -284,11 +288,11 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private bool RaycastFloor()
     {
-        Vector3 origin = transform.position;
+        Vector3 origin = rayCastOrigin.transform.position;
         RaycastHit hit;
         Vector3 direction = -transform.up;
 
-        if (Physics.Raycast(origin, direction, out hit, playerProp.floorRaycastDistance))
+        if (Physics.Raycast(origin, direction, out hit, floorRaycastDistance))
         {
             return true;
         }
@@ -348,45 +352,45 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             SM.ChangeState(SM.grab, playerProp.grabDelay);
 
-            pickUpWeapon.Invoke(playerWeapon);
+            pickUpWeapon.Invoke(playerWeaponScript);
             pickUpArmor.Invoke(playerArmor);
         }
     }
 
     private void Attack()
     {
-        if (SM.AvailableTransition(SM.attack) && playerWeapon.HasBase())
+        if (SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.attack, playerProp.attackDelay);
             
-            playerWeapon.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            playerWeaponScript.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
-                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
-        else if (SM.AvailableTransition(SM.moveAttack) && playerWeapon.HasBase())
+        else if (SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
             
-            playerWeapon.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            playerWeaponScript.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
-                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
-        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeapon.HasBase())
+        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
             
-            playerWeapon.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+            playerWeaponScript.gameObject.tag = "WeaponBase";
+            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
-                playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
@@ -439,10 +443,10 @@ public class Mov_Player_Controller : MonoBehaviour
     IEnumerator SwingCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        playerWeapon.gameObject.tag = "Untagged";
-        for(int i = 2; i < playerWeapon.gameObject.transform.childCount; i++)
+        playerWeaponScript.gameObject.tag = "Untagged";
+        for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
         {
-            playerWeapon.gameObject.transform.GetChild(i).gameObject.tag = "Untagged";
+            playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "Untagged";
         }
     }
     // // // // // // // // // // // // // // // //
