@@ -25,7 +25,8 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool invulnerable = false;
     private float invulnerabilityDuration = 1f;
     private bool alive = true;
-    [SerializeField] private float floorRaycastDistance = 0.3f;
+    [SerializeField] private float sphereCastRadius = 0.3f;
+    [SerializeField] private float sphereCastDistance = 0.3f;
     [SerializeField] private GameObject rayCastOrigin;
     
     private GameObject playerCard;
@@ -292,12 +293,14 @@ public class Mov_Player_Controller : MonoBehaviour
         RaycastHit hit;
         Vector3 direction = -transform.up;
 
-        if (Physics.Raycast(origin, direction, out hit, floorRaycastDistance))
+        if (Physics.SphereCast(origin, sphereCastRadius, direction, out hit, sphereCastDistance))
         {
+            Debug.Log("Colisión por sphereCast");
             return true;
         }
         else
         {
+            Debug.Log("SphereCast no detecta colisión");
             return false;
         }
     }
