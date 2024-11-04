@@ -67,6 +67,7 @@ public class Ene_EnemyTest : MonoBehaviour
         {
             Obj_Player_Weapon playerWeapon = other.transform.parent.GetComponent<Obj_Player_Weapon>();
             //Debug.Log(playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()));
+            playerWeapon.ActivateEffects(other.gameObject.transform.GetSiblingIndex(), transform);
             GameObject newTag = Instantiate(damageTag, other.gameObject.transform.position, Quaternion.identity);
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
