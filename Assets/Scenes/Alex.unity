@@ -19282,8 +19282,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 624671704291972362, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 624671704291972362, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1302504380283237306, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3854241237023990315, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
@@ -19299,6 +19309,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraCenter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870275622102005502, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5870275622102005502, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6561711376981871467, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}

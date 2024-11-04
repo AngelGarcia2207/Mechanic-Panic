@@ -102,7 +102,7 @@ public class Mov_Player_Controller : MonoBehaviour
             if (prop == playerProp)
             {
                 prop.gameObject.SetActive(true);
-                weapon.transform.SetParent(Finder.FindChildRecursive(prop.gameObject.transform, "weaponSpot"));
+                weapon.transform.SetParent(Finder.FindChildRecursive(prop.gameObject.transform, "weaponSpot"), false);
             }
             else
             {
