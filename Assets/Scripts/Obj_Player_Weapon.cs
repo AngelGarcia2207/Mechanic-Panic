@@ -285,4 +285,9 @@ public class Obj_Player_Weapon : Obj_Buildable
     }
 
     public bool HasBase() { return (weaponBase != null) ? true : false; }
+
+    public void ActivateEffects(int itemIndex, Transform target)
+    {
+        weaponComplements[itemIndex - 2].PlayEffects(target);
+    }
 }

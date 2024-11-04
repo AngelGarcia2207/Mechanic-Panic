@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fb4ea498d3fd66408429bc0e7010416, type: 3}
-  m_Name: Grenade
+  m_Script: {fileID: 11500000, guid: 5e6cfd3cc8bc7334b8551e68afcfc2a1, type: 3}
+  m_Name: GrenadeExplosion
   m_EditorClassIdentifier: 
-  Damage: 10
-  Weight: 1
-  Size: 1
-  Complexity: 2
-  effects:
-  - {fileID: 11400000, guid: a5542e23415c79c4d9f028a959676e59, type: 2}
-  possibleLocations: 0400000001000000
-  colliderType: 0
+  activateOnEnemyImpact: 0
+  explosionParticles: {fileID: 4238638041014807947, guid: 08d5126c65c2aa244814e030efd0db83,
+    type: 3}
+  size: 0
+  duration: 2
+  chance: 50

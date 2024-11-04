@@ -52,4 +52,12 @@ public class Obj_Weapon_Complement : Obj_Weapon_Component
         
         return bestLocation;
     }
+
+    public void PlayEffects(Transform target)
+    {
+        foreach(WeaponEffect effect in effects)
+        {
+            effect.PlayEffect(target);
+        }
+    }
 }
