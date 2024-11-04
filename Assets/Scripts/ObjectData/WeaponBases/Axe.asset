@@ -16,6 +16,7 @@ MonoBehaviour:
   Weight: 5
   Size: 2
   Complexity: 2
+  Durability: 0
   attackType: 1
   complementLocations:
   - location: 2

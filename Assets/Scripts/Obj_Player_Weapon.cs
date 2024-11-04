@@ -9,6 +9,7 @@ Esta es la clase para el arma que lleva el jugador
 public class Obj_Player_Weapon : Obj_Buildable
 {
     [SerializeField] protected int damage;
+    [SerializeField] protected int currentDurability;
     [SerializeField] protected Obj_Weapon_Base weaponBase;
     [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
     [SerializeField] protected GameObject complementPrefab;
@@ -21,6 +22,7 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     void Awake()
     {
+        currentDurability = weaponBase != null ? weaponBase.GetDurability() : 0;
         Mov_Player_Controller player = Finder.FindComponentInParents<Mov_Player_Controller>(transform);
         player.pickUpWeapon.AddListener(OnPickUp);
     }
@@ -58,6 +60,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     public void SetBase(Obj_Weapon_Item newBase)
     {
         weaponBase = newBase.GetData() as Obj_Weapon_Base;
+        currentDurability = weaponBase.GetDurability();
         buildableMesh.mesh = newBase.GetMesh().mesh;
         buildableRenderer.materials = newBase.GetRenderer().materials;
         currentPositions = weaponBase.GetInitialPositions(numberOfElementsPerLocation);
@@ -188,13 +191,22 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public int DealDamage(int complementIndex = -1)
     {
-        if(complementIndex < 0)
+        if (currentDurability > 0)
         {
-            return damage;
+            int damageToDeal = complementIndex < 0 ? damage : weaponComplements[complementIndex - 2].GetDamage();
+            currentDurability --;
+
+            if (currentDurability <= 0)
+            {
+                Destroy(this.gameObject);
+            }
+
+            return damageToDeal;
         }
         else
         {
-            return weaponComplements[complementIndex - 2].GetDamage();
+            Debug.Log("El arma está destruida y no puede usarse.");
+            return 0;
         }
     }
 
