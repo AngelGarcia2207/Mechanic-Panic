@@ -341,36 +341,36 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void Attack()
     {
-        if (SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
+        if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.attack, playerProp.attackDelay);
             
             playerWeaponScript.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
                 playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
-        else if (SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
+        else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
             
             playerWeaponScript.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
                 playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
             StartCoroutine(SwingCoroutine());
             weaponTrail.Play();
         }
-        else if (SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
+        else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
             
             playerWeaponScript.gameObject.tag = "WeaponBase";
-            for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
             {
                 playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
             }
@@ -378,6 +378,7 @@ public class Mov_Player_Controller : MonoBehaviour
             weaponTrail.Play();
         }
     }
+
 
     private void OnJump()
     {
@@ -425,10 +426,14 @@ public class Mov_Player_Controller : MonoBehaviour
     IEnumerator SwingCoroutine()
     {
         yield return new WaitForSeconds(1f);
-        playerWeaponScript.gameObject.tag = "Untagged";
-        for(int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+
+        if (playerWeaponScript != null && playerWeaponScript.gameObject != null)
         {
-            playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "Untagged";
+            playerWeaponScript.gameObject.tag = "Untagged";
+            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+            {
+                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "Untagged";
+            }
         }
     }
     // // // // // // // // // // // // // // // //
