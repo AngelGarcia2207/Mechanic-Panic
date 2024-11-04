@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Morir
+  m_Name: death
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -33,7 +33,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Parry
+  m_Name: parry
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -59,7 +59,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: moving_attack
+  m_Name: moveAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -85,7 +85,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Interact
+  m_Name: grab
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -115,54 +115,51 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -2025236274001636342}
-    m_Position: {x: 200, y: 0, z: 0}
+    m_Position: {x: 280, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3936029303472978019}
-    m_Position: {x: 280, y: 60, z: 0}
+    m_Position: {x: 520, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6883407786613119204}
-    m_Position: {x: 305, y: 195, z: 0}
+    m_Position: {x: 760, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2711391154089138812}
-    m_Position: {x: 340, y: 260, z: 0}
+    m_Position: {x: 760, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3187025212117351629}
-    m_Position: {x: 370, y: 330, z: 0}
+    m_Position: {x: 760, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1614501679041367807}
-    m_Position: {x: 410, y: 390, z: 0}
+    m_Position: {x: 520, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5720460519646161509}
-    m_Position: {x: 445, y: 455, z: 0}
+    m_Position: {x: 280, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4083605958801067520}
-    m_Position: {x: 480, y: 520, z: 0}
+    m_Position: {x: 760, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1832013386115168426}
-    m_Position: {x: 515, y: 585, z: 0}
+    m_Position: {x: 520, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3785081254445828029}
-    m_Position: {x: 550, y: 650, z: 0}
+    m_Position: {x: 520, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -424814911021484189}
-    m_Position: {x: 585, y: 715, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1755864729942736931}
-    m_Position: {x: 300, y: 120, z: 0}
+    m_Position: {x: 520, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6441240262252291956}
-    m_Position: {x: 335, y: 185, z: 0}
+    m_Position: {x: 760, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8049464319971186975}
-    m_Position: {x: 370, y: 250, z: 0}
+    m_Position: {x: 280, y: 160, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_EntryPosition: {x: 50, y: 90, z: 0}
+  m_ExitPosition: {x: 50, y: 160, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -2025236274001636342}
 --- !u!1102 &-2711391154089138812
@@ -172,7 +169,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: lanzar(throw)
+  m_Name: hurl
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -198,7 +195,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -224,7 +221,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Air_attack
+  m_Name: jumpAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -243,32 +240,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1755864729942736931
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: hiting
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bd131e0e74b0d3340831f94ee4c8cbf1, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1102 &-424814911021484189
 AnimatorState:
   serializedVersion: 6
@@ -276,7 +247,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: rodar
+  m_Name: dodge
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -324,7 +295,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Jumping
+  m_Name: jump
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -350,7 +321,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walking
+  m_Name: move
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -402,7 +373,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lanzar(hold)
+  m_Name: hold
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

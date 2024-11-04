@@ -25,8 +25,6 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool invulnerable = false;
     private float invulnerabilityDuration = 1f;
     private bool alive = true;
-    [SerializeField] private float floorRaycastDistance = 0.3f;
-    [SerializeField] private GameObject rayCastOrigin;
     
     private GameObject playerCard;
 
@@ -104,7 +102,7 @@ public class Mov_Player_Controller : MonoBehaviour
             if (prop == playerProp)
             {
                 prop.gameObject.SetActive(true);
-                weapon.transform.SetParent(Finder.FindChildRecursive(prop.gameObject.transform, "weaponSpot"));
+                weapon.transform.SetParent(Finder.FindChildRecursive(prop.gameObject.transform, "weaponSpot"), false);
             }
             else
             {
@@ -146,7 +144,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
-            if (RaycastFloor() && SM.AvailableTransition(SM.move))
+            if (charController.isGrounded && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
                 movementX = rawDirection.x;
@@ -169,7 +167,7 @@ public class Mov_Player_Controller : MonoBehaviour
                 movementZ = 0;
             }
         }
-        else if (RaycastFloor() && SM.AvailableTransition(SM.idle))
+        else if (charController.isGrounded && SM.AvailableTransition(SM.idle))
         {
             SM.ChangeState(SM.idle);
             movementX = 0;
@@ -203,7 +201,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private void SpecialInputs()
     {
         // JUMP
-        if (RaycastFloor() && jumpButtonPressed && SM.AvailableTransition(SM.jump))
+        if (charController.isGrounded && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
             StartCoroutine(Jump());
@@ -274,7 +272,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // Gravedad
-        if (RaycastFloor() && velocity.y <= -playerProp.gravity * 0.1f)
+        if (charController.isGrounded && velocity.y <= -playerProp.gravity * 0.1f)
         {
             velocity.y = -playerProp.gravity * 0.1f;
         }
@@ -284,22 +282,6 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         nextMovement = velocity;
-    }
-
-    private bool RaycastFloor()
-    {
-        Vector3 origin = rayCastOrigin.transform.position;
-        RaycastHit hit;
-        Vector3 direction = -transform.up;
-
-        if (Physics.Raycast(origin, direction, out hit, floorRaycastDistance))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public void Dodge()
