@@ -16,7 +16,16 @@ public class Obj_Armor_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Armor playerArmor = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-1).GetComponent<Obj_Player_Armor>();
+            Obj_Player_Armor playerArmor = null;
+
+            for(int i = 0; i < other.transform.childCount; i++)
+            {
+                if(other.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    playerArmor = other.transform.GetChild(i).GetChild(2).GetComponent<Obj_Player_Armor>();
+                    break;
+                }
+            }
             
             if(playerArmor.HasBodyArmor() == false && itemData is Obj_Armor_Body)
             {
@@ -35,7 +44,17 @@ public class Obj_Armor_Item : Obj_Item
     {
         if(other.CompareTag("Player") && other is not CharacterController)
         {
-            Obj_Player_Armor playerArmor = other.gameObject.transform.GetChild(other.gameObject.transform.childCount-1).GetComponent<Obj_Player_Armor>();
+            Obj_Player_Armor playerArmor = null;
+
+            for(int i = 0; i < other.transform.childCount; i++)
+            {
+                if(other.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    playerArmor = other.transform.GetChild(i).GetChild(2).GetComponent<Obj_Player_Armor>();
+                    break;
+                }
+            }
+
             playerArmor.RemoveCloseItem(this);
         }
     }
