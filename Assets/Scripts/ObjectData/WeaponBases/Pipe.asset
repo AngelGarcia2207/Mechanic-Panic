@@ -16,21 +16,27 @@ MonoBehaviour:
   Weight: 4
   Size: 4
   Complexity: 1
+  Durability: 0
   attackType: 1
-  complementPositions:
-  - position: 2
-    initialPosition: {x: 0, y: -0.09, z: -0.01}
-    maxValues: {x: 0, y: 0.051, z: -0.03}
-    angleChange: {x: 0, y: 180, z: 0}
-  - position: 3
-    initialPosition: {x: 0.01, y: -0.09, z: 0}
-    maxValues: {x: 0.03, y: 0.051, z: 0}
-    angleChange: {x: 0, y: 90, z: 0}
-  - position: 4
-    initialPosition: {x: -0.01, y: -0.09, z: 0}
-    maxValues: {x: -0.03, y: 0.051, z: 0}
-    angleChange: {x: 0, y: -90, z: 0}
-  - position: 5
-    initialPosition: {x: 0, y: -0.09, z: 0.01}
-    maxValues: {x: 0, y: 0.051, z: 0.03}
+  complementLocations:
+  - location: 0
+    minLong: 0
+    maxLong: 0
+    minTall: 0
+    maxTall: 0
+    thirdValue: 0
+    angleChange: {x: 0, y: 0, z: 0}
+  - location: 0
+    minLong: 0
+    maxLong: 0
+    minTall: 0
+    maxTall: 0
+    thirdValue: 0
+    angleChange: {x: 0, y: 0, z: 0}
+  - location: 0
+    minLong: 0
+    maxLong: 0
+    minTall: 0
+    maxTall: 0
+    thirdValue: 0
     angleChange: {x: 0, y: 0, z: 0}
