@@ -59,6 +59,7 @@ public class Obj_Player_Armor : Obj_Buildable
         bodyArmor = newBodyArmor.GetData() as Obj_Armor_Body;
         buildableMesh.mesh = newBodyArmor.GetMesh().mesh;
         buildableRenderer.materials = newBodyArmor.GetRenderer().materials;
+        bodyArmor.UpdateMeshTransform(buildableMesh.transform);
         defense = bodyArmor.GetDefense();
         Collider armorCollider = gameObject.AddComponent(newBodyArmor.GetCollider().GetType()) as Collider;
         armorCollider.isTrigger = true;
@@ -74,7 +75,8 @@ public class Obj_Player_Armor : Obj_Buildable
     public void AddHat(Obj_Armor_Item newHat)
     {
         //Initial data
-        hats.Add(newHat.GetData() as Obj_Armor_Hat);
+        Obj_Armor_Hat newData = newHat.GetData() as Obj_Armor_Hat;
+        hats.Add(newData);
         numberOfHats++;
         /*foreach(Obj_Armor_Item item in closeItems)
         {
@@ -85,6 +87,7 @@ public class Obj_Player_Armor : Obj_Buildable
         GameObject instantiatedComplement = Instantiate(hatPrefab, transform.position, new Quaternion(0, 0, 0, 0), hatParent);
         instantiatedComplement.transform.localPosition = new Vector3(currentHatPosition.x + newHat.GetMesh().mesh.bounds.size.z/2,
             currentHatPosition.y , currentHatPosition.z);
+        newData.UpdateMeshTransform(instantiatedComplement.transform);
         
         //Update position
         currentHatPosition.x += newHat.GetMesh().mesh.bounds.size.z;
