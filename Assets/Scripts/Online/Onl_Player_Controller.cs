@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Onl_Player_Controller : NetworkBehaviour
 {
-    public Mov_Player_Controller movController;
+    private Mov_Player_Controller movController;
     private PlayerInput playerInput;
     [HideInInspector] public bool onlJumpButtonPressed = false;
     [HideInInspector] public bool onlDodgePressed = false;
