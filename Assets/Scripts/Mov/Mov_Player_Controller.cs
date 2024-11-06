@@ -28,6 +28,8 @@ public class Mov_Player_Controller : MonoBehaviour
     
     private GameObject playerCard;
 
+    [SerializeField] private SFX_Player_AudioClips audioClips;
+
     [SerializeField] private Mov_Player_Properties[] playerProps;
     private Mov_Player_Properties playerProp;
     private int playerIndex = 0;
@@ -147,12 +149,14 @@ public class Mov_Player_Controller : MonoBehaviour
             if (charController.isGrounded && SM.AvailableTransition(SM.move))
             {
                 SM.ChangeState(SM.move);
+                audioClips.walkingAudio();
                 movementX = rawDirection.x;
                 movementZ = rawDirection.y;
             }
             else if (SM.AvailableTransition(SM.jumpMove))
             {
                 SM.ChangeState(SM.jumpMove);
+                audioClips.stopWalkingAudio();
                 movementX = rawDirection.x;
                 movementZ = rawDirection.y;
             }
@@ -163,18 +167,21 @@ public class Mov_Player_Controller : MonoBehaviour
             }
             else
             {
+                audioClips.stopWalkingAudio();
                 movementX = 0;
                 movementZ = 0;
             }
         }
         else if (charController.isGrounded && SM.AvailableTransition(SM.idle))
         {
+            audioClips.stopWalkingAudio();
             SM.ChangeState(SM.idle);
             movementX = 0;
             movementZ = 0;
         }
         else
         {
+            audioClips.stopWalkingAudio();
             movementX = 0;
             movementZ = 0;
         }
@@ -204,6 +211,7 @@ public class Mov_Player_Controller : MonoBehaviour
         if (charController.isGrounded && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
             SM.ChangeState(SM.jump);
+            audioClips.stopWalkingAudio();
             StartCoroutine(Jump());
         }
 
@@ -301,6 +309,8 @@ public class Mov_Player_Controller : MonoBehaviour
             StartCoroutine(InvulnerabilityDelay());
             currentHealth -= damage;
 
+            audioClips.damageAudio();
+
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
             playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
 
@@ -344,39 +354,30 @@ public class Mov_Player_Controller : MonoBehaviour
         if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.attack, playerProp.attackDelay);
-            
-            playerWeaponScript.gameObject.tag = "WeaponBase";
-            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
-            {
-                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
-            }
-            StartCoroutine(SwingCoroutine());
-            weaponTrail.Play();
+            AttackComponentPattern();
         }
         else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
-            
-            playerWeaponScript.gameObject.tag = "WeaponBase";
-            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
-            {
-                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
-            }
-            StartCoroutine(SwingCoroutine());
-            weaponTrail.Play();
+            AttackComponentPattern();
         }
         else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
         {
             SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
-            
-            playerWeaponScript.gameObject.tag = "WeaponBase";
-            for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
-            {
-                playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
-            }
-            StartCoroutine(SwingCoroutine());
-            weaponTrail.Play();
+            AttackComponentPattern();
         }
+    }
+
+    private void AttackComponentPattern()
+    {
+        audioClips.swingAudio();
+        playerWeaponScript.gameObject.tag = "WeaponBase";
+        for (int i = 2; i < playerWeaponScript.gameObject.transform.childCount; i++)
+        {
+            playerWeaponScript.gameObject.transform.GetChild(i).gameObject.tag = "WeaponComplement";
+        }
+        StartCoroutine(SwingCoroutine());
+        weaponTrail.Play();
     }
 
 
