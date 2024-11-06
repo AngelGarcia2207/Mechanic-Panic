@@ -5,8 +5,6 @@ using UnityEngine;
 public class SFX_Manager : MonoBehaviour
 {
     [SerializeField] private AudioSource SFXObject;
-
-    [SerializeField] private AudioClip audioTestClip;
     
     public static SFX_Manager Instance { get; private set; }
 
@@ -20,16 +18,26 @@ public class SFX_Manager : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        PlaySFXClip(audioTestClip, transform, 1f);
-    }
-
     public void PlaySFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
         AudioSource audioSource = Instantiate(SFXObject, spawnTransform.position, Quaternion.identity);
 
         audioSource.clip = audioClip;
+
+        audioSource.volume = volume;
+
+        audioSource.Play();
+
+        float clipLength = audioSource.clip.length;
+
+        Destroy(audioSource.gameObject, clipLength);
+    }
+
+    public void PlayRandomSFXClip(AudioClip[] audioClips, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(SFXObject, spawnTransform.position, Quaternion.identity);
+
+        audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
 
         audioSource.volume = volume;
 
