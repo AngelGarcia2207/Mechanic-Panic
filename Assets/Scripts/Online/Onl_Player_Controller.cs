@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Onl_Player_Controller : NetworkBehaviour
 {
-    private Mov_Player_Controller movController;
+    [SerializeField] private Mov_Player_Controller movController;
     private PlayerInput playerInput;
     [HideInInspector] public bool onlJumpButtonPressed = false;
     [HideInInspector] public bool onlDodgePressed = false;
@@ -102,18 +102,35 @@ public class Onl_Player_Controller : NetworkBehaviour
     // GRAB ACTION
     public void TryOnlineGrab()
     {
+        movController.Grab();
+        GrabClientRPC();
+        /*
         if (!IsOwner) { return; }
-        if (IsServer) { Grab(); }
-        else { Grab(); }
+        if (IsServer)
+        {
+            movController.Grab();
+            GrabClientRPC(); // Llama a todos los clientes para ejecutar la acción de Grab
+        }
+        else
+        {
+            GrabServerRPC();
+        }*/
     }
 
+    // Modificar GrabServerRPC para llamar a GrabClientRPC
     [ServerRpc]
-    void GrabServerRPC() { Grab(); }
+    void GrabServerRPC()
+    {
+        movController.Grab();
+        GrabClientRPC(); // Notifica a todos los clientes cuando el servidor ejecuta Grab
+    }
 
-    void Grab()
+    [ClientRpc]
+    void GrabClientRPC()
     {
         movController.Grab();
     }
+
 
     // ATTACK INPUT
     private void OnAttackHold()
@@ -129,6 +146,37 @@ public class Onl_Player_Controller : NetworkBehaviour
     void AttackHold()
     {
         onlAttackPressed = !onlAttackPressed;
+    }
+
+    // ATTACK ACTION
+    public void TryOnlineAttack()
+    {
+        movController.Attack();
+        AttackClientRPC();
+        /*if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            movController.Attack();
+            AttackClientRPC(); // Llama a todos los clientes para ejecutar la acción de Grab
+        }
+        else
+        {
+            AttackServerRPC();
+        }*/
+    }
+
+    // Modificar GrabServerRPC para llamar a GrabClientRPC
+    [ServerRpc]
+    void AttackServerRPC()
+    {
+        movController.Grab();
+        AttackClientRPC(); // Notifica a todos los clientes cuando el servidor ejecuta Grab
+    }
+
+    [ClientRpc]
+    void AttackClientRPC()
+    {
+        movController.Attack();
     }
 
 
