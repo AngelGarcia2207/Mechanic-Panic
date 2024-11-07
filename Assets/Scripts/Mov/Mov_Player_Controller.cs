@@ -73,10 +73,6 @@ public class Mov_Player_Controller : MonoBehaviour
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
 
         ChangeCharacter();
-        /*foreach(Mov_Player_Controller mov_Player_Controller in FindObjectsOfType<Mov_Player_Controller>())
-        {
-            ChangeCharacter();
-        }*/
 
         // Configuración adicional si es necesario
     
@@ -137,7 +133,9 @@ public class Mov_Player_Controller : MonoBehaviour
         { onlManager = _onlManager; }
 
         if (isOnline && onlManager != null)
-        { onlManager.playerCards.Add(playerCard); }
+        {
+            onlManager.playerCards.Add(playerCard);
+        }
     }
 
     void Update()
