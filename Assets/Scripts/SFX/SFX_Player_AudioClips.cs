@@ -6,7 +6,6 @@ public class SFX_Player_AudioClips : MonoBehaviour
 {
     [SerializeField] private AudioClip[] swingAudioClips;
     [SerializeField] private AudioClip[] damageAudioClips;
-    [SerializeField] private AudioClip[] landingAudioClips;
     [SerializeField] private AudioSource walkingAudioClip;
 
     public void swingAudio()
@@ -17,11 +16,6 @@ public class SFX_Player_AudioClips : MonoBehaviour
     public void damageAudio()
     {
         SFX_Manager.Instance.PlayRandomSFXClip(damageAudioClips, transform, 1f);
-    }
-
-    public void landingAudio()
-    {
-        SFX_Manager.Instance.PlayRandomSFXClip(landingAudioClips, transform, 1f);
     }
 
     public void walkingAudio()
