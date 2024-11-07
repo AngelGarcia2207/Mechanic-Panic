@@ -20,5 +20,6 @@ public class UI_Main_Menu : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+        Debug.Log("Saliste del Juego");
     }
 }
