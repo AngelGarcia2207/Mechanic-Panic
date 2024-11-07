@@ -73,6 +73,10 @@ public class Mov_Player_Controller : MonoBehaviour
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
 
         ChangeCharacter();
+        /*foreach(Mov_Player_Controller mov_Player_Controller in FindObjectsOfType<Mov_Player_Controller>())
+        {
+            ChangeCharacter();
+        }*/
 
         // Configuración adicional si es necesario
     
@@ -236,7 +240,7 @@ public class Mov_Player_Controller : MonoBehaviour
             { canOnlPickUp = true; }
             else if(onlController.onlPickUpPressed == true && canOnlPickUp == true)
             {
-                if (onlController != null) { Grab(); }
+                if (onlController != null) { onlController.TryOnlineGrab(); }
                 canOnlPickUp = false;
             }
         }
@@ -251,7 +255,7 @@ public class Mov_Player_Controller : MonoBehaviour
             if (onlController.onlAttackPressed == false)
             { canOnlAttack = true; }
             else if (onlController.onlAttackPressed == true && canOnlAttack == true)
-            { Attack(); canOnlAttack = false; }
+            { onlController.TryOnlineAttack(); canOnlAttack = false; }
         }
         
         if (SM.GetCurrentState() == SM.dead && jumpButtonPressed)
@@ -337,6 +341,11 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
+    public void UpTime()
+    {
+        charController.transform.position += new Vector3(0, 10, 0);
+    }
+
     // Esta función será llamada también en Onl_Player_Controller.cs
     public void Grab()
     {
@@ -349,7 +358,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    private void Attack()
+    public void Attack()
     {
         if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
         {

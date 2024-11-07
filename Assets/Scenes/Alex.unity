@@ -17591,7 +17591,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SFXObject: {fileID: 752971326026430523, guid: 9e80b882e76ebba48b170e8f56d2df67,
     type: 3}
-  audioTestClip: {fileID: 8300000, guid: ae5d64463b1f3764e9f564989b12fb28, type: 3}
 --- !u!4 &2060023950
 Transform:
   m_ObjectHideFlags: 0
