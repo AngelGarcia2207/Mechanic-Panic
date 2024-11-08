@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: e8c0bf5b37a3db94b8b3591d24a27e46
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Star Cartoon
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 56f4223b8171d2e418f83f9e22b54b7f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
