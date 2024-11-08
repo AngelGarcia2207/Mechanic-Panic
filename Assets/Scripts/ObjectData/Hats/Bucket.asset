@@ -15,6 +15,8 @@ MonoBehaviour:
   Defense: 3
   Weight: 2
   effects: []
+  itemPrefab: {fileID: 5428936110513753619, guid: 517226de3b08b17428ad2cee8be41eaa,
+    type: 3}
   position: {x: 1.62, y: 0.04, z: 0}
   eulerRotation: {x: 0, y: 90, z: 90}
   scale: {x: 80, y: 80, z: 80}

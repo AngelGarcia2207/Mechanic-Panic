@@ -11,12 +11,14 @@ public abstract class Obj_Armor_Component : ScriptableObject
     [SerializeField] protected int Defense;
     [SerializeField] protected int Weight;
     [SerializeField] protected List<ArmorEffect> effects;
+    [SerializeField] protected GameObject itemPrefab;
     
     [SerializeField] Vector3 position;
     [SerializeField] Vector3 eulerRotation;
     [SerializeField] Vector3 scale;
 
     public int GetDefense() { return Defense; }
+    public GameObject GetPrefab() { return itemPrefab; }
     public void UpdateMeshTransform(Transform mesh)
     {
         mesh.localPosition = position;

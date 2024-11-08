@@ -1647,12 +1647,14 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 1442690220907255942}
   buildableRenderer: {fileID: 2191883883450025125}
+  playerInput: {fileID: 1823020374086817304}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
   hatPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
   hatParent: {fileID: 8929468314480570101}
+  armorItemPrefab: {fileID: 0}
   currentHatPosition: {x: 1.355, y: 0, z: 0}
 --- !u!1 &2958691638179434565
 GameObject:
@@ -7587,12 +7589,14 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
+  playerInput: {fileID: 0}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
   hatPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
   hatParent: {fileID: 0}
+  armorItemPrefab: {fileID: 0}
   currentHatPosition: {x: 1.355, y: 0, z: 0}
 --- !u!1 &5046961705776984338
 GameObject:
@@ -8512,12 +8516,14 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
+  playerInput: {fileID: 0}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
   hatPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
   hatParent: {fileID: 0}
+  armorItemPrefab: {fileID: 0}
   currentHatPosition: {x: 1.355, y: 0, z: 0}
 --- !u!1 &6555330201260869428
 GameObject:
@@ -9622,12 +9628,14 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
+  playerInput: {fileID: 1823020374086817304}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
   hatPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
   hatParent: {fileID: 0}
+  armorItemPrefab: {fileID: 0}
   currentHatPosition: {x: 1.355, y: 0, z: 0}
 --- !u!1 &8217473455015232145
 GameObject:
