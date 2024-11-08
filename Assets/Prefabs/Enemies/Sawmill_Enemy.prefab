@@ -530,6 +530,8 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 6808305742785291712}
   shakeAnimator: {fileID: 2788413565965764521}
+  smokeEffect: {fileID: 7506574737261031522, guid: baaebf0a9993683499fe066712d61b7b,
+    type: 3}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -540,6 +542,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &5550535587980258370
 Rigidbody:
   m_ObjectHideFlags: 0
