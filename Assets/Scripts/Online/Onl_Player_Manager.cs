@@ -70,7 +70,7 @@ public class Onl_Player_Manager : NetworkBehaviour
 
     IEnumerator WaitToChange()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
         int i = 0;
         foreach (Onl_Player_Controller player in connectedPlayersOnl)
         {
