@@ -6908,9 +6908,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClips: {fileID: 7703337514839063791}
   playerProps:
-  - {fileID: 1108092994006191620}
   - {fileID: 8863532313106995935}
   - {fileID: 5209121578018009579}
+  - {fileID: 1108092994006191620}
   - {fileID: 684131797665138374}
   onlManager: {fileID: 0}
   onlineIndex: 0
