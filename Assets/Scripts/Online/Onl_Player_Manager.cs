@@ -6,7 +6,9 @@ using UnityEngine;
 public class Onl_Player_Manager : NetworkBehaviour
 {
     private int nextPlayerID = 0; // ID inicial.
-    private List<Onl_Player_Controller> connectedPlayers = new List<Onl_Player_Controller>();
+    private List<Onl_Player_Controller> connectedPlayersOnl = new List<Onl_Player_Controller>();
+    private List<Mov_Player_Controller> connectedPlayersMov = new List<Mov_Player_Controller>();
+
 
     public List<GameObject> playerCards = new List<GameObject>();
 
@@ -34,15 +36,17 @@ public class Onl_Player_Manager : NetworkBehaviour
             nextPlayerID++;
 
             // Añadir el jugador a la lista de jugadores conectados.
-            connectedPlayers.Add(onlController);
+            connectedPlayersOnl.Add(onlController);
+            connectedPlayersMov.Add(movController);
             movController.AddPlayerCardToNetManager(this);
+            ChangeAllCharacterssss();
         }
     }
 
     private void OnClientDisconnected(ulong clientId)
     {
         // Intenta obtener el jugador desconectado usando la lista de jugadores conectados.
-        Onl_Player_Controller disconnectedPlayer = connectedPlayers.Find(p => p.OwnerClientId == clientId);
+        Onl_Player_Controller disconnectedPlayer = connectedPlayersOnl.Find(p => p.OwnerClientId == clientId);
 
         if (disconnectedPlayer != null)
         {
@@ -56,11 +60,28 @@ public class Onl_Player_Manager : NetworkBehaviour
             }
 
             // Remover al jugador de la lista de jugadores conectados.
-            connectedPlayers.Remove(disconnectedPlayer);
+            connectedPlayersOnl.Remove(disconnectedPlayer);
+            connectedPlayersMov.Remove(disconnectedPlayer.GetComponent<Mov_Player_Controller>());
         }
 
         // Decrementar el ID para el próximo jugador.
         nextPlayerID--;
+    }
+
+    IEnumerator WaitToChange()
+    {
+        yield return new WaitForSeconds(5f);
+        int i = 0;
+        foreach (Onl_Player_Controller player in connectedPlayersOnl)
+        {
+            player.PlayerIDSetter(0, i);
+            i++;
+        }
+    }
+
+    public void ChangeAllCharacterssss()
+    {
+        StartCoroutine(WaitToChange());
     }
 
     private void OnDestroy()

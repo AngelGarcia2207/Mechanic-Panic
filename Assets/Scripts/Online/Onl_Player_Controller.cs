@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using Unity.Collections.LowLevel.Unsafe;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -44,6 +45,9 @@ public class Onl_Player_Controller : NetworkBehaviour
             MoveServerRPC(direction2D);
         }
     }
+
+
+    // MOVEMENT INPUT
 
     [ServerRpc]
     void MoveServerRPC(Vector2 _input)
@@ -210,11 +214,45 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     private void OnPlayerIDChanged(int oldValue, int newValue)
     {
+        PlayerID(oldValue, newValue);
+    }
+
+    public void PlayerIDSetter(int oldValue, int newValue)
+    {
+        PlayerID(oldValue, newValue);
+        PlayerIDClientRPC(oldValue, newValue);
+        /*if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            PlayerID(oldValue, newValue);
+            PlayerIDClientRPC(oldValue, newValue); // Llama a todos los clientes para ejecutar la acción de Grab
+        }
+        else
+        {
+            PlayerIDServerRPC(oldValue, newValue);
+        }*/
+    }
+
+    [ServerRpc]
+    private void PlayerIDServerRPC(int oldValue, int newValue)
+    {
+        PlayerID(oldValue, newValue);
+    }
+
+    [ClientRpc]
+    private void PlayerIDClientRPC(int oldValue, int newValue)
+    {
+        PlayerID(oldValue,newValue);
+    }
+
+    private void PlayerID(int oldValue, int newValue)
+    {
         // Notificar al `Mov_Player_Controller` del cambio de ID si es necesario.
         Mov_Player_Controller movController = GetComponent<Mov_Player_Controller>();
         if (movController != null)
         {
-            movController.onlineIndex = newValue;
+            if (newValue != 100)
+            { movController.onlineIndex = newValue; }
             movController.ChangeCharacter();
         }
     }
