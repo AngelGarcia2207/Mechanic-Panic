@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2212195026250699716}
   - component: {fileID: 4935603817251461131}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PickUpRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
