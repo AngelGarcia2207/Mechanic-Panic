@@ -6939,17 +6939,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swingAudioClips:
-  - {fileID: 8300000, guid: e7afee4564027b844a8899f9c7f7eaa9, type: 3}
-  - {fileID: 8300000, guid: 5614652c24358f6448291c8679fa2f24, type: 3}
-  - {fileID: 8300000, guid: a70923bf837d3fe44b1febafe846da15, type: 3}
-  - {fileID: 8300000, guid: fe165808f229e0d489ed146bcd9190c9, type: 3}
-  - {fileID: 8300000, guid: 4f4a51b18f5c79c4a976b6da89136c73, type: 3}
-  - {fileID: 8300000, guid: 5963903ab2f59ae4886096936cb20d75, type: 3}
-  - {fileID: 8300000, guid: cfa57c4392bb3524bb59c6c4379600bc, type: 3}
-  - {fileID: 8300000, guid: 10e5b62e07243ae48afa3537240c1580, type: 3}
-  - {fileID: 8300000, guid: 56a6615c969a0a249a5d251a4b52cee8, type: 3}
-  - {fileID: 8300000, guid: d0661c80c830f4a4aac25a9e274979a2, type: 3}
-  - {fileID: 8300000, guid: 77961c9baced4ff47ad44c8df9ac910d, type: 3}
+  - {fileID: 8300000, guid: b83bc9c60cd7979438ed07f9caf53aee, type: 3}
+  - {fileID: 8300000, guid: d46b1a956737c9b4da4d17d52d56738e, type: 3}
+  - {fileID: 8300000, guid: d1a0a34165ba9a04f974b93022af1b88, type: 3}
+  - {fileID: 8300000, guid: 6d93816d4f76c7f4eb7e91f122f736e6, type: 3}
+  - {fileID: 8300000, guid: bc8ad17d7819e2f4c9230cf056c9eb18, type: 3}
+  - {fileID: 8300000, guid: f61c4a3319ac6d04989818f61ec2e226, type: 3}
+  - {fileID: 8300000, guid: d658f2c6bb66627468caf453419156b5, type: 3}
+  - {fileID: 8300000, guid: c595d566bf833f147804bf9a2b6d897a, type: 3}
+  - {fileID: 8300000, guid: 7f135239e7d69a647a901fdbc26573bf, type: 3}
+  - {fileID: 8300000, guid: fc8fd42fa1e51b744999c1806b24f25c, type: 3}
+  - {fileID: 8300000, guid: 4dab89b4ef7df0b4eb4664725c5d6ea8, type: 3}
   damageAudioClips:
   - {fileID: 8300000, guid: 9c04b74268a52c54bb757b812acdb447, type: 3}
   walkingAudioClip: {fileID: 3631518846847157056}
