@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: d99d3b56130133446b509f91facae052,
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 2538ba7cc55b9a648ba5ed7f75f0a95b,
     type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -267,6 +267,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 366773193}
   shakeAnimator: {fileID: 1003582733}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -277,6 +278,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7742632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3154,6 +3158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1158396185}
+  gameOverPanel: {fileID: 0}
   remainingLivesAmount: {fileID: 584062600}
   scoreAmount: {fileID: 1622326269}
   scoreScaleMultiplier: 2
@@ -5554,6 +5559,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 1350662674}
   shakeAnimator: {fileID: 456569415}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -5564,6 +5570,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &445078988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6887,6 +6896,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 1615004796}
   shakeAnimator: {fileID: 596077657}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -6897,6 +6907,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &519654267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13058,6 +13071,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 240293495}
   shakeAnimator: {fileID: 1616360031}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -13068,6 +13082,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &956072271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13515,6 +13532,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 18575933}
   shakeAnimator: {fileID: 1235848925}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -13525,6 +13543,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &986432767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24521,6 +24542,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 195195876}
   shakeAnimator: {fileID: 861583679}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -24531,6 +24553,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1739604160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30509,6 +30534,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 308019226}
   shakeAnimator: {fileID: 1780430784}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -30519,6 +30545,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &6272367039428721669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -30741,6 +30770,7 @@ MonoBehaviour:
     type: 3}
   enemyAnimator: {fileID: 1120299607}
   shakeAnimator: {fileID: 1758961665}
+  smokeEffect: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
   stunDuration: 0
   shakeSpeed: 100
@@ -30751,6 +30781,9 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  death:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8788147540923445241
 MonoBehaviour:
   m_ObjectHideFlags: 0

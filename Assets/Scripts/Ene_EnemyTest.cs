@@ -8,6 +8,7 @@ public class Ene_EnemyTest : MonoBehaviour
 {
     [SerializeField] private GameObject damageTag;
     [SerializeField] private Animator enemyAnimator, shakeAnimator;
+    [SerializeField] private GameObject smokeEffect;
     [SerializeField] private Vector3 knockbackDirection;
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
@@ -136,6 +137,8 @@ public class Ene_EnemyTest : MonoBehaviour
             }
             StartCoroutine(QuitStunCoroutine(currentHealth));
 
+            GameObject smokeObj = Instantiate(smokeEffect, this.transform.position, Quaternion.identity);
+            Destroy(smokeObj, 1f);
             swayStart = true;
             stunned = true;
             hittingColliders.Add(hittingCollider);
