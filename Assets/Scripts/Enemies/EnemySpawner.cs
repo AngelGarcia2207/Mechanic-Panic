@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
         
-        if(readyToSpawn)
+        if(readyToSpawn && enemyQueue.Count > 0)
         {
             GameObject newEnemy = Instantiate(enemyQueue[0]);
             newEnemy.GetComponent<Ene_EnemyTest>().death.AddListener(OnEnemyDeath);
