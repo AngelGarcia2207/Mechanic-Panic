@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Map_SimpleChunk : Map_ChunkManager
 {
+    [SerializeField] protected GameObject stickPrefab;
+    [SerializeField] protected Map_ItemSpawner itemSpawner;
+
     public override void PopulateChunk(float randVal)
     {
         if(randVal < 0.3f)
@@ -12,6 +15,7 @@ public class Map_SimpleChunk : Map_ChunkManager
         }
 
         int chanceTrees = (int)(randVal*100) % 5;
+        int chanceTreeDrop = ((int)(randVal*10) % 10) + ((int)(randVal*1000000) % 10);
         GameObject newTree;
 
         switch(chanceTrees)
@@ -20,26 +24,51 @@ public class Map_SimpleChunk : Map_ChunkManager
                 //Tree on the left
                 newTree = Instantiate(treePrefab, treeReference.position, Quaternion.identity, transform);
                 newTree.transform.localPosition += new Vector3(((randVal*1000)%10)/5, 0, -((randVal*10000)%10)/5);
+                if(chanceTreeDrop > 4 && chanceTreeDrop < 14)
+                {
+                    GameObject newStick = Instantiate(stickPrefab, newTree.transform.GetChild(0).GetChild(0).position, Quaternion.identity, transform);
+                    newStick.transform.localEulerAngles = new Vector3(-90, 0, 0);
+                }
                 break;
             
             case 1:
                 //Tree on the middle
                 newTree = Instantiate(treePrefab, treeReference.position, Quaternion.identity, transform);
                 newTree.transform.localPosition += new Vector3(3+((randVal*1000)%10)/5, 0, -((randVal*10000)%10)/5);
+                if(chanceTreeDrop > 4 && chanceTreeDrop < 14)
+                {
+                    GameObject newStick = Instantiate(stickPrefab, newTree.transform.GetChild(0).GetChild(1).position, Quaternion.identity, transform);
+                    newStick.transform.localEulerAngles = new Vector3(-90, 90, 0);
+                }
                 break;
             
             case 2:
                 //Tree on the right
                 newTree = Instantiate(treePrefab, treeReference.position, Quaternion.identity, transform);
                 newTree.transform.localPosition += new Vector3(6+((randVal*1000)%10)/5, 0, -((randVal*10000)%10)/5);
+                if(chanceTreeDrop > 4 && chanceTreeDrop < 14)
+                {
+                    GameObject newStick = Instantiate(stickPrefab, newTree.transform.GetChild(0).GetChild(2).position, Quaternion.identity, transform);
+                    newStick.transform.localEulerAngles = new Vector3(-90, 0, 0);
+                }
                 break;
             
             case 3:
                 //Tree on the left and right
                 newTree = Instantiate(treePrefab, treeReference.position, Quaternion.identity, transform);
                 newTree.transform.localPosition += new Vector3(((randVal*1000)%10)/5, 0, -((randVal*10000)%10)/5);
+                if(chanceTreeDrop > 4 && chanceTreeDrop < 9)
+                {
+                    GameObject newStick = Instantiate(stickPrefab, newTree.transform.GetChild(0).GetChild(0).position, Quaternion.identity, transform);
+                    newStick.transform.localEulerAngles = new Vector3(-90, 0, 0);
+                }
                 newTree = Instantiate(treePrefab, treeReference.position, Quaternion.identity, transform);
                 newTree.transform.localPosition += new Vector3(6+((randVal*1000)%10)/5, 0, -((randVal*10000)%10)/5);
+                if(chanceTreeDrop > 9 && chanceTreeDrop < 14)
+                {
+                    GameObject newStick = Instantiate(stickPrefab, newTree.transform.GetChild(0).GetChild(2).position, Quaternion.identity, transform);
+                    newStick.transform.localEulerAngles = new Vector3(-90, 0, 0);
+                }
                 break;
             
             case 4:
@@ -48,6 +77,7 @@ public class Map_SimpleChunk : Map_ChunkManager
         }
 
         Transform reference = grassNRocksReference;
+        int objCounter = 0;
 
         for(int i = 1; i < 7; i++)
         {
@@ -59,6 +89,7 @@ public class Map_SimpleChunk : Map_ChunkManager
             if(chanceGrassRocks > 7 && chanceGrassRocks < 11)
             {
                 //Nothing
+                objCounter += 2;
             }
             else if(chanceGrassRocks > 3 && chanceGrassRocks <= 7)
             {
@@ -80,6 +111,8 @@ public class Map_SimpleChunk : Map_ChunkManager
                     //Place in the middle
                     newGrass.transform.localPosition += new Vector3(2+((d1*i)%10)/5, 0, -((d2*i)%10)/20);
                 }
+
+                objCounter++;
             }
             else if(chanceGrassRocks >= 11 && chanceGrassRocks < 15)
             {
@@ -102,6 +135,8 @@ public class Map_SimpleChunk : Map_ChunkManager
                     //Place in the middle
                     newRock.transform.localPosition += new Vector3(2+((d2*i)%10)/5, 0, -((d1*i)%10)/20);
                 }
+
+                objCounter++;
             }
             else
             {
@@ -138,6 +173,19 @@ public class Map_SimpleChunk : Map_ChunkManager
             }
 
             reference.localPosition -= new Vector3(0, 0, 1);
+        }
+
+        if(objCounter > 9)
+        {
+            itemSpawner.SpawnItems(3, randVal);
+        }
+        else if(objCounter > 6)
+        {
+            itemSpawner.SpawnItems(2, randVal);
+        }
+        else if(objCounter > 2)
+        {
+            itemSpawner.SpawnItems(1, randVal);
         }
     }
 }
