@@ -21,6 +21,9 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     [HideInInspector] public GameObject playerCard;
 
+    public NetworkVariable<int> currentHealthOnl = new NetworkVariable<int>();
+
+
     void Start()
     {
         clientServer = 0;
@@ -33,6 +36,7 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         // Suscribirse al cambio de valor de la NetworkVariable.
         playerID.OnValueChanged += OnPlayerIDChanged;
+        currentHealthOnl.OnValueChanged += OnHealthChanged;
 
         movController = GetComponent<Mov_Player_Controller>();
     }
@@ -181,6 +185,89 @@ public class Onl_Player_Controller : NetworkBehaviour
     void AttackClientRPC()
     {
         movController.Attack();
+    }
+
+
+    // RERECIVE DAMAGE
+    public void TryOnlineDamaged(int damage)
+    {
+        if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            movController.receiveDamageReal(damage);
+            DamageClientRPC(damage);
+        }
+        else
+        {
+            DamageServerRPC(damage);
+        }
+    }
+
+    [ServerRpc]
+    void DamageServerRPC(int damage)
+    {
+        movController.receiveDamageReal(damage);
+        DamageClientRPC(damage);
+    }
+
+    [ClientRpc]
+    void DamageClientRPC(int damage)
+    {
+        movController.receiveDamageReal(damage);
+    }
+
+    // HEALTH
+    public void Health(int health)
+    {
+        if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            currentHealthOnl.Value = health;
+            SetHealthClientRPC(health);
+        }
+        else
+        {
+            SetHealthServerRPC(health);
+        }
+    }
+
+    private void OnHealthChanged(int oldValue, int newValue)
+    {
+        currentHealthOnl.Value = newValue;
+    }
+
+    [ServerRpc]
+    public void SetHealthServerRPC(int health)
+    {
+        currentHealthOnl.Value = health;
+        SetHealthClientRPC(health);
+    }
+
+    [ClientRpc]
+    public void SetHealthClientRPC(int health)
+    {
+        currentHealthOnl.Value = health;
+    }
+
+
+    // REVIVE
+    public void TryOnlineRevive()
+    {
+        movController.Revive();
+        ReviveClientRPC();
+    }
+
+    [ServerRpc]
+    void ReviveServerRPC()
+    {
+        movController.Revive();
+        ReviveClientRPC();
+    }
+
+    [ClientRpc]
+    void ReviveClientRPC()
+    {
+        movController.Revive();
     }
 
 
