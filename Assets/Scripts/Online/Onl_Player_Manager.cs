@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class Onl_Player_Manager : NetworkBehaviour
 {
@@ -85,12 +87,10 @@ public class Onl_Player_Manager : NetworkBehaviour
     IEnumerator WaitToChange()
     {
         yield return new WaitForSeconds(1f);
-        int i = 0;
+
         foreach (Onl_Player_Controller player in connectedPlayersOnl)
         {
-            // Todos Zorros -> player.PlayerIDSetter(0, i);
             player.PlayerIDSetter(0, player.playerID.Value);
-            i++;
         }
     }
 
