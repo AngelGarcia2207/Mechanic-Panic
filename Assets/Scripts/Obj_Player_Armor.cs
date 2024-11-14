@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /*
 Esta es la clase para las armaduras que lleva el jugador
@@ -9,7 +8,6 @@ Esta es la clase para las armaduras que lleva el jugador
 
 public class Obj_Player_Armor : Obj_Buildable
 {
-    [SerializeField] protected PlayerInput playerInput;
     [SerializeField] protected int defense;
     [SerializeField] protected Obj_Armor_Body bodyArmor;
     [SerializeField] protected List<Obj_Armor_Hat> hats;
@@ -53,12 +51,6 @@ public class Obj_Player_Armor : Obj_Buildable
             {
                 Debug.Log(item.gameObject.name);
             }
-        }
-
-        if(playerInput.actions["DropArmor"].triggered)
-        {
-            Debug.Log("Here");
-            RemoveHat();
         }
     }
 
@@ -200,8 +192,14 @@ public class Obj_Player_Armor : Obj_Buildable
 
     public void RemoveHat()
     {
+        if(hats.Count == 0)
+        {
+            return;
+        }
+
         GameObject removedHat = Instantiate(hats[hats.Count - 1].GetPrefab(), transform.position, Quaternion.identity);
-        removedHat.GetComponent<Rigidbody>().AddForce(new Vector3(-5, 3, 0));
+        removedHat.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-200,200), 200, Random.Range(-200,200)));
         hats.RemoveAt(hats.Count - 1);
+        Destroy(hatParent.GetChild(hatParent.childCount-1).gameObject);
     }
 }

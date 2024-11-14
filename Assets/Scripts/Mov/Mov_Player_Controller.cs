@@ -75,7 +75,6 @@ public class Mov_Player_Controller : MonoBehaviour
         ChangeCharacter();
 
         // Configuración adicional si es necesario
-    
 
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
@@ -85,6 +84,14 @@ public class Mov_Player_Controller : MonoBehaviour
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
         GameManager.Instance.AddPlayer(this.gameObject);
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(transform.GetChild(i).gameObject.active)
+            {
+                playerArmor = transform.GetChild(i).GetChild(2).gameObject.GetComponent<Obj_Player_Armor>();
+            }
+        }
     }
 
     public void ChangeCharacter()
@@ -264,6 +271,11 @@ public class Mov_Player_Controller : MonoBehaviour
         if (playerInput.actions["Pause"].triggered)
         {
             GameManager.Instance.TogglePause();
+        }
+
+        if(playerInput.actions["DropArmor"].triggered)
+        {
+            playerArmor.RemoveHat();
         }
     }
 
