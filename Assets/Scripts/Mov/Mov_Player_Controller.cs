@@ -42,7 +42,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private Onl_Player_Controller onlController;
     [HideInInspector] public Onl_Player_Manager onlManager;
     private bool isOnline = false;
-    public int onlineIndex = 0;
+    public int onlineIndex = -1;
 
     // ONLINE INPUTS
     private bool canOnlPickUp = false, canOnlAttack = false;
