@@ -4,6 +4,7 @@ using UnityEngine;
 public class SFX_Manager : MonoBehaviour
 {
     [SerializeField] private AudioSource SFXObject;
+    [SerializeField] private AudioSource MusicObject;
     [SerializeField] private float transitionTime = 1.0f;
     private AudioSource currentMusicObject;
     
@@ -54,7 +55,7 @@ public class SFX_Manager : MonoBehaviour
     {
         if (currentMusicObject == null)
         {
-            currentMusicObject = Instantiate(SFXObject, transform.position, Quaternion.identity, transform);
+            currentMusicObject = Instantiate(MusicObject, transform.position, Quaternion.identity, transform);
         }
 
         if (currentMusicObject.isPlaying)
