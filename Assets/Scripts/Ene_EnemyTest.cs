@@ -43,7 +43,7 @@ public class Ene_EnemyTest : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) {
             Mov_Player_Controller playerScript = other.GetComponent<Mov_Player_Controller>();
 
-            playerScript.receiveDamage(10);
+            playerScript.receiveDamageRaw(10);
 
             playerScript.applyKnockBack(knockbackDirection);
 
