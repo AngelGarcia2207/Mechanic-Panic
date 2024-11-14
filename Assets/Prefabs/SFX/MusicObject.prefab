@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 179452130794013612}
   - component: {fileID: 752971326026430523}
   m_Layer: 0
-  m_Name: SFXObject
+  m_Name: MusicObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 5574104891442040445}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4778831309167714868, guid: 3078702627934004d85aa0a6439e4e31,
+  OutputAudioMixerGroup: {fileID: -1587798176485396404, guid: 3078702627934004d85aa0a6439e4e31,
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0

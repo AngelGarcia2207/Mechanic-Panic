@@ -72,30 +72,46 @@ public class Mov_Player_Controller : MonoBehaviour
 
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
 
-        ChangeCharacter();
+        ChangeCharacter(-1);
 
         // Configuración adicional si es necesario
-    
 
         charController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
         transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
-        currentHealth = playerProp.maxHealth;
+        GetCurrentHealth(playerProp.maxHealth, "Set");
+        //currentHealth = playerProp.maxHealth;
 
         Map_Display_Boundaries.Instance.AddPlayer(this.gameObject);
         GameManager.Instance.AddPlayer(this.gameObject);
+
+        for(int i = 0; i < 4; i++)
+        {
+            if(transform.GetChild(i).gameObject.active)
+            {
+                playerArmor = transform.GetChild(i).GetChild(2).gameObject.GetComponent<Obj_Player_Armor>();
+            }
+        }
     }
 
-    public void ChangeCharacter()
+    public void ChangeCharacter(int characterID)
     {
-        if (isOnline)
+        if (characterID >= 0 && characterID <= 3)
         {
+            // Local u Online con selección
+            playerProp = playerProps[characterID];
+            if (isOnline) { GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator; }
+        }
+        else if(isOnline)
+        {
+            // Multijugador Online sin selección
             playerProp = playerProps[onlineIndex];
             GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator;
         }
         else
         {
+            // Multijugador Local sin selección
             playerProp = playerProps[playerIndex];
         }
 
@@ -258,12 +274,24 @@ public class Mov_Player_Controller : MonoBehaviour
         
         if (SM.GetCurrentState() == SM.dead && jumpButtonPressed)
         {
-            Revive();
+            if (!isOnline) { Revive(); }
+            else
+            {
+                if (onlController != null)
+                {
+                    onlController.TryOnlineRevive();
+                }
+            }
         }
 
         if (playerInput.actions["Pause"].triggered)
         {
             GameManager.Instance.TogglePause();
+        }
+
+        if(playerInput.actions["DropArmor"].triggered)
+        {
+            playerArmor.RemoveHat();
         }
     }
 
@@ -304,19 +332,55 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    public void receiveDamage(int damage)
+    private void OnTriggerEnter(Collider tri)
+    {
+        if(tri.gameObject.name == "OnlineDamage")
+        {
+            receiveDamageRaw(25);
+        }
+    }
+
+    public int GetCurrentHealth(int value, string setOrAdd)
+    {
+        if (setOrAdd == "Set") { currentHealth = value; }
+        else if (setOrAdd == "Add") { currentHealth += value; }
+        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+        playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+        if (isOnline)
+        {
+            onlController.Health(currentHealth);
+            return onlController.currentHealthOnl;
+        }
+        return currentHealth;
+    }
+
+    public void receiveDamageRaw(int damage)
+    {
+        if (!isOnline)
+        { receiveDamageReal(damage); }
+        else
+        {
+            if (onlController != null)
+            {
+                onlController.TryOnlineDamaged(damage);
+            }
+        }
+    }
+
+    public void receiveDamageReal(int damage)
     {
         if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
             StartCoroutine(InvulnerabilityDelay());
-            currentHealth -= damage;
+            GetCurrentHealth(-damage, "Add");
+            //currentHealth -= damage;
 
             audioClips.damageAudio();
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
-            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+            playerCardScript.UpdateHealthBar(GetCurrentHealth(0, "Add"), playerProp.maxHealth);
 
-            if (currentHealth <= 0)
+            if (GetCurrentHealth(0, "Add") <= 0)
             {
                 Die();
             }
@@ -402,14 +466,15 @@ public class Mov_Player_Controller : MonoBehaviour
         GameManager.Instance.checkForAlivePlayers();
         UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
         Map_Display_Boundaries.Instance.RemovePlayer(this.gameObject);
-        playerCardScript.ToggleDeadPanel();
+        playerCardScript.ToggleDeadPanel(false);
     }
 
-    private void Revive()
+    public void Revive()
     {
         if (GameManager.Instance.ConsumeALive())
         {
-            currentHealth = playerProp.maxHealth;
+            GetCurrentHealth(playerProp.maxHealth, "Set");
+            //currentHealth = playerProp.maxHealth;
             transform.position = Map_Display_Boundaries.Instance.transform.position + new Vector3(0, 3, 0);
             gameObject.tag = "Player";
             SM.ReturnToIdle();
@@ -420,8 +485,8 @@ public class Mov_Player_Controller : MonoBehaviour
             transform.position = Map_Display_Boundaries.Instance.transform.position;
 
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
-            playerCardScript.ToggleDeadPanel();
-            playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+            playerCardScript.ToggleDeadPanel(true);
+            playerCardScript.UpdateHealthBar(GetCurrentHealth(playerProp.maxHealth, "Set"), playerProp.maxHealth);
         }
     }
 

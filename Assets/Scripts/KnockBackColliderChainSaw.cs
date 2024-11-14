@@ -17,7 +17,7 @@ public class KnockBackColliderChainSaw : MonoBehaviour
 
             playerScript.applyKnockBack(knockbackDirection);
 
-            playerScript.receiveDamage(damage);
+            playerScript.receiveDamageRaw(damage);
 
             playerScript.applyStun(stunDuration);
         }

@@ -1647,7 +1647,6 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 1442690220907255942}
   buildableRenderer: {fileID: 2191883883450025125}
-  playerInput: {fileID: 1823020374086817304}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
@@ -6889,11 +6888,10 @@ Transform:
   m_Children:
   - {fileID: 6561171504113032830}
   - {fileID: 4456414462833892713}
-  - {fileID: 6775408742817729455}
   - {fileID: 1690416157785020334}
-  - {fileID: 2142310185314874615}
   - {fileID: 3767330647048518444}
   - {fileID: 6607962086115373499}
+  - {fileID: 2142310185314874615}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7468466555714822358
@@ -7070,7 +7068,8 @@ AudioSource:
   m_GameObject: {fileID: 3580317596767467194}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -4778831309167714868, guid: 3078702627934004d85aa0a6439e4e31,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 989a83e739f498b40b9e0e044cb8016f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -7589,7 +7588,6 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
-  playerInput: {fileID: 0}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
@@ -7788,37 +7786,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 615568467904495669}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5825101126383255397
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6775408742817729455}
-  m_Layer: 0
-  m_Name: Armor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6775408742817729455
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5825101126383255397}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7772918, y: 0.36656713, z: 0.38526532}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4392093558722110124}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5943550335593148992
 GameObject:
@@ -8516,7 +8483,6 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
-  playerInput: {fileID: 0}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []
@@ -9628,7 +9594,6 @@ MonoBehaviour:
   Integrity: 0
   buildableMesh: {fileID: 0}
   buildableRenderer: {fileID: 0}
-  playerInput: {fileID: 1823020374086817304}
   defense: 0
   bodyArmor: {fileID: 0}
   hats: []

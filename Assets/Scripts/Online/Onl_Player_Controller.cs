@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 using Unity.Collections.LowLevel.Unsafe;
+using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.TextCore.Text;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -21,6 +23,9 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     [HideInInspector] public GameObject playerCard;
 
+    [HideInInspector] public int currentHealthOnl;
+
+
     void Start()
     {
         clientServer = 0;
@@ -35,6 +40,38 @@ public class Onl_Player_Controller : NetworkBehaviour
         playerID.OnValueChanged += OnPlayerIDChanged;
 
         movController = GetComponent<Mov_Player_Controller>();
+
+        if (IsOwner)
+        {
+            GameObject.FindAnyObjectByType<Loc_Character_Select>().onlController = this;
+        }
+    }
+
+    public void TryOnlineChooseCharacter(int characterID)
+    {
+        if (IsOwner)
+        {
+            if (IsServer) { ChooseCharacterClientRPC(characterID); }
+            else { ChooseCharacterServerRPC(characterID); }
+        }
+    }
+
+    [ServerRpc]
+    public void ChooseCharacterServerRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+        ChooseCharacterClientRPC(characterID);
+    }
+
+    [ClientRpc]
+    public void ChooseCharacterClientRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+    }
+
+    private void ChooseCharacter(int characterID)
+    {
+        movController.ChangeCharacter(characterID);
     }
 
     void FixedUpdate()
@@ -184,6 +221,93 @@ public class Onl_Player_Controller : NetworkBehaviour
     }
 
 
+    // RERECIVE DAMAGE
+    public void TryOnlineDamaged(int damage)
+    {
+        if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            movController.receiveDamageReal(damage);
+            DamageClientRPC(damage);
+        }
+        else
+        {
+            DamageServerRPC(damage);
+        }
+    }
+
+    [ServerRpc]
+    void DamageServerRPC(int damage)
+    {
+        movController.receiveDamageReal(damage);
+        DamageClientRPC(damage);
+    }
+
+    [ClientRpc]
+    void DamageClientRPC(int damage)
+    {
+        movController.receiveDamageReal(damage);
+    }
+
+    // HEALTH
+    public void Health(int health)
+    {
+        if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            currentHealthOnl = health;
+            SetHealthClientRPC(health);
+        }
+        else
+        {
+            SetHealthServerRPC(health);
+        }
+    }
+
+    private void OnHealthChanged(int oldValue, int newValue)
+    {
+        currentHealthOnl = newValue;
+    }
+
+    [ServerRpc]
+    public void SetHealthServerRPC(int health)
+    {
+        currentHealthOnl = health;
+        SetHealthClientRPC(health);
+    }
+
+    [ClientRpc]
+    public void SetHealthClientRPC(int health)
+    {
+        currentHealthOnl = health;
+    }
+
+
+    
+
+
+
+    // REVIVE
+    public void TryOnlineRevive()
+    {
+        movController.Revive();
+        ReviveClientRPC();
+    }
+
+    [ServerRpc]
+    void ReviveServerRPC()
+    {
+        movController.Revive();
+        ReviveClientRPC();
+    }
+
+    [ClientRpc]
+    void ReviveClientRPC()
+    {
+        movController.Revive();
+    }
+
+
 
     // Asegúrate de que `playerCard` se establezca cuando se crea en `Mov_Player_Controller`.
     public void SetPlayerCard(GameObject card)
@@ -253,7 +377,7 @@ public class Onl_Player_Controller : NetworkBehaviour
         {
             if (newValue != 100)
             { movController.onlineIndex = newValue; }
-            movController.ChangeCharacter();
+            movController.ChangeCharacter(-1);
         }
     }
 }
