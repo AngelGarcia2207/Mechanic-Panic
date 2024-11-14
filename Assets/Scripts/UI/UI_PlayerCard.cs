@@ -14,15 +14,8 @@ public class UI_PlayerCard : MonoBehaviour
         healthBarImage.fillAmount = (float) currentHealth / maxHealth;
     }
 
-    public void ToggleDeadPanel()
+    public void ToggleDeadPanel(bool activate)
     {
-        if (DeadPanel.activeSelf)
-        {
-            DeadPanel.SetActive(false);
-        }
-        else
-        {
-            DeadPanel.SetActive(true);
-        }
+        DeadPanel.SetActive(!activate);
     }
 }

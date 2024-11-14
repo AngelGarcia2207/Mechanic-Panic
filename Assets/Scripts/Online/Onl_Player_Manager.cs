@@ -12,6 +12,8 @@ public class Onl_Player_Manager : NetworkBehaviour
 
     public List<GameObject> playerCards = new List<GameObject>();
 
+    [HideInInspector] public int remainingLivesOnl;
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
@@ -92,5 +94,40 @@ public class Onl_Player_Manager : NetworkBehaviour
             NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
         }
+    }
+
+
+
+    // Remaining Lives General
+    public void TryRemLivesOnline(int value)
+    {
+        if (!IsOwner) { return; }
+        if (IsServer)
+        {
+            remainingLivesOnl = value;
+            RemLivesClientRPC(value);
+        }
+        else
+        {
+            RemLivesServerRPC(value);
+        }
+    }
+
+    private void OnRemLivesChanged(int oldValue, int newValue)
+    {
+        remainingLivesOnl = newValue;
+    }
+
+    [ServerRpc]
+    public void RemLivesServerRPC(int value)
+    {
+        remainingLivesOnl = value;
+        RemLivesClientRPC(value);
+    }
+
+    [ClientRpc]
+    public void RemLivesClientRPC(int value)
+    {
+        remainingLivesOnl = value;
     }
 }

@@ -19,16 +19,16 @@ public class Ene_EnemyTest : MonoBehaviour
     private Vector3 initialPosition, leftTarget, rightTarget, frontTarget, backTarget;
     private Queue<Vector3> targetsQueue = new();
     private List<Collider> hittingColliders = new();
+    [SerializeField] private float dropChance;
+    [SerializeField] private List<GameObject> dropList;
     public UnityEvent death = new();
 
-    // Start is called before the first frame update
     void Start()
     {
         initialPosition = this.transform.position;
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(stunned)  
@@ -43,7 +43,7 @@ public class Ene_EnemyTest : MonoBehaviour
         if (other.gameObject.CompareTag("Player")) {
             Mov_Player_Controller playerScript = other.GetComponent<Mov_Player_Controller>();
 
-            playerScript.receiveDamage(10);
+            playerScript.receiveDamageRaw(10);
 
             playerScript.applyKnockBack(knockbackDirection);
 
@@ -61,7 +61,7 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
             Destroy(newTag, 1f);
 
-            Debug.Log("sc");
+           //Debug.Log("sc");
             DamageEnemy(playerWeapon.DealDamage(), other);
         }
         else if(other.CompareTag("WeaponComplement"))
@@ -73,7 +73,7 @@ public class Ene_EnemyTest : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
 
-            Debug.Log("sc2");
+            //Debug.Log("sc2");
             DamageEnemy(playerWeapon.DealDamage(), other);
         }
     }
@@ -133,6 +133,7 @@ public class Ene_EnemyTest : MonoBehaviour
             {
                 QuitStun();
                 death.Invoke();
+                StartCoroutine(DropItem());
                 if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
             }
             StartCoroutine(QuitStunCoroutine(currentHealth));
@@ -153,7 +154,7 @@ public class Ene_EnemyTest : MonoBehaviour
         if(currentHealth <= 0)
         {
             shakeAnimator.SetInteger("ShakeState", 2);
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -184,5 +185,16 @@ public class Ene_EnemyTest : MonoBehaviour
         targetsQueue.Enqueue(rightTarget);
         targetsQueue.Enqueue(frontTarget);
         targetsQueue.Enqueue(backTarget);
+    }
+
+    IEnumerator DropItem()
+    {
+        yield return new WaitForSeconds(1f);
+        if(Random.value <= dropChance/100)
+        {
+            GameObject droppedItem = Instantiate(dropList[Random.Range(0, dropList.Count-1)], transform.position, Quaternion.identity);
+            droppedItem.transform.localEulerAngles = new Vector3(-90, 0, 0);
+            droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(10, 20), 10, Random.Range(10, 20)));
+        }
     }
 }
