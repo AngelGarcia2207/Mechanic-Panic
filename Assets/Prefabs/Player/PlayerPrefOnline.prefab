@@ -6915,8 +6915,8 @@ MonoBehaviour:
   playerProps:
   - {fileID: 8863532313106995935}
   - {fileID: 1108092994006191620}
-  - {fileID: 684131797665138374}
   - {fileID: 5209121578018009579}
+  - {fileID: 684131797665138374}
   onlManager: {fileID: 0}
   onlineIndex: 0
   weapon: {fileID: 6555330201260869428}
@@ -7181,8 +7181,7 @@ MonoBehaviour:
   onlDirection2D: {x: 0, y: 0}
   isSever: 0
   playerCard: {fileID: 0}
-  currentHealthOnl:
-    m_InternalValue: 0
+  currentHealthOnl: 0
   playerID:
     m_InternalValue: 0
 --- !u!114 &2261985409231707982
