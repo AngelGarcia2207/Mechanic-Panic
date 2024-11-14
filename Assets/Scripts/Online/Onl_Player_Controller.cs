@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
 using Unity.Collections.LowLevel.Unsafe;
+using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.TextCore.Text;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -21,7 +23,7 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     [HideInInspector] public GameObject playerCard;
 
-    public NetworkVariable<int> currentHealthOnl = new NetworkVariable<int>();
+    [HideInInspector] public int currentHealthOnl;
 
 
     void Start()
@@ -36,9 +38,40 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         // Suscribirse al cambio de valor de la NetworkVariable.
         playerID.OnValueChanged += OnPlayerIDChanged;
-        currentHealthOnl.OnValueChanged += OnHealthChanged;
 
         movController = GetComponent<Mov_Player_Controller>();
+
+        if (IsOwner)
+        {
+            GameObject.FindAnyObjectByType<Loc_Character_Select>().onlController = this;
+        }
+    }
+
+    public void TryOnlineChooseCharacter(int characterID)
+    {
+        if (IsOwner)
+        {
+            if (IsServer) { ChooseCharacterClientRPC(characterID); }
+            else { ChooseCharacterServerRPC(characterID); }
+        }
+    }
+
+    [ServerRpc]
+    public void ChooseCharacterServerRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+        ChooseCharacterClientRPC(characterID);
+    }
+
+    [ClientRpc]
+    public void ChooseCharacterClientRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+    }
+
+    private void ChooseCharacter(int characterID)
+    {
+        movController.ChangeCharacter(characterID);
     }
 
     void FixedUpdate()
@@ -222,7 +255,7 @@ public class Onl_Player_Controller : NetworkBehaviour
         if (!IsOwner) { return; }
         if (IsServer)
         {
-            currentHealthOnl.Value = health;
+            currentHealthOnl = health;
             SetHealthClientRPC(health);
         }
         else
@@ -233,21 +266,25 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     private void OnHealthChanged(int oldValue, int newValue)
     {
-        currentHealthOnl.Value = newValue;
+        currentHealthOnl = newValue;
     }
 
     [ServerRpc]
     public void SetHealthServerRPC(int health)
     {
-        currentHealthOnl.Value = health;
+        currentHealthOnl = health;
         SetHealthClientRPC(health);
     }
 
     [ClientRpc]
     public void SetHealthClientRPC(int health)
     {
-        currentHealthOnl.Value = health;
+        currentHealthOnl = health;
     }
+
+
+    
+
 
 
     // REVIVE
@@ -340,7 +377,7 @@ public class Onl_Player_Controller : NetworkBehaviour
         {
             if (newValue != 100)
             { movController.onlineIndex = newValue; }
-            movController.ChangeCharacter();
+            movController.ChangeCharacter(-1);
         }
     }
 }
