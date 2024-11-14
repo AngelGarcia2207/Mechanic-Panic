@@ -7,14 +7,24 @@ public class Map_ProceduralGenerator : MonoBehaviour
     [SerializeField] private List<GameObject> chunkPool = new();
     [SerializeField] private int seed;
     [SerializeField] private int preloadedChunks;
+    [SerializeField] private int maxChunks;
     [SerializeField] private Transform loadPositionReference;
     [SerializeField] private Map_ChunkManager initialChunk;
+    private float[] chunkValues;
+    private int chunkCounter = 0;
 
     void Start()
     {
         if(seed != 0)
         {
            Random.InitState(seed);
+        }
+
+        chunkValues = new float[maxChunks];
+
+        for(int i = 0; i < maxChunks; i++)
+        {
+            chunkValues[i] = Random.value;
         }
 
         initialChunk.loadNewChunk.AddListener(LoadChunk);
@@ -27,7 +37,8 @@ public class Map_ProceduralGenerator : MonoBehaviour
 
     public void LoadChunk(Map_ChunkManager oldChunk)
     {
-        float val = Random.value;
+        //float val = Random.value;
+        float val = chunkValues[chunkCounter];
         int index = (int)(val*10) % chunkPool.Count;
         //Debug.Log(index);
         GameObject newChunk = Instantiate(chunkPool[index], loadPositionReference.position, Quaternion.identity, transform.GetChild(1));
@@ -38,5 +49,6 @@ public class Map_ProceduralGenerator : MonoBehaviour
         {
             oldChunk.loadNewChunk.RemoveListener(LoadChunk);
         }
+        chunkCounter++;
     }
 }
