@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
-using Unity.Collections.LowLevel.Unsafe;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -399,6 +397,7 @@ public class Onl_Player_Controller : NetworkBehaviour
             if (newValue != 100 && movController.onlineIndex == -1)
             { movController.onlineIndex = newValue; }
             movController.ChangeCharacter(savedCharacterID.Value);
+            GameObject.Find("selected_id_" + savedCharacterID.Value).GetComponent<Image>().enabled = true;
         }
     }
 }
