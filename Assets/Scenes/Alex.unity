@@ -21263,7 +21263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2881286481422123142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21804,6 +21804,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayersCardsPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1711210368572560529, guid: 44610d730d082d84994fa317380011dc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5337305093685537465, guid: 44610d730d082d84994fa317380011dc,
         type: 3}
