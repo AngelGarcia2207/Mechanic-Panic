@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b590c276d94597841a85b686d537434c
+guid: 4b8dff7df44dde84a9541d20fd8d61e5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -38,7 +38,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: TurretIddle
+      name: Iddle
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
@@ -67,18 +67,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: TurretWait
+      name: Shoot
       takeName: Take 001
       internalID: -998496362607748373
-      firstFrame: 0
-      lastFrame: 1
+      firstFrame: 65
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
