@@ -7,6 +7,7 @@ using TMPro;
 public class UI_Manager : MonoBehaviour
 {
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject configPanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text remainingLivesAmount;
     [SerializeField] private TMP_Text scoreAmount;
@@ -37,12 +38,21 @@ public class UI_Manager : MonoBehaviour
         remainingLivesAmount.text = remainingLives.ToString();
     }
 
-    public void TogglePausePanel(bool isPaused)
+    public void TogglePausePanel(bool status)
     {
-        if (!gameOverPanel.activeSelf)
-        {
-            pausePanel.SetActive(isPaused);
-        }
+        pausePanel.SetActive(status);
+    }
+
+    public void ShowConfigPanel()
+    {
+        configPanel.SetActive(true);
+        GameManager.Instance.ToggleConfig(true);
+    }
+
+    public void HideConfigPanel()
+    {
+        configPanel.SetActive(false);
+        GameManager.Instance.ToggleConfig(false);
     }
 
     public void UpdateScoreText(int score)

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int levelScore = 0;
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     private bool isPaused = false;
+    private bool isShowingConfig = false;
 
     // ONLINE
     [HideInInspector] public Onl_Player_Manager onlManager;
@@ -102,17 +103,27 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
-        isPaused = !isPaused;
-        UI_Manager.Instance.TogglePausePanel(isPaused);
-
-        if (isPaused)
+        if (isShowingConfig)
         {
-            Time.timeScale = 0f;
+            UI_Manager.Instance.HideConfigPanel();
+        }
+        else if (isPaused)
+        {
+            isPaused = false;
+            UI_Manager.Instance.TogglePausePanel(isPaused);
+            Time.timeScale = 1f;
         }
         else
         {
-            Time.timeScale = 1f;
+            isPaused = true;
+            UI_Manager.Instance.TogglePausePanel(isPaused);
+            Time.timeScale = 0f;
         }
+    }
+
+    public void ToggleConfig(bool status)
+    {
+        isShowingConfig = status;
     }
 
     public void GoToMainMenu()
