@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
-using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine.UI;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -21,7 +21,9 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     [HideInInspector] public GameObject playerCard;
 
-    public NetworkVariable<int> currentHealthOnl = new NetworkVariable<int>();
+    [HideInInspector] public int currentHealthOnl;
+    public NetworkVariable<int> savedCharacterID = new NetworkVariable<int>();
+
 
 
     void Start()
@@ -36,10 +38,70 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         // Suscribirse al cambio de valor de la NetworkVariable.
         playerID.OnValueChanged += OnPlayerIDChanged;
-        currentHealthOnl.OnValueChanged += OnHealthChanged;
 
         movController = GetComponent<Mov_Player_Controller>();
+
+        if (IsOwner)
+        {
+            GameObject.FindAnyObjectByType<Loc_Character_Select>().onlController = this;
+        }
     }
+
+    // CHARACTER SELECTION
+    public void TryOnlineChooseCharacter(int characterID)
+    {
+        if (IsOwner)
+        {
+            if (IsServer) { ChooseCharacterClientRPC(characterID); }
+            else { ChooseCharacterServerRPC(characterID); }
+        }
+    }
+
+    [ServerRpc]
+    public void ChooseCharacterServerRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+        ChooseCharacterClientRPC(characterID);
+    }
+
+    [ClientRpc]
+    public void ChooseCharacterClientRPC(int characterID)
+    {
+        ChooseCharacter(characterID);
+    }
+
+    private void ChooseCharacter(int characterID)
+    {
+        movController.ChangeCharacter(characterID);
+    }
+
+    // CHARACTER SAVING
+    
+    public void SaveCharacter(int characterID)
+    {
+        if (!IsOwner) { return; }
+        if(IsServer) { savedCharacterID.Value = characterID; SaveCharacterClientRPC(characterID); }
+        else { SaveCharacterServerRPC(characterID); }
+        //savedCharacterID.Value = characterID;
+
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SaveCharacterServerRPC(int characterID)
+    {
+        savedCharacterID.Value = characterID;
+        SaveCharacterClientRPC(characterID);
+    }
+
+    [ClientRpc]
+    public void SaveCharacterClientRPC(int characterID)
+    {
+        savedCharacterID.Value = characterID;
+    }
+
+
+
 
     void FixedUpdate()
     {
@@ -222,7 +284,7 @@ public class Onl_Player_Controller : NetworkBehaviour
         if (!IsOwner) { return; }
         if (IsServer)
         {
-            currentHealthOnl.Value = health;
+            currentHealthOnl = health;
             SetHealthClientRPC(health);
         }
         else
@@ -233,21 +295,25 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     private void OnHealthChanged(int oldValue, int newValue)
     {
-        currentHealthOnl.Value = newValue;
+        currentHealthOnl = newValue;
     }
 
     [ServerRpc]
     public void SetHealthServerRPC(int health)
     {
-        currentHealthOnl.Value = health;
+        currentHealthOnl = health;
         SetHealthClientRPC(health);
     }
 
     [ClientRpc]
     public void SetHealthClientRPC(int health)
     {
-        currentHealthOnl.Value = health;
+        currentHealthOnl = health;
     }
+
+
+    
+
 
 
     // REVIVE
@@ -308,16 +374,6 @@ public class Onl_Player_Controller : NetworkBehaviour
     {
         PlayerID(oldValue, newValue);
         PlayerIDClientRPC(oldValue, newValue);
-        /*if (!IsOwner) { return; }
-        if (IsServer)
-        {
-            PlayerID(oldValue, newValue);
-            PlayerIDClientRPC(oldValue, newValue); // Llama a todos los clientes para ejecutar la acción de Grab
-        }
-        else
-        {
-            PlayerIDServerRPC(oldValue, newValue);
-        }*/
     }
 
     [ServerRpc]
@@ -338,9 +394,10 @@ public class Onl_Player_Controller : NetworkBehaviour
         Mov_Player_Controller movController = GetComponent<Mov_Player_Controller>();
         if (movController != null)
         {
-            if (newValue != 100)
+            if (newValue != 100 && movController.onlineIndex == -1)
             { movController.onlineIndex = newValue; }
-            movController.ChangeCharacter();
+            movController.ChangeCharacter(savedCharacterID.Value);
+            GameObject.Find("selected_id_" + savedCharacterID.Value).GetComponent<Image>().enabled = true;
         }
     }
 }

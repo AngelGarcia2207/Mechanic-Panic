@@ -42,7 +42,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private Onl_Player_Controller onlController;
     [HideInInspector] public Onl_Player_Manager onlManager;
     private bool isOnline = false;
-    public int onlineIndex = 0;
+    public int onlineIndex = -1;
 
     // ONLINE INPUTS
     private bool canOnlPickUp = false, canOnlAttack = false;
@@ -72,7 +72,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
 
-        ChangeCharacter();
+        ChangeCharacter(-1);
 
         // Configuración adicional si es necesario
 
@@ -95,15 +95,23 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    public void ChangeCharacter()
+    public void ChangeCharacter(int characterID)
     {
-        if (isOnline)
+        if (characterID >= 0 && characterID <= 3)
         {
+            // Local u Online con selección
+            playerProp = playerProps[characterID];
+            if (isOnline) { GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator; }
+        }
+        else if(isOnline)
+        {
+            // Multijugador Online sin selección
             playerProp = playerProps[onlineIndex];
             GetComponent<NetworkAnimator>().Animator = playerProp.spriteAnimator;
         }
         else
         {
+            // Multijugador Local sin selección
             playerProp = playerProps[playerIndex];
         }
 
@@ -341,7 +349,7 @@ public class Mov_Player_Controller : MonoBehaviour
         if (isOnline)
         {
             onlController.Health(currentHealth);
-            return onlController.currentHealthOnl.Value;
+            return onlController.currentHealthOnl;
         }
         return currentHealth;
     }

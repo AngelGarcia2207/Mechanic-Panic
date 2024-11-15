@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -9,6 +10,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int levelScore = 0;
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     private bool isPaused = false;
+    private bool isShowingConfig = false;
+
+    // ONLINE
+    [HideInInspector] public Onl_Player_Manager onlManager;
+    private bool isOnline = false;
 
     public static GameManager Instance { get; private set; }
 
@@ -20,6 +26,15 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void Start()
+    {
+        onlManager = GameObject.FindFirstObjectByType<Onl_Player_Manager>();
+        if(onlManager != null)
+        {
+            isOnline = true;
+        }
     }
 
     public void AddPlayer(GameObject newPlayer)
@@ -55,9 +70,10 @@ public class GameManager : MonoBehaviour
 
     public bool ConsumeALive()
     {
-        if (remainingLives > 0)
+        if (GetRemainingLives(0, "Add") > 0)
         {
-            remainingLives -= 1;
+            //remainingLives -= 1;
+            GetRemainingLives(-1, "Add");
             UI_Manager.Instance.UpdateRemainingLivesText(remainingLives);
             return true;
         }
@@ -65,6 +81,18 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public int GetRemainingLives(int value, string setOrAdd)
+    {
+        if (setOrAdd == "Set") { remainingLives = value; }
+        else if (setOrAdd == "Add") { remainingLives += value; }
+        if (isOnline)
+        {
+            onlManager.TryRemLivesOnline(remainingLives);
+            return onlManager.remainingLivesOnl;
+        }
+        return remainingLives;
     }
 
     public void increaseLevelScore(int scoreToAdd)
@@ -75,17 +103,27 @@ public class GameManager : MonoBehaviour
 
     public void TogglePause()
     {
-        isPaused = !isPaused;
-        UI_Manager.Instance.TogglePausePanel(isPaused);
-
-        if (isPaused)
+        if (isShowingConfig)
         {
-            Time.timeScale = 0f;
+            UI_Manager.Instance.HideConfigPanel();
+        }
+        else if (isPaused)
+        {
+            isPaused = false;
+            UI_Manager.Instance.TogglePausePanel(isPaused);
+            Time.timeScale = 1f;
         }
         else
         {
-            Time.timeScale = 1f;
+            isPaused = true;
+            UI_Manager.Instance.TogglePausePanel(isPaused);
+            Time.timeScale = 0f;
         }
+    }
+
+    public void ToggleConfig(bool status)
+    {
+        isShowingConfig = status;
     }
 
     public void GoToMainMenu()
