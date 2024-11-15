@@ -6033,6 +6033,8 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  dropChance: 0
+  dropList: []
   death:
     m_PersistentCalls:
       m_Calls: []
@@ -6717,6 +6719,8 @@ MonoBehaviour:
   currentHealth: 0
   stunned: 0
   swayStart: 0
+  dropChance: 0
+  dropList: []
   death:
     m_PersistentCalls:
       m_Calls: []
@@ -21808,7 +21812,7 @@ PrefabInstance:
     - target: {fileID: 1711210368572560529, guid: 44610d730d082d84994fa317380011dc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5337305093685537465, guid: 44610d730d082d84994fa317380011dc,
         type: 3}

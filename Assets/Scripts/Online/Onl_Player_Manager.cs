@@ -84,6 +84,10 @@ public class Onl_Player_Manager : NetworkBehaviour
         nextPlayerID--;
     }
 
+    public void ChangeAllCharacterssss()
+    {
+        StartCoroutine(WaitToChange());
+    }
     IEnumerator WaitToChange()
     {
         yield return new WaitForSeconds(1f);
@@ -92,11 +96,6 @@ public class Onl_Player_Manager : NetworkBehaviour
         {
             player.PlayerIDSetter(0, player.playerID.Value);
         }
-    }
-
-    public void ChangeAllCharacterssss()
-    {
-        StartCoroutine(WaitToChange());
     }
 
     private void OnDestroy()
