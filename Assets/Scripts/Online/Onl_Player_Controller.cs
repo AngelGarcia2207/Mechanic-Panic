@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
-using Unity.Collections.LowLevel.Unsafe;
-using static UnityEngine.Rendering.DebugUI;
-using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 
 public class Onl_Player_Controller : NetworkBehaviour
@@ -24,6 +22,8 @@ public class Onl_Player_Controller : NetworkBehaviour
     [HideInInspector] public GameObject playerCard;
 
     [HideInInspector] public int currentHealthOnl;
+    public NetworkVariable<int> savedCharacterID = new NetworkVariable<int>();
+
 
 
     void Start()
@@ -47,6 +47,7 @@ public class Onl_Player_Controller : NetworkBehaviour
         }
     }
 
+    // CHARACTER SELECTION
     public void TryOnlineChooseCharacter(int characterID)
     {
         if (IsOwner)
@@ -73,6 +74,34 @@ public class Onl_Player_Controller : NetworkBehaviour
     {
         movController.ChangeCharacter(characterID);
     }
+
+    // CHARACTER SAVING
+    
+    public void SaveCharacter(int characterID)
+    {
+        if (!IsOwner) { return; }
+        if(IsServer) { savedCharacterID.Value = characterID; SaveCharacterClientRPC(characterID); }
+        else { SaveCharacterServerRPC(characterID); }
+        //savedCharacterID.Value = characterID;
+
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SaveCharacterServerRPC(int characterID)
+    {
+        savedCharacterID.Value = characterID;
+        SaveCharacterClientRPC(characterID);
+    }
+
+    [ClientRpc]
+    public void SaveCharacterClientRPC(int characterID)
+    {
+        savedCharacterID.Value = characterID;
+    }
+
+
+
 
     void FixedUpdate()
     {
@@ -345,16 +374,6 @@ public class Onl_Player_Controller : NetworkBehaviour
     {
         PlayerID(oldValue, newValue);
         PlayerIDClientRPC(oldValue, newValue);
-        /*if (!IsOwner) { return; }
-        if (IsServer)
-        {
-            PlayerID(oldValue, newValue);
-            PlayerIDClientRPC(oldValue, newValue); // Llama a todos los clientes para ejecutar la acción de Grab
-        }
-        else
-        {
-            PlayerIDServerRPC(oldValue, newValue);
-        }*/
     }
 
     [ServerRpc]
@@ -375,9 +394,10 @@ public class Onl_Player_Controller : NetworkBehaviour
         Mov_Player_Controller movController = GetComponent<Mov_Player_Controller>();
         if (movController != null)
         {
-            if (newValue != 100)
+            if (newValue != 100 && movController.onlineIndex == -1)
             { movController.onlineIndex = newValue; }
-            movController.ChangeCharacter(-1);
+            movController.ChangeCharacter(savedCharacterID.Value);
+            GameObject.Find("selected_id_" + savedCharacterID.Value).GetComponent<Image>().enabled = true;
         }
     }
 }

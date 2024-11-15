@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using TMPro;
+using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class Onl_Player_Manager : NetworkBehaviour
 {
@@ -14,12 +17,23 @@ public class Onl_Player_Manager : NetworkBehaviour
 
     [HideInInspector] public int remainingLivesOnl;
 
+    [SerializeField] private TextMeshProUGUI playerIDsText;
+
+    void Start()
+    {
+        StartCoroutine(ShowPlayersIDs());
+    }
+
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+        }
+        else
+        {
+            StartCoroutine(ShowPlayersIDs());
         }
     }
 
@@ -73,11 +87,10 @@ public class Onl_Player_Manager : NetworkBehaviour
     IEnumerator WaitToChange()
     {
         yield return new WaitForSeconds(1f);
-        int i = 0;
+
         foreach (Onl_Player_Controller player in connectedPlayersOnl)
         {
-            player.PlayerIDSetter(0, i);
-            i++;
+            player.PlayerIDSetter(0, player.playerID.Value);
         }
     }
 
@@ -129,5 +142,19 @@ public class Onl_Player_Manager : NetworkBehaviour
     public void RemLivesClientRPC(int value)
     {
         remainingLivesOnl = value;
+    }
+
+    IEnumerator ShowPlayersIDs()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            string playersIDs = "";
+            foreach (Onl_Player_Controller player in connectedPlayersOnl)
+            {
+                playersIDs += player.playerID.Value + " ";
+            }
+            playerIDsText.text = playersIDs;
+        }
     }
 }
