@@ -88,7 +88,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            if(transform.GetChild(i).gameObject.active)
+            if(transform.GetChild(i).gameObject.activeSelf)
             {
                 playerArmor = transform.GetChild(i).GetChild(2).gameObject.GetComponent<Obj_Player_Armor>();
             }
