@@ -76,11 +76,11 @@ public class Onl_Player_Controller : NetworkBehaviour
     }
 
     // CHARACTER SAVING
-    
+
     public void SaveCharacter(int characterID)
     {
         if (!IsOwner) { return; }
-        if(IsServer) { savedCharacterID.Value = characterID; SaveCharacterClientRPC(characterID); }
+        if (IsServer) { savedCharacterID.Value = characterID; SaveCharacterClientRPC(characterID); }
         else { SaveCharacterServerRPC(characterID); }
         //savedCharacterID.Value = characterID;
 
@@ -312,7 +312,7 @@ public class Onl_Player_Controller : NetworkBehaviour
     }
 
 
-    
+
 
 
 
@@ -385,7 +385,7 @@ public class Onl_Player_Controller : NetworkBehaviour
     [ClientRpc]
     private void PlayerIDClientRPC(int oldValue, int newValue)
     {
-        PlayerID(oldValue,newValue);
+        PlayerID(oldValue, newValue);
     }
 
     private void PlayerID(int oldValue, int newValue)
