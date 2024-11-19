@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 31369985}
   - component: {fileID: 31369984}
   - component: {fileID: 31369987}
+  - component: {fileID: 31369988}
   m_Layer: 5
   m_Name: ResumenBtn
   m_TagString: Untagged
@@ -555,7 +556,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2029861318}
+      - m_Target: {fileID: 31369988}
         m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
         m_MethodName: SelectAudio
         m_Mode: 1
@@ -634,6 +635,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &31369988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31369982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e826523c3fbe68546ab7a267972d9b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnableAudioClip: {fileID: 0}
+  onDisableAudioClip: {fileID: 0}
+  selectAudioClip: {fileID: 8300000, guid: 79c08c24989bc6943b52466b49b51571, type: 3}
+  hoverAudioClip: {fileID: 0}
 --- !u!1 &41319944
 GameObject:
   m_ObjectHideFlags: 0
@@ -24517,7 +24534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onEnableAudioClip: {fileID: 8300000, guid: 61177d264c70b0040813fa3de02ca223, type: 3}
-  onDisableAudioClip: {fileID: 8300000, guid: 79c08c24989bc6943b52466b49b51571, type: 3}
+  onDisableAudioClip: {fileID: 0}
   selectAudioClip: {fileID: 0}
   hoverAudioClip: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
