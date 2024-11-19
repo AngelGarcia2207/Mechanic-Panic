@@ -21336,6 +21336,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: SFXManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8584725248291118060, guid: acf25e444c641f44aaaa448afe454c75,
+        type: 3}
+      propertyPath: SpatialSFXObject
+      value: 
+      objectReference: {fileID: 752971326026430523, guid: 4fa85cbd53da49b4aa6d1d8379ac0679,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
