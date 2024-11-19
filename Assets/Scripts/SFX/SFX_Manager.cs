@@ -21,6 +21,18 @@ public class SFX_Manager : MonoBehaviour
         Instance = this;
     }
 
+    void Update()
+    {
+        if (Time.timeScale == 0f && currentMusicObject != null) // Pausar la musica cuando se pausa el juego
+        {
+            currentMusicObject.Pause();
+        }
+        else if (currentMusicObject != null)
+        {
+            currentMusicObject.UnPause();
+        }
+    }
+
     public void PlaySFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
     {
         AudioSource audioSource = Instantiate(SFXObject, spawnTransform.position, Quaternion.identity);

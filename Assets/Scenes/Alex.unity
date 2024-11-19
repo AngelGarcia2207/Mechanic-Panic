@@ -472,6 +472,7 @@ GameObject:
   - component: {fileID: 31369986}
   - component: {fileID: 31369985}
   - component: {fileID: 31369984}
+  - component: {fileID: 31369987}
   m_Layer: 5
   m_Name: ResumenBtn
   m_TagString: Untagged
@@ -554,6 +555,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029861318}
+        m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+        m_MethodName: SelectAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &31369985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -592,6 +605,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31369982}
   m_CullTransparentMesh: 1
+--- !u!114 &31369987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31369982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2029861318}
+          m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+          m_MethodName: HoverAudio
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &41319944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3440,13 +3482,14 @@ GameObject:
   - component: {fileID: 317402151}
   - component: {fileID: 317402150}
   - component: {fileID: 317402149}
+  - component: {fileID: 317402153}
   m_Layer: 5
   m_Name: ConfigPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &317402149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3523,6 +3566,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1600, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &317402153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317402148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e826523c3fbe68546ab7a267972d9b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnableAudioClip: {fileID: 8300000, guid: 5c4f913ff584488438424050af26800d, type: 3}
+  onDisableAudioClip: {fileID: 0}
+  selectAudioClip: {fileID: 0}
+  hoverAudioClip: {fileID: 0}
 --- !u!4 &319381420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
@@ -3820,7 +3879,7 @@ RectTransform:
   m_Father: {fileID: 2135095272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4389,10 +4448,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.665}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -30}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &361208762
 MonoBehaviour:
@@ -6170,7 +6229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914565161b47ea943b7943c6350ef7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 8300000, guid: 23c674c0e7a8ae145ab805021ad9069f, type: 3}
+  musicClip: {fileID: 8300000, guid: 6192f4b329742fb40ac5fb8b41b67798, type: 3}
   volume: 1
   isLooping: 1
 --- !u!65 &546208260
@@ -7060,10 +7119,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.665}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -210}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &610351667
 MonoBehaviour:
@@ -8868,10 +8927,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.665}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -120}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &804965568
 MonoBehaviour:
@@ -10778,10 +10837,10 @@ RectTransform:
   - {fileID: 1117741732}
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 650, y: -120}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1036896374
 GameObject:
@@ -10975,7 +11034,7 @@ RectTransform:
   m_Father: {fileID: 1117741732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11564,6 +11623,7 @@ GameObject:
   - component: {fileID: 1084290345}
   - component: {fileID: 1084290344}
   - component: {fileID: 1084290343}
+  - component: {fileID: 1084290346}
   m_Layer: 5
   m_Name: MainMenuBtn
   m_TagString: Untagged
@@ -11646,6 +11706,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029861318}
+        m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+        m_MethodName: SelectAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1084290344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11684,6 +11756,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084290341}
   m_CullTransparentMesh: 1
+--- !u!114 &1084290346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084290341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2029861318}
+          m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+          m_MethodName: HoverAudio
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1097117055
 GameObject:
   m_ObjectHideFlags: 0
@@ -12791,7 +12892,7 @@ RectTransform:
   m_Father: {fileID: 272459469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13714,7 +13815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914565161b47ea943b7943c6350ef7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 8300000, guid: 6e2dac0fdf682f643bf556df387897bc, type: 3}
+  musicClip: {fileID: 8300000, guid: 9488cb39e1c0cc24e82791a5a786f51e, type: 3}
   volume: 1
   isLooping: 0
 --- !u!65 &1244363534
@@ -14035,10 +14136,10 @@ RectTransform:
   - {fileID: 2135095272}
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 650, y: -30}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1303736966 stripped
 Transform:
@@ -14079,7 +14180,7 @@ RectTransform:
   m_Father: {fileID: 2140719503}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15378,6 +15479,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029861318}
+        m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+        m_MethodName: SelectAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1418642714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16353,7 +16466,7 @@ RectTransform:
   m_Father: {fileID: 68759419}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -19351,10 +19464,10 @@ RectTransform:
   - {fileID: 1064873379}
   m_Father: {fileID: 551763581}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 650, y: -210}
+  m_SizeDelta: {x: 500, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1794566743
 GameObject:
@@ -19719,6 +19832,7 @@ GameObject:
   - component: {fileID: 1831244677}
   - component: {fileID: 1831244676}
   - component: {fileID: 1831244675}
+  - component: {fileID: 1831244678}
   m_Layer: 5
   m_Name: ConfigBtn
   m_TagString: Untagged
@@ -19801,6 +19915,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2029861318}
+        m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+        m_MethodName: SelectAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1831244676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19839,6 +19965,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831244673}
   m_CullTransparentMesh: 1
+--- !u!114 &1831244678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831244673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2029861318}
+          m_TargetAssemblyTypeName: SFX_UIElement_AudioClips, Assembly-CSharp
+          m_MethodName: HoverAudio
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1831275405
 GameObject:
   m_ObjectHideFlags: 0
@@ -20915,7 +21070,7 @@ RectTransform:
   m_Father: {fileID: 1064873379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -21696,6 +21851,7 @@ GameObject:
   - component: {fileID: 2029861314}
   - component: {fileID: 2029861313}
   - component: {fileID: 2029861317}
+  - component: {fileID: 2029861318}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -21810,6 +21966,22 @@ MonoBehaviour:
   scoreAmount: {fileID: 7370564271744429945}
   scoreScaleMultiplier: 2
   scoreEffectDuration: 0.2
+--- !u!114 &2029861318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029861311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e826523c3fbe68546ab7a267972d9b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnableAudioClip: {fileID: 0}
+  onDisableAudioClip: {fileID: 0}
+  selectAudioClip: {fileID: 8300000, guid: 8b39ff851ee182b4c89902724d0b354c, type: 3}
+  hoverAudioClip: {fileID: 8300000, guid: 1652623f101d3924a91dfcc7425f249d, type: 3}
 --- !u!1 &2034183808
 GameObject:
   m_ObjectHideFlags: 0
@@ -23489,6 +23661,7 @@ GameObject:
   - component: {fileID: 1937226953183015612}
   - component: {fileID: 9073926901936984609}
   - component: {fileID: 32865118822017664}
+  - component: {fileID: 9073926901936984610}
   m_Layer: 5
   m_Name: PausePanel
   m_TagString: Untagged
@@ -24331,6 +24504,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2663396282830725012}
   m_CullTransparentMesh: 1
+--- !u!114 &9073926901936984610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663396282830725012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e826523c3fbe68546ab7a267972d9b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnableAudioClip: {fileID: 8300000, guid: 61177d264c70b0040813fa3de02ca223, type: 3}
+  onDisableAudioClip: {fileID: 8300000, guid: 79c08c24989bc6943b52466b49b51571, type: 3}
+  selectAudioClip: {fileID: 0}
+  hoverAudioClip: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
