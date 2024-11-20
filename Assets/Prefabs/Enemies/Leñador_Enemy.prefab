@@ -182,6 +182,7 @@ Transform:
   m_Children:
   - {fileID: 1531256952280139492}
   - {fileID: 9148607277778850983}
+  - {fileID: 4159445816904401883}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &4019257754988218913
@@ -217,6 +218,7 @@ MonoBehaviour:
   - {fileID: 3266155710222345400, guid: d895d293b829b68448408c4ea3cf4f47, type: 3}
   - {fileID: 4370369122201038499, guid: 7d5f2f0984a45db4ca6ab120b59a10ff, type: 3}
   - {fileID: 4405413368558168118, guid: e87609bebdaff8a47ad1bc4033944bee, type: 3}
+  audioClips: {fileID: 4487149292868311893}
   death:
     m_PersistentCalls:
       m_Calls: []
@@ -1366,6 +1368,72 @@ Transform:
   - {fileID: 375733028082585802}
   m_Father: {fileID: 8335467301203485482}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5946447615280605357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4159445816904401883}
+  - component: {fileID: 4487149292868311893}
+  m_Layer: 11
+  m_Name: AudioClips
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4159445816904401883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5946447615280605357}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6516691658023830287}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4487149292868311893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5946447615280605357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771ce0af0b4a7ca4cb97b3a92313ace0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minWaitTime: 2
+  maxWaitTime: 5
+  defaultAudioClips:
+  - {fileID: 8300000, guid: ac64f315c8466f14bb7f86d528982561, type: 3}
+  - {fileID: 8300000, guid: 037accc22d014f84ebd423d222ce4d9d, type: 3}
+  - {fileID: 8300000, guid: dbc0652a9419a5043a15ef41efd9f496, type: 3}
+  - {fileID: 8300000, guid: 5fbec2eda3ceae4479d943499dd31441, type: 3}
+  moveAudioClips:
+  - {fileID: 8300000, guid: 77171d5b24d8fd14da00cce3ffd095ee, type: 3}
+  - {fileID: 8300000, guid: 3d1facffbea53534694c61bd76a93ef7, type: 3}
+  chargeAudioClips: []
+  swayAudioClips:
+  - {fileID: 8300000, guid: f1e5a417bf8896945934436d67485b18, type: 3}
+  - {fileID: 8300000, guid: 6b5db3424876cd3498f867fe0ecf14b6, type: 3}
+  - {fileID: 8300000, guid: 3aecb39248403204a981544a9773c81f, type: 3}
+  aimAudioClips: []
+  shootAudioClips: []
+  damageAudioClips:
+  - {fileID: 8300000, guid: 872222357aa76bc4ca6192f4f9a8435e, type: 3}
+  - {fileID: 8300000, guid: ac41043289192974fb627512c5800e55, type: 3}
+  deathAudioClips:
+  - {fileID: 8300000, guid: 48f560d804b4aba458223d6bb89e1508, type: 3}
 --- !u!1 &6130819673568316225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,6 +1575,7 @@ MonoBehaviour:
   waitForTime:
     m_PersistentCalls:
       m_Calls: []
+  audioClips: {fileID: 4487149292868311893}
   chargeStrenght: 7
   stunTime: 1
   center: {x: 0, y: 0, z: 0}
