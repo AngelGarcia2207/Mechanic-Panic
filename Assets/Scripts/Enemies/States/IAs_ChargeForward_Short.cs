@@ -45,6 +45,10 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
         isCharging = true;
         isResting = true;
         isBacking = true;
+
+        try
+        { stateMachine.GetCharacterAnimator().SetInteger("state", 1); }
+        catch { }
     }
 
     public override void UpdateState(float deltaTime)
