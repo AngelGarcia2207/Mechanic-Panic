@@ -8,7 +8,7 @@ public class Mov_BasicEnemy : MonoBehaviour
 {
     [Header("Movement and Physics")]
     [SerializeField] private float groundSpeed = 20;
-    [SerializeField] private float jumpForce = 10;
+    //[SerializeField] private float jumpForce = 10;
     [SerializeField] private float extraGravityForce = 10;
     [SerializeField] private float groundSpeedDivisor = 1.1f;
 
@@ -35,8 +35,8 @@ public class Mov_BasicEnemy : MonoBehaviour
     [Header("Rotation Animations")]
     [SerializeField] private float rotationSpeed = 0.1f;
     [SerializeField] private bool canAnimRotationLook = false;
-    [SerializeField] private float rotationSpeedThreshold = 3f; // Ajusta este valor según la sensibilidad de rotación
-    [SerializeField] private float frontAngleUncertainty = 0.3f; // Grados de incertidumbre en el ángulo cuando se mueve hacia el frente
+    [SerializeField] private float rotationSpeedThreshold = 3f; // Ajusta este valor segï¿½n la sensibilidad de rotaciï¿½n
+    [SerializeField] private float frontAngleUncertainty = 0.3f; // Grados de incertidumbre en el ï¿½ngulo cuando se mueve hacia el frente
     private Quaternion lastRotation;
     private float rotationDifference;
 
@@ -140,16 +140,16 @@ public class Mov_BasicEnemy : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, rotacionFinal, rotationSpeed);
 
 
-        // ANIMACIÓN DE ROTACIÓN
+        // ANIMACIï¿½N DE ROTACIï¿½N
         if(canAnimRotationLook == true)
         {
-            // Calcula la diferencia de rotación desde el último frame
+            // Calcula la diferencia de rotaciï¿½n desde el ï¿½ltimo frame
             rotationDifference = Quaternion.Angle(lastRotation, transform.rotation);
 
-            // Determina el estado del material dependiendo de si está rotando o no
+            // Determina el estado del material dependiendo de si estï¿½ rotando o no
             if (rotationDifference < frontAngleUncertainty)
             {
-                // Mirando hacía el frente
+                // Mirando hacï¿½a el frente
                 enemyAnimator.SetInteger("looking", 0);
             }
             else if (Vector3.SignedAngle(transform.forward, walkDirection, Vector3.up) > rotationSpeedThreshold)
@@ -163,7 +163,7 @@ public class Mov_BasicEnemy : MonoBehaviour
                 enemyAnimator.SetInteger("looking", 1);
             }
 
-            // Actualiza la última rotación para el próximo frame
+            // Actualiza la ï¿½ltima rotaciï¿½n para el prï¿½ximo frame
             lastRotation = transform.rotation;
         }
     }

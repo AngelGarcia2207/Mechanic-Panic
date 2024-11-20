@@ -5,9 +5,9 @@ using UnityEngine;
 public class Mov_Enemy : MonoBehaviour
 {
     [SerializeField] private float groundSpeed = 10;
-    [SerializeField] private float airSpeed = 10;
+    //[SerializeField] private float airSpeed = 10;
     [SerializeField] private float rotationSpeed = 0.1f;
-    [SerializeField] private float jumpForce = 10;
+    //[SerializeField] private float jumpForce = 10;
     [SerializeField] private float extraGravityForce = 10;
     [SerializeField] private float groundSpeedDivisor = 1.1f;
     [SerializeField] private float minWayPointDistance = 1;

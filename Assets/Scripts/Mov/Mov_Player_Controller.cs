@@ -88,7 +88,7 @@ public class Mov_Player_Controller : MonoBehaviour
 
         for(int i = 0; i < 4; i++)
         {
-            if(transform.GetChild(i).gameObject.active)
+            if(transform.GetChild(i).gameObject.activeSelf)
             {
                 playerArmor = transform.GetChild(i).GetChild(2).gameObject.GetComponent<Obj_Player_Armor>();
             }
@@ -289,9 +289,16 @@ public class Mov_Player_Controller : MonoBehaviour
             GameManager.Instance.TogglePause();
         }
 
+        //DROP ARMOR
         if(playerInput.actions["DropArmor"].triggered)
         {
             playerArmor.RemoveHat();
+        }
+
+        //THROW WEAPON
+        if(playerInput.actions["ThrowWeapon"].triggered)
+        {
+            playerWeaponScript.ThrowWeapon();
         }
     }
 

@@ -197,6 +197,7 @@ MonoBehaviour:
   itemMesh: {fileID: 18754053729139644}
   itemRenderer: {fileID: 2857067768699637622}
   itemData: {fileID: 11400000, guid: 1cb52aff0656c4149a46cf79d356ff77, type: 2}
+  weaponPrefab: {fileID: 4370369122201038499}
 --- !u!65 &5618593653712719054
 BoxCollider:
   m_ObjectHideFlags: 0

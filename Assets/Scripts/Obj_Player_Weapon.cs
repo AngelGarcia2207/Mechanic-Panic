@@ -11,6 +11,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     [SerializeField] protected int damage;
     [SerializeField] protected int currentDurability;
     [SerializeField] protected Obj_Weapon_Base weaponBase;
+    [SerializeField] protected GameObject basePrefab;
     [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
     [SerializeField] protected GameObject complementPrefab;
     protected List<Vector3> currentPositions;
@@ -178,15 +179,49 @@ public class Obj_Player_Weapon : Obj_Buildable
         if(closestItem.GetData() is Obj_Weapon_Base)
         {
             SetBase(closestItem);
+            basePrefab = closestItem.gameObject;
+            basePrefab.GetComponent<Rigidbody>().isKinematic = true;
+            basePrefab.SetActive(false);
+            basePrefab.transform.SetParent(null);
             closeItems.Remove(closestItem);
         }
         else
         {
             AddComplement(closestItem);
+            closestItem.DestroyThis();
         }
 
-        closestItem.DestroyThis();
         closestItem = null;
+    }
+
+    public void ThrowWeapon()
+    {
+        Debug.Log("throw");
+        if(weaponBase == null)
+        {
+            return;
+        }
+
+        int fixedCount = transform.childCount;
+        for(int i = 2; i < fixedCount; i++)
+        {
+            Debug.Log(transform.childCount);
+            transform.GetChild(2).SetParent(basePrefab.transform);
+        }
+
+        basePrefab.transform.position = transform.position;
+        basePrefab.transform.rotation = transform.rotation;
+        basePrefab.SetActive(true);
+        basePrefab.GetComponent<Rigidbody>().isKinematic = false;
+        basePrefab.GetComponent<Rigidbody>().AddForce(new Vector3(400, 100, 0));
+
+        weaponBase = null;
+        currentDurability = 0;
+        buildableMesh.mesh = null;
+        Material[] temp = new Material[0];
+        buildableRenderer.materials = temp;
+        damage = 0;
+        Destroy(gameObject.GetComponent<BoxCollider>());
     }
 
     public int DealDamage(int complementIndex = -1)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Mov_Player_Properties : MonoBehaviour
 {
     public Sprite headSprite;
-    public string name;
+    public new string name;
     public Animator spriteAnimator;
     //[SerializeField] private Inp_PlayerInstantiator playerInstantiator;
     //[SerializeField] private PlayerInput playerInput;
