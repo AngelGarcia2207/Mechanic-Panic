@@ -10,6 +10,7 @@ public class Obj_Weapon_Item : Obj_Item
 {
     //Esta propiedad puede ser un scriptable object de base o de complemento
     [SerializeField] Obj_Weapon_Component itemData;
+    [SerializeField] public GameObject weaponPrefab;
 
     void Awake()
     {

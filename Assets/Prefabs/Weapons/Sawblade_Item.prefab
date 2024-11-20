@@ -245,6 +245,7 @@ MonoBehaviour:
   itemMesh: {fileID: 1276696181029073319}
   itemRenderer: {fileID: 3914555104044582253}
   itemData: {fileID: 11400000, guid: 6e9d8fbf1a51cde4292783b1d92ff499, type: 2}
+  weaponPrefab: {fileID: 3266155710222345400}
 --- !u!23 &3914555104044582253 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: eeb5bd6847cc94645b7aad72392070e2,

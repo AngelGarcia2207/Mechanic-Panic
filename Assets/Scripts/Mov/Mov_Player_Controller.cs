@@ -289,9 +289,16 @@ public class Mov_Player_Controller : MonoBehaviour
             GameManager.Instance.TogglePause();
         }
 
+        //DROP ARMOR
         if(playerInput.actions["DropArmor"].triggered)
         {
             playerArmor.RemoveHat();
+        }
+
+        //THROW WEAPON
+        if(playerInput.actions["ThrowWeapon"].triggered)
+        {
+            playerWeaponScript.ThrowWeapon();
         }
     }
 
