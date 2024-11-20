@@ -198,6 +198,7 @@ public class Ene_EnemyTest : MonoBehaviour
             GameObject droppedItem = Instantiate(dropList[Random.Range(0, dropList.Count-1)], transform.position, Quaternion.identity);
             droppedItem.transform.localEulerAngles = new Vector3(-90, 0, 0);
             droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(10, 20), 10, Random.Range(10, 20)));
+            audioClips.itemDropAudio();
         }
     }
 }
