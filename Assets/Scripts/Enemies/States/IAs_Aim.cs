@@ -25,6 +25,7 @@ public class IAs_Aim<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyState 
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {
         stateMachine = SM;
+        stateMachine.audioClips.aimAudio();
         activePlayers = stateMachine.GetActivePlayers();
         if(activePlayers.Length <= 0)
         {

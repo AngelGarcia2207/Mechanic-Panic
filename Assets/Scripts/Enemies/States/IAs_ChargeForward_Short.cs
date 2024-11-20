@@ -22,6 +22,7 @@ public class IAs_ChargeForward_Short<EnemyState> : IAs_Enemy_State<EnemyState> w
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {   
         stateMachine = SM;
+        stateMachine.audioClips.chargeAudio();
         stateMachine.waitForTime.AddListener(OnWaitOver);
         stateMachine.StartCoroutine("WaitTime", 1f);
         returnPosition = stateMachine.GetEnemyTransform().position;
