@@ -86,6 +86,11 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
         return owner.transform;
     }
 
+    public Animator GetCharacterAnimator()
+    {
+        return characterAnimator;
+    }
+
     // Use this function to pause current state. If a parameter is given, the machine will pause for the given time (in seconds) //
     // and then resume automatically                                                                                             //
     public void PauseMachine(float pauseTime = 0f)
