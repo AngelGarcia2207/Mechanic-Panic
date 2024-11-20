@@ -10,12 +10,12 @@ public class SFX_Player_AudioClips : MonoBehaviour
 
     public void swingAudio()
     {
-        SFX_Manager.Instance.PlayRandomSFXClip(swingAudioClips, transform, 0.7f);
+        SFX_Manager.Instance.PlayRandomSFXClip(swingAudioClips, transform, 0.5f);
     }
 
     public void damageAudio()
     {
-        SFX_Manager.Instance.PlayRandomSFXClip(damageAudioClips, transform, 1f);
+        SFX_Manager.Instance.PlayRandomSFXClip(damageAudioClips, transform, 0.6f);
     }
 
     public void walkingAudio()

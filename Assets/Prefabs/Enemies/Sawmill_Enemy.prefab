@@ -1018,6 +1018,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ac41043289192974fb627512c5800e55, type: 3}
   deathAudioClips:
   - {fileID: 8300000, guid: 48f560d804b4aba458223d6bb89e1508, type: 3}
+  itemDropAudioClips:
+  - {fileID: 8300000, guid: 0728c53e9d9a900489d10dc0c9a5a18a, type: 3}
 --- !u!1 &4046329416290738434
 GameObject:
   m_ObjectHideFlags: 0

@@ -1422,7 +1422,8 @@ MonoBehaviour:
   moveAudioClips:
   - {fileID: 8300000, guid: 77171d5b24d8fd14da00cce3ffd095ee, type: 3}
   - {fileID: 8300000, guid: 3d1facffbea53534694c61bd76a93ef7, type: 3}
-  chargeAudioClips: []
+  chargeAudioClips:
+  - {fileID: 8300000, guid: afe089aebb0c78243a0b2e6aa247b400, type: 3}
   swayAudioClips:
   - {fileID: 8300000, guid: f1e5a417bf8896945934436d67485b18, type: 3}
   - {fileID: 8300000, guid: 6b5db3424876cd3498f867fe0ecf14b6, type: 3}
@@ -1434,6 +1435,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ac41043289192974fb627512c5800e55, type: 3}
   deathAudioClips:
   - {fileID: 8300000, guid: 48f560d804b4aba458223d6bb89e1508, type: 3}
+  itemDropAudioClips:
+  - {fileID: 8300000, guid: 0728c53e9d9a900489d10dc0c9a5a18a, type: 3}
 --- !u!1 &6130819673568316225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,10 +1575,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 4019257754988218913}
   characterAnimator: {fileID: 9150075018206371608}
+  audioClips: {fileID: 4487149292868311893}
   waitForTime:
     m_PersistentCalls:
       m_Calls: []
-  audioClips: {fileID: 4487149292868311893}
   chargeStrenght: 7
   stunTime: 1
   center: {x: 0, y: 0, z: 0}

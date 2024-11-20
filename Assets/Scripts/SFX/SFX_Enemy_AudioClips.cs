@@ -14,6 +14,7 @@ public class SFX_Enemy_AudioClips : MonoBehaviour
     [SerializeField] private AudioClip[] shootAudioClips;
     [SerializeField] private AudioClip[] damageAudioClips;
     [SerializeField] private AudioClip[] deathAudioClips;
+    [SerializeField] private AudioClip[] itemDropAudioClips;
 
     void Start()
     {
@@ -76,7 +77,7 @@ public class SFX_Enemy_AudioClips : MonoBehaviour
     {
         if (damageAudioClips != null && damageAudioClips.Length > 0)
         {
-            SFX_Manager.Instance.PlaySpatialRandomSFXClip(damageAudioClips, transform, 1f);
+            SFX_Manager.Instance.PlaySpatialRandomSFXClip(damageAudioClips, transform, 0.7f);
         }
     }
 
@@ -85,6 +86,14 @@ public class SFX_Enemy_AudioClips : MonoBehaviour
         if (deathAudioClips != null && deathAudioClips.Length > 0)
         {
             SFX_Manager.Instance.PlaySpatialRandomSFXClip(deathAudioClips, transform, 0.7f);
+        }
+    }
+
+    public void itemDropAudio()
+    {
+        if (itemDropAudioClips != null && itemDropAudioClips.Length > 0)
+        {
+            SFX_Manager.Instance.PlaySpatialRandomSFXClip(itemDropAudioClips, transform, 0.7f);
         }
     }
 }
