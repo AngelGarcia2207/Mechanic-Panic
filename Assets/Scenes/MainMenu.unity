@@ -490,7 +490,7 @@ PrefabInstance:
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
@@ -579,7 +579,7 @@ PrefabInstance:
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
@@ -1297,6 +1297,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardboardTile (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1370,6 +1375,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2542,6 +2552,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardboardTile (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2972,6 +2987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4097,7 +4117,7 @@ PrefabInstance:
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
@@ -4212,6 +4232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4362,6 +4387,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardboardTile
       objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4471,6 +4501,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4818,6 +4853,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5339,7 +5379,7 @@ PrefabInstance:
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.41
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8920518531634073640, guid: 8e6062a40ec95c942a0974be444bb122,
         type: 3}
@@ -5540,6 +5580,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardboardTile (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5681,6 +5726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CardboardTile (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930963333393574541, guid: 3c489b1eaefec184db03a8ada0d3984e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
