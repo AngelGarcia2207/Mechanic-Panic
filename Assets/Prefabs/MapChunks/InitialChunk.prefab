@@ -751,7 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isReadyToUnload: 0
-  loadCollider: {fileID: 0}
+  loadCollider: {fileID: 475523319851859762}
   fence: {fileID: 0}
   grassPrefab: {fileID: 0}
   treePrefab: {fileID: 0}

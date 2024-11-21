@@ -22,7 +22,7 @@ public class Obj_Player_Armor : Obj_Buildable
     
     void Start()
     {
-        Mov_Player_Controller player = GameObject.FindWithTag("Player").GetComponent<Mov_Player_Controller>();
+        Mov_Player_Controller player = Finder.FindComponentInParents<Mov_Player_Controller>(transform);
         player.pickUpArmor.AddListener(OnPickUp);
         audioClips = player.audioClips;
     }
@@ -132,6 +132,11 @@ public class Obj_Player_Armor : Obj_Buildable
             return;
         }
 
+        foreach(Obj_Armor_Item item in closeItems)
+        {
+            Debug.Log(item.gameObject.name);
+        }
+
         if(closestItem.GetData() is Obj_Armor_Body)
         {
             SetBodyArmor(closestItem);
@@ -146,6 +151,11 @@ public class Obj_Player_Armor : Obj_Buildable
 
         closestItem.DestroyThis();
         closestItem = null;
+
+        foreach(Obj_Armor_Item item in closeItems)
+        {
+            Debug.Log(item.gameObject.name);
+        }
     }
 
     public void AddCloseItem(Obj_Armor_Item newItem)

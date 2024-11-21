@@ -43,7 +43,7 @@ public class Obj_Player_Weapon : Obj_Buildable
         // Encuentra el objeto más cercano
         closestItem = GetClosestItem();
 
-        if (closestItem != null && closestItem.gameObject.layer != LayerMask.NameToLayer("Outline-Items"))
+        if(closestItem != null && closestItem.isPlayer == false && closestItem.gameObject.layer != LayerMask.NameToLayer("Outline-Items"))
         {
             closestItem.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
         }
@@ -99,6 +99,18 @@ public class Obj_Player_Weapon : Obj_Buildable
         }
     }
 
+    //Add a player as a weapon
+    public void SetPlayerAsBase(Obj_Weapon_Item newBase)
+    {
+        weaponBase = newBase.GetData() as Obj_Weapon_Base;
+        currentDurability = weaponBase.GetDurability();
+        damage = weaponBase.GetDamage();
+        newBase.transform.SetParent(transform);
+        newBase.transform.localPosition = new Vector3(0.01f, 0, 0.04f);
+        newBase.transform.localEulerAngles = new Vector3(160, 0, 0);
+        newBase.gameObject.GetComponent<Mov_Player_Controller>().enabled = false;
+        newBase.gameObject.GetComponent<CharacterController>().enabled = false;
+    }
 
     //Add a complement to this weapon
     public void AddComplement(Obj_Weapon_Item newComplement)
@@ -179,7 +191,11 @@ public class Obj_Player_Weapon : Obj_Buildable
         closeItems = new List<Obj_Weapon_Item>();
         foreach(Obj_Weapon_Item closeItem in tempCloseItems)
         {
-            closeItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+            if(closeItem.isPlayer == false)
+            {
+                closeItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+            }
+            
             if(CheckIfFits(closeItem))
             {
                 AddCloseItem(closeItem);
@@ -194,14 +210,27 @@ public class Obj_Player_Weapon : Obj_Buildable
             return;
         }
 
-        if (closestItem.GetData() is Obj_Weapon_Base)
+        foreach(Obj_Weapon_Item item in closeItems)
         {
-            SetBase(closestItem);
-            basePrefab = closestItem.gameObject;
-            basePrefab.GetComponent<Rigidbody>().isKinematic = true;
-            basePrefab.SetActive(false);
-            basePrefab.transform.SetParent(null);
-            closeItems.Remove(closestItem);
+            Debug.Log(item.gameObject.name);
+        }
+
+        if(closestItem.GetData() is Obj_Weapon_Base)
+        {
+            Debug.Log(playerWeapon.transform.parent.parent.parent.parent.parent.parent.parent);
+            if(closestItem.isPlayer)
+            {
+                SetPlayerAsBase(closestItem);
+            }
+            else
+            {
+                SetBase(closestItem);
+                basePrefab = closestItem.gameObject;
+                basePrefab.GetComponent<Rigidbody>().isKinematic = true;
+                basePrefab.SetActive(false);
+                basePrefab.transform.SetParent(null);
+                closeItems.Remove(closestItem);
+            }
         }
         else
         {
@@ -215,7 +244,7 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public void ThrowWeapon()
     {
-        if (weaponBase == null)
+        if(weaponBase == null)
         {
             return;
         }
@@ -274,6 +303,10 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public void AddCloseItem(Obj_Weapon_Item newItem)
     {
+        if(newItem.gameObject == transform.parent.parent.parent.parent.parent.parent.parent.parent.parent.gameObject)
+        {
+            return;
+        }
         closeItems.Add(newItem);
     }
 
@@ -286,7 +319,10 @@ public class Obj_Player_Weapon : Obj_Buildable
 
         if(closestItem == exitItem)
         {
-            closestItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+            if(closestItem.isPlayer == false)
+            {
+                closestItem.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+            }
             closestItem = null;
         }
         
@@ -323,6 +359,11 @@ public class Obj_Player_Weapon : Obj_Buildable
             {
                 closestDistance = distance;
                 winner = item;
+                if(winner.isPlayer == false)
+                {
+                    winner.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
+                }
+                winner = closeItems[i];
             }
         }
 
