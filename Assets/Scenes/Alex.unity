@@ -2893,7 +2893,6 @@ GameObject:
   - component: {fileID: 317402152}
   - component: {fileID: 317402151}
   - component: {fileID: 317402150}
-  - component: {fileID: 317402149}
   - component: {fileID: 317402153}
   m_Layer: 5
   m_Name: ConfigPanel
@@ -2902,22 +2901,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &317402149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 317402148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d111c57bea726940a5da51643a8e433, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 3078702627934004d85aa0a6439e4e31, type: 2}
-  masterSlider: {fileID: 1291063688}
-  musicSlider: {fileID: 1034606615}
-  sfxSlider: {fileID: 1792201610}
 --- !u!114 &317402150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8406,7 +8389,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 317402149}
+      - m_Target: {fileID: 2029861319}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 1
@@ -11164,7 +11147,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 317402149}
+      - m_Target: {fileID: 2029861319}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetMasterVolume
         m_Mode: 1
@@ -15942,7 +15925,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 317402149}
+      - m_Target: {fileID: 2029861319}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 1
@@ -18040,6 +18023,7 @@ GameObject:
   - component: {fileID: 2029861313}
   - component: {fileID: 2029861317}
   - component: {fileID: 2029861318}
+  - component: {fileID: 2029861319}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -18170,6 +18154,22 @@ MonoBehaviour:
   onDisableAudioClip: {fileID: 0}
   selectAudioClip: {fileID: 8300000, guid: 8b39ff851ee182b4c89902724d0b354c, type: 3}
   hoverAudioClip: {fileID: 8300000, guid: 1652623f101d3924a91dfcc7425f249d, type: 3}
+--- !u!114 &2029861319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029861311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d111c57bea726940a5da51643a8e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 3078702627934004d85aa0a6439e4e31, type: 2}
+  masterSlider: {fileID: 1291063688}
+  musicSlider: {fileID: 1034606615}
+  sfxSlider: {fileID: 1792201610}
 --- !u!1 &2034183808
 GameObject:
   m_ObjectHideFlags: 0
