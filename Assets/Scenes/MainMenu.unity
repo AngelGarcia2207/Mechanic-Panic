@@ -646,6 +646,7 @@ GameObject:
   - component: {fileID: 461822760}
   - component: {fileID: 461822764}
   - component: {fileID: 461822765}
+  - component: {fileID: 461822766}
   m_Layer: 5
   m_Name: CanvasWorldSpace
   m_TagString: Untagged
@@ -772,6 +773,22 @@ MonoBehaviour:
   onDisableAudioClip: {fileID: 0}
   selectAudioClip: {fileID: 8300000, guid: 8b39ff851ee182b4c89902724d0b354c, type: 3}
   hoverAudioClip: {fileID: 8300000, guid: 1652623f101d3924a91dfcc7425f249d, type: 3}
+--- !u!114 &461822766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461822759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d111c57bea726940a5da51643a8e433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 3078702627934004d85aa0a6439e4e31, type: 2}
+  masterSlider: {fileID: 1945287142}
+  musicSlider: {fileID: 1771115729}
+  sfxSlider: {fileID: 1073864107}
 --- !u!1 &524283335
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +800,6 @@ GameObject:
   - component: {fileID: 524283336}
   - component: {fileID: 524283338}
   - component: {fileID: 524283337}
-  - component: {fileID: 524283339}
   - component: {fileID: 524283340}
   m_Layer: 5
   m_Name: ConfigPanel
@@ -857,22 +873,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524283335}
   m_CullTransparentMesh: 1
---- !u!114 &524283339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 524283335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d111c57bea726940a5da51643a8e433, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 3078702627934004d85aa0a6439e4e31, type: 2}
-  masterSlider: {fileID: 1945287142}
-  musicSlider: {fileID: 1771115729}
-  sfxSlider: {fileID: 1073864107}
 --- !u!114 &524283340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2172,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 524283339}
+      - m_Target: {fileID: 461822766}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetSFXVolume
         m_Mode: 1
@@ -4608,7 +4608,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 524283339}
+      - m_Target: {fileID: 461822766}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 1
@@ -5078,7 +5078,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 524283339}
+      - m_Target: {fileID: 461822766}
         m_TargetAssemblyTypeName: SFX_AudioConfig, Assembly-CSharp
         m_MethodName: SetMasterVolume
         m_Mode: 1
