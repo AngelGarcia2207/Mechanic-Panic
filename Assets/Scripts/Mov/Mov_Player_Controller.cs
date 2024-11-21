@@ -28,7 +28,7 @@ public class Mov_Player_Controller : MonoBehaviour
     
     private GameObject playerCard;
 
-    [SerializeField] private SFX_Player_AudioClips audioClips;
+    public SFX_Player_AudioClips audioClips;
 
     [SerializeField] private Mov_Player_Properties[] playerProps;
     private Mov_Player_Properties playerProp;
@@ -334,7 +334,7 @@ public class Mov_Player_Controller : MonoBehaviour
         if (SM.AvailableTransition(SM.dodge))
         {
             SM.ChangeState(SM.dodge, playerProp.dodgeDelay);
-            
+            audioClips.dodgeAudio();
             velocity.x = playerProp.dodgeSpeed * transform.forward.x;
         }
     }
@@ -468,6 +468,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private void Die()
     {
         SM.ChangeState(SM.dead);
+        audioClips.deathAudio();
         gameObject.tag = "Untagged";
         alive = false;
         GameManager.Instance.checkForAlivePlayers();

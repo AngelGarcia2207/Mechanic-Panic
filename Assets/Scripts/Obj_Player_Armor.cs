@@ -15,6 +15,7 @@ public class Obj_Player_Armor : Obj_Buildable
     [SerializeField] protected Transform hatParent;
     [SerializeField] protected GameObject armorItemPrefab;
     [SerializeField] protected Vector3 currentHatPosition;
+    protected SFX_Player_AudioClips audioClips;
     protected int numberOfHats = 0;
     protected List<Obj_Armor_Item> closeItems = new();
     protected Obj_Armor_Item closestItem;
@@ -23,6 +24,7 @@ public class Obj_Player_Armor : Obj_Buildable
     {
         Mov_Player_Controller player = GameObject.FindWithTag("Player").GetComponent<Mov_Player_Controller>();
         player.pickUpArmor.AddListener(OnPickUp);
+        audioClips = player.audioClips;
     }
     
     void Update()
@@ -139,6 +141,8 @@ public class Obj_Player_Armor : Obj_Buildable
         {
             AddHat(closestItem);
         }
+
+        audioClips.armorPickupAudio();
 
         closestItem.DestroyThis();
         closestItem = null;
