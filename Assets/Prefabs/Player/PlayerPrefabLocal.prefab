@@ -6866,6 +6866,8 @@ GameObject:
   - component: {fileID: 1326237582076574792}
   - component: {fileID: 6796187269012063490}
   - component: {fileID: 3631518846847157056}
+  - component: {fileID: 7658820515843842674}
+  - component: {fileID: 8144764450956992981}
   m_Layer: 7
   m_Name: PlayerPrefabLocal
   m_TagString: Player
@@ -7156,6 +7158,45 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7658820515843842674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580317596767467194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f977784fb6fa184aa45bc24ba8970bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpRadius: {fileID: 0}
+  itemMesh: {fileID: 0}
+  itemRenderer: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 4aec34d4c04dd824db168cf3893ea4a2, type: 2}
+  weaponPrefab: {fileID: 0}
+  isPlayer: 1
+--- !u!135 &8144764450956992981
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3580317596767467194}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8000
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.25
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3663501224123335841
 GameObject:
   m_ObjectHideFlags: 0
@@ -8597,6 +8638,7 @@ MonoBehaviour:
   damage: 0
   currentDurability: 0
   weaponBase: {fileID: 0}
+  basePrefab: {fileID: 0}
   weaponComplements: []
   complementPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}

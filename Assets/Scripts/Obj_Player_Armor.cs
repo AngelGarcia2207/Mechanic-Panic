@@ -21,7 +21,7 @@ public class Obj_Player_Armor : Obj_Buildable
     
     void Start()
     {
-        Mov_Player_Controller player = GameObject.FindWithTag("Player").GetComponent<Mov_Player_Controller>();
+        Mov_Player_Controller player = Finder.FindComponentInParents<Mov_Player_Controller>(transform);
         player.pickUpArmor.AddListener(OnPickUp);
     }
     
