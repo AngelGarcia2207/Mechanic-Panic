@@ -64,16 +64,22 @@ public class SFX_AudioConfig : MonoBehaviour
 
     private void loadMasterVolumeSettings()
     {
-        masterSlider.value = PlayerPrefs.GetFloat("masterVolume");
+        float volume = PlayerPrefs.GetFloat("masterVolume");
+        masterSlider.value = volume;
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
     }
 
     private void loadMusicVolumeSettings()
     {
-        musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        float volume = PlayerPrefs.GetFloat("musicVolume");
+        musicSlider.value = volume;
+        audioMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
     }
 
     private void loadSFXVolumeSettings()
     {
-        sfxSlider.value = PlayerPrefs.GetFloat("sfxVolume");
+        float volume = PlayerPrefs.GetFloat("sfxVolume");
+        sfxSlider.value = volume;
+        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
     }
 }

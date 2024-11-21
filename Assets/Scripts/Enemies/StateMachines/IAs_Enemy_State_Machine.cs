@@ -18,6 +18,8 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
     [SerializeField] protected Ene_EnemyTest owner;
     // Main animator of the enemy //
     [SerializeField] protected Animator characterAnimator;
+    // Main audio clips of the enemy //
+    public SFX_Enemy_AudioClips audioClips;
     // Control booleans //
     private bool isMachinePaused = false, isTransitioning = false;
     // Void event for wait time //
@@ -84,6 +86,11 @@ public abstract class IAs_Enemy_State_Machine<EnemyState> : MonoBehaviour where 
     public Transform GetEnemyTransform()
     {
         return owner.transform;
+    }
+
+    public Animator GetCharacterAnimator()
+    {
+        return characterAnimator;
     }
 
     // Use this function to pause current state. If a parameter is given, the machine will pause for the given time (in seconds) //

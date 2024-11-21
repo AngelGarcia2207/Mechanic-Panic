@@ -46,6 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SFXObject: {fileID: 752971326026430523, guid: 9e80b882e76ebba48b170e8f56d2df67,
     type: 3}
+  SpatialSFXObject: {fileID: 752971326026430523, guid: 4fa85cbd53da49b4aa6d1d8379ac0679,
+    type: 3}
   MusicObject: {fileID: 752971326026430523, guid: ca94d2c4bc0a8bb4eb1aa2a7ad2fe131,
     type: 3}
   transitionTime: 1

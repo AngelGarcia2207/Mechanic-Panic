@@ -26,6 +26,7 @@ public class IAs_Shoot<EnemyState> : IAs_Enemy_State<EnemyState> where EnemyStat
 
     public void OnAttackReady()
     {
+        stateMachine.audioClips.shootAudio();
         stateMachine.InstantiateObject();
         stateMachine.ChangeToState(idleStateKey);
     }

@@ -20,6 +20,7 @@ public class IAs_SpinAttack<EnemyState> : IAs_Enemy_State<EnemyState> where Enem
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {
         stateMachine = SM;
+        stateMachine.audioClips.swayAudio();
         initialAngle = stateMachine.GetEnemyTransform().eulerAngles;
         if(initialAngle.y + 120 > 360)
         {
@@ -29,6 +30,10 @@ public class IAs_SpinAttack<EnemyState> : IAs_Enemy_State<EnemyState> where Enem
         {
             targetAngle = new Vector3(0, initialAngle.y+120, 0);
         }
+
+        try
+        { stateMachine.GetCharacterAnimator().SetInteger("state", 3); }
+        catch { }
     }
 
     public override void UpdateState(float deltaTime)

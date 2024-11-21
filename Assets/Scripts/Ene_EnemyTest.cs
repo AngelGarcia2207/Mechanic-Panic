@@ -21,6 +21,7 @@ public class Ene_EnemyTest : MonoBehaviour
     private List<Collider> hittingColliders = new();
     [SerializeField] private float dropChance;
     [SerializeField] private List<GameObject> dropList;
+    [SerializeField] private SFX_Enemy_AudioClips audioClips;
     public UnityEvent death = new();
 
     void Start()
@@ -123,6 +124,7 @@ public class Ene_EnemyTest : MonoBehaviour
             shakeAnimator.SetInteger("ShakeState", 1);
             if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
             else { enemyAnimator.enabled = false; }
+            audioClips.damageAudio();
 
             GameManager.Instance.increaseLevelScore(damage);
 
@@ -132,6 +134,7 @@ public class Ene_EnemyTest : MonoBehaviour
             if (currentHealth <= 0)
             {
                 QuitStun();
+                audioClips.deathAudio();
                 death.Invoke();
                 StartCoroutine(DropItem());
                 if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
@@ -195,6 +198,7 @@ public class Ene_EnemyTest : MonoBehaviour
             GameObject droppedItem = Instantiate(dropList[Random.Range(0, dropList.Count-1)], transform.position, Quaternion.identity);
             droppedItem.transform.localEulerAngles = new Vector3(-90, 0, 0);
             droppedItem.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(10, 20), 10, Random.Range(10, 20)));
+            audioClips.itemDropAudio();
         }
     }
 }

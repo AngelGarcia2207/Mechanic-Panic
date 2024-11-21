@@ -4,6 +4,7 @@ using UnityEngine;
 public class SFX_Manager : MonoBehaviour
 {
     [SerializeField] private AudioSource SFXObject;
+    [SerializeField] private AudioSource SpatialSFXObject;
     [SerializeField] private AudioSource MusicObject;
     [SerializeField] private float transitionTime = 1.0f;
     private AudioSource currentMusicObject;
@@ -19,6 +20,18 @@ public class SFX_Manager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void Update()
+    {
+        if (Time.timeScale == 0f && currentMusicObject != null) // Pausar la musica cuando se pausa el juego
+        {
+            currentMusicObject.Pause();
+        }
+        else if (currentMusicObject != null)
+        {
+            currentMusicObject.UnPause();
+        }
     }
 
     public void PlaySFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
@@ -39,6 +52,36 @@ public class SFX_Manager : MonoBehaviour
     public void PlayRandomSFXClip(AudioClip[] audioClips, Transform spawnTransform, float volume)
     {
         AudioSource audioSource = Instantiate(SFXObject, spawnTransform.position, Quaternion.identity);
+
+        audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
+
+        audioSource.volume = volume;
+
+        audioSource.Play();
+
+        float clipLength = audioSource.clip.length;
+
+        Destroy(audioSource.gameObject, clipLength);
+    }
+
+    public void PlaySpatialSFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(SpatialSFXObject, spawnTransform.position, Quaternion.identity, spawnTransform);
+
+        audioSource.clip = audioClip;
+
+        audioSource.volume = volume;
+
+        audioSource.Play();
+
+        float clipLength = audioSource.clip.length;
+
+        Destroy(audioSource.gameObject, clipLength);
+    }
+
+    public void PlaySpatialRandomSFXClip(AudioClip[] audioClips, Transform spawnTransform, float volume)
+    {
+        AudioSource audioSource = Instantiate(SpatialSFXObject, spawnTransform.position, Quaternion.identity, spawnTransform);
 
         audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
 

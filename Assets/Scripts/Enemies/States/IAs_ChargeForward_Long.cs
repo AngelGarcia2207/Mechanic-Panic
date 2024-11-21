@@ -24,6 +24,7 @@ public class IAs_ChargeForward_Long<EnemyState> : IAs_Enemy_State<EnemyState> wh
     public override void EnterState(IAs_Enemy_State_Machine<EnemyState> SM)
     {   
         stateMachine = SM;
+        stateMachine.audioClips.chargeAudio();
         activePlayers = stateMachine.GetActivePlayers();
         stateMachine.waitForTime.AddListener(OnWaitOver);
         stateMachine.StartCoroutine("WaitTime", 1f);
@@ -41,6 +42,10 @@ public class IAs_ChargeForward_Long<EnemyState> : IAs_Enemy_State<EnemyState> wh
         isPreparing = true;
         isCharging = true;
         isResting = true;
+
+        try
+        { stateMachine.GetCharacterAnimator().SetInteger("state", 1); }
+        catch { }
     }
 
     public override void UpdateState(float deltaTime)

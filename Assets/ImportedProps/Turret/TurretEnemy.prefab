@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTag: {fileID: 2538538508609312136, guid: 673674565cee3034b847ceaf6f0f8c52,
     type: 3}
-  maxHealth: 30
+  maxHealth: 35
   smokeEffect: {fileID: 7506574737261031522, guid: baaebf0a9993683499fe066712d61b7b,
     type: 3}
   currentHealth: 0
