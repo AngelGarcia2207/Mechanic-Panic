@@ -690,10 +690,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1849,7 +1849,7 @@ PrefabInstance:
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.74206
+      value: -13.94
       objectReference: {fileID: 0}
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
@@ -1859,7 +1859,7 @@ PrefabInstance:
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.04
+      value: -1.93
       objectReference: {fileID: 0}
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
@@ -1900,6 +1900,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sawblade_Item (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266155710222345400, guid: d895d293b829b68448408c4ea3cf4f47,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3998,10 +4003,13 @@ MonoBehaviour:
   - {fileID: 7245550173948615872, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
   - {fileID: 5543258787989545066, guid: c4109f3aee4e3354bbb3ededffffa05c, type: 3}
   - {fileID: 5543258787989545066, guid: c4109f3aee4e3354bbb3ededffffa05c, type: 3}
-  - {fileID: 1571414223086215917, guid: 9d19887a504f8d647a6aa1a3c18ed69d, type: 3}
-  seed: 64
+  bossChunk: {fileID: 1571414223086215917, guid: 9d19887a504f8d647a6aa1a3c18ed69d,
+    type: 3}
+  lastChunk: {fileID: 264211762788977283, guid: 5887fb9986860574eb2395250c11815b,
+    type: 3}
+  seed: 0
   preloadedChunks: 3
-  maxChunks: 100
+  maxChunks: 25
   loadPositionReference: {fileID: 652812053}
   initialChunk: {fileID: 4139968294550881514}
 --- !u!1 &1731061733
@@ -4664,7 +4672,7 @@ PrefabInstance:
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.364876
+      value: -15.47
       objectReference: {fileID: 0}
     - target: {fileID: 2745058308440915458, guid: d895d293b829b68448408c4ea3cf4f47,
         type: 3}
@@ -4715,6 +4723,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Sawblade_Item
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266155710222345400, guid: d895d293b829b68448408c4ea3cf4f47,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5005,10 +5018,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: WoodStick_Item
       objectReference: {fileID: 0}
+    - target: {fileID: 2440537827875987276, guid: bcdc652a3e809844bb4386418d9cabf3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3068456121481283062, guid: bcdc652a3e809844bb4386418d9cabf3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.7
+      value: -13.83
       objectReference: {fileID: 0}
     - target: {fileID: 3068456121481283062, guid: bcdc652a3e809844bb4386418d9cabf3,
         type: 3}

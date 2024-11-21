@@ -17,6 +17,7 @@ public class Obj_Armor_Item : Obj_Item
         if(other.CompareTag("Player") && other is not CharacterController)
         {
             Obj_Player_Armor playerArmor = null;
+            Debug.Log(other.gameObject.name);
 
             for(int i = 0; i < other.transform.childCount; i++)
             {
