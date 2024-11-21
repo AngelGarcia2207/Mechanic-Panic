@@ -39,13 +39,22 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
     {
         List<Vector3> initialPositions = new();
 
-        foreach(ComplementLocationHandler locationHandler in complementLocations)
+        foreach (ComplementLocationHandler locationHandler in complementLocations)
         {
-            if(locationHandler.location == ComplementLocations.Front || locationHandler.location == ComplementLocations.Back)
+            if (!numberOfElementsPerLocation.ContainsKey(locationHandler.location))
+            {
+                numberOfElementsPerLocation.Add(locationHandler.location, 0);
+            }
+            else
+            {
+                Debug.LogWarning($"La clave {locationHandler.location} ya existe en el diccionario. Verifica los datos de ComplementLocations.");
+            }
+
+            if (locationHandler.location == ComplementLocations.Front || locationHandler.location == ComplementLocations.Back)
             {
                 initialPositions.Add(new Vector3(locationHandler.thirdValue, locationHandler.minLong, locationHandler.minTall));
             }
-            else if(locationHandler.location == ComplementLocations.Right || locationHandler.location == ComplementLocations.Left)
+            else if (locationHandler.location == ComplementLocations.Right || locationHandler.location == ComplementLocations.Left)
             {
                 initialPositions.Add(new Vector3(locationHandler.minTall, locationHandler.minLong, locationHandler.thirdValue));
             }
@@ -53,7 +62,6 @@ public class Obj_Weapon_Base : Obj_Weapon_Component
             {
                 initialPositions.Add(new Vector3(0, 0, 0));
             }
-            numberOfElementsPerLocation.Add(locationHandler.location, 0);
         }
 
         return initialPositions;

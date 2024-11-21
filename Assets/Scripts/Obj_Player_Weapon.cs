@@ -21,6 +21,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     protected List<ComplementLocations> closeItemsLocations = new();
     protected List<Vector3> closeItemsPositions = new();
     protected Obj_Weapon_Item closestItem;
+    private List<GameObject> instantiatedComplements = new List<GameObject>();
 
     void Awake()
     {
@@ -32,30 +33,19 @@ public class Obj_Player_Weapon : Obj_Buildable
     
     void Update()
     {
-        if(closeItems.Count == 0)
+        closeItems.RemoveAll(item => item == null);
+
+        if (closeItems.Count == 0)
         {
             return;
         }
-        else if(closeItems.Count == 1)
-        {
-            closestItem = closeItems[0];
-        }
-        else
-        {
-            closestItem = GetClosestItem();
-        }
 
-        if(closestItem != null && closestItem.gameObject.layer != LayerMask.NameToLayer("Outline-Items"))
+        // Encuentra el objeto más cercano
+        closestItem = GetClosestItem();
+
+        if (closestItem != null && closestItem.gameObject.layer != LayerMask.NameToLayer("Outline-Items"))
         {
             closestItem.gameObject.layer = LayerMask.NameToLayer("Outline-Items");
-        }
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            foreach(Obj_Weapon_Item item in closeItems)
-            {
-                Debug.Log(item.gameObject.name);
-            }
         }
     }
 
@@ -78,28 +68,54 @@ public class Obj_Player_Weapon : Obj_Buildable
         }
     }
 
+    public void DeleteWeapon()
+    {
+        weaponBase = null;
+        currentDurability = 0;
+
+        Destroy(buildableMesh.mesh);
+
+        currentPositions.Clear();
+        damage = 0;
+
+        Collider[] colliders = GetComponents<Collider>();
+        foreach (Collider collider in colliders)
+        {
+            Destroy(collider);
+        }
+
+        foreach (GameObject complement in instantiatedComplements)
+        {
+            Destroy(complement);
+        }
+        instantiatedComplements.Clear();
+        weaponComplements.Clear();
+
+        // Reinicializa el diccionario con todas las claves posibles
+        numberOfElementsPerLocation.Clear();
+        foreach (ComplementLocations location in System.Enum.GetValues(typeof(ComplementLocations)))
+        {
+            numberOfElementsPerLocation[location] = 0;
+        }
+    }
+
+
     //Add a complement to this weapon
     public void AddComplement(Obj_Weapon_Item newComplement)
     {
-        //Initial data
+
         weaponComplements.Add(newComplement.GetData() as Obj_Weapon_Complement);
         numberOfElementsPerLocation[closeItemsLocations[closeItems.IndexOf(newComplement)]]++;
-        /*foreach(Obj_Weapon_Item item in closeItems)
-        {
-            Debug.Log(item);
-        }
-        foreach(ComplementLocations item in closeItemsLocations)
-        {
-            Debug.Log(item);
-        }*/
+
         int locationIndex = weaponBase.GetLocationIndex(closeItemsLocations[closeItems.IndexOf(newComplement)]);
 
-        //Make instance of complement nad position it
+        // Crear instancia y posicionarla
         GameObject instantiatedComplement = Instantiate(complementPrefab, transform.position, new Quaternion(0, 0, 0, 0), this.transform);
+        instantiatedComplements.Add(instantiatedComplement);
         instantiatedComplement.transform.localPosition = closeItemsPositions[closeItems.IndexOf(newComplement)];
         instantiatedComplement.transform.Rotate(weaponBase.GetAngleChange(locationIndex));
-        
-        //Update positions
+
+        // Actualizar posiciones y añadir colisiones
         currentPositions[locationIndex] = closeItemsPositions[closeItems.IndexOf(newComplement)];
         Vector3 temp = currentPositions[locationIndex];
         switch(closeItemsLocations[closeItems.IndexOf(newComplement)])
@@ -173,12 +189,12 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public void OnPickUp(Obj_Player_Weapon playerWeapon)
     {
-        if(closeItems.Count == 0)
+        if (closeItems.Count == 0)
         {
             return;
         }
 
-        if(closestItem.GetData() is Obj_Weapon_Base)
+        if (closestItem.GetData() is Obj_Weapon_Base)
         {
             SetBase(closestItem);
             basePrefab = closestItem.gameObject;
@@ -194,36 +210,44 @@ public class Obj_Player_Weapon : Obj_Buildable
         }
 
         audioClips.itemPickupAudio();
-
         closestItem = null;
     }
 
     public void ThrowWeapon()
     {
-        Debug.Log("throw");
-        if(weaponBase == null)
+        if (weaponBase == null)
         {
             return;
         }
 
-        int fixedCount = transform.childCount;
-        for(int i = 2; i < fixedCount; i++)
+        List<Transform> complementsToReparent = new List<Transform>();
+
+        for (int i = 2; i < transform.childCount; i++)
         {
-            Debug.Log(transform.childCount);
-            transform.GetChild(2).SetParent(basePrefab.transform);
+            complementsToReparent.Add(transform.GetChild(i));
+        }
+
+        foreach (Transform complement in complementsToReparent)
+        {
+            complement.SetParent(basePrefab.transform, false);
         }
 
         basePrefab.transform.position = transform.position;
         basePrefab.transform.rotation = transform.rotation;
         basePrefab.SetActive(true);
-        basePrefab.GetComponent<Rigidbody>().isKinematic = false;
-        basePrefab.GetComponent<Rigidbody>().AddForce(new Vector3(400, 100, 0));
+        Rigidbody rb = basePrefab.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = basePrefab.AddComponent<Rigidbody>();
+        }
+        rb.isKinematic = false;
+        rb.AddForce(-transform.forward * 400 + new Vector3(0, 250, 0));
+
 
         weaponBase = null;
         currentDurability = 0;
         buildableMesh.mesh = null;
-        Material[] temp = new Material[0];
-        buildableRenderer.materials = temp;
+        buildableRenderer.materials = new Material[0];
         damage = 0;
         Destroy(gameObject.GetComponent<BoxCollider>());
     }
@@ -237,15 +261,14 @@ public class Obj_Player_Weapon : Obj_Buildable
 
             if (currentDurability <= 0)
             {
-                Destroy(this.gameObject);
+                DeleteWeapon();
             }
 
             return damageToDeal;
         }
         else
         {
-            Debug.Log("El arma está destruida y no puede usarse.");
-            return 0;
+            return 10;
         }
     }
 
@@ -277,22 +300,29 @@ public class Obj_Player_Weapon : Obj_Buildable
     }
 
     public Obj_Weapon_Item GetClosestItem()
-    {   
+    {
+        if (closeItems.Count == 0)
+        {
+            return null; // No hay elementos cercanos
+        }
+
         Obj_Weapon_Item winner = closeItems[0];
+        float closestDistance = float.MaxValue;
         Vector3 playerPosition = transform.parent.gameObject.transform.parent.gameObject.transform.position;
 
-        /*foreach(Obj_Weapon_Item closeItem in closeItems)
+        foreach (Obj_Weapon_Item item in closeItems)
         {
-            //Debug.Log(closeItem.gameObject.name + Vector3.Distance(playerPosition, closeItem.transform.position));
-        }*/
-
-        for(int i = 1; i < closeItems.Count; i++)
-        {
-            if(Vector3.Distance(playerPosition, closeItems[i].transform.position) <
-                Vector3.Distance(playerPosition, winner.transform.position))
+            if (item == null)
             {
-                winner.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
-                winner = closeItems[i];
+                Debug.LogWarning("Se encontró un objeto destruido en closeItems. Eliminándolo de la lista.");
+                continue;
+            }
+
+            float distance = Vector3.Distance(playerPosition, item.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                winner = item;
             }
         }
 
@@ -339,6 +369,13 @@ public class Obj_Player_Weapon : Obj_Buildable
 
     public void ActivateEffects(int itemIndex, Transform target)
     {
-        weaponComplements[itemIndex - 2].PlayEffects(target);
+       int complementIndex = itemIndex - 2;
+        if (complementIndex < 0 || complementIndex >= weaponComplements.Count)
+        {
+            return;
+        }
+
+        // Ejecutar el efecto si el índice es válido
+        weaponComplements[complementIndex].PlayEffects(target);
     }
 }
