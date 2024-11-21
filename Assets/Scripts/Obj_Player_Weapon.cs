@@ -14,6 +14,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     [SerializeField] protected GameObject basePrefab;
     [SerializeField] protected List<Obj_Weapon_Complement> weaponComplements;
     [SerializeField] protected GameObject complementPrefab;
+    protected SFX_Player_AudioClips audioClips;
     protected List<Vector3> currentPositions;
     protected Dictionary<ComplementLocations, int> numberOfElementsPerLocation = new();
     protected List<Obj_Weapon_Item> closeItems = new();
@@ -26,6 +27,7 @@ public class Obj_Player_Weapon : Obj_Buildable
         currentDurability = weaponBase != null ? weaponBase.GetDurability() : 0;
         Mov_Player_Controller player = Finder.FindComponentInParents<Mov_Player_Controller>(transform);
         player.pickUpWeapon.AddListener(OnPickUp);
+        audioClips = player.audioClips;
     }
     
     void Update()
@@ -190,6 +192,8 @@ public class Obj_Player_Weapon : Obj_Buildable
             AddComplement(closestItem);
             closestItem.DestroyThis();
         }
+
+        audioClips.itemPickupAudio();
 
         closestItem = null;
     }

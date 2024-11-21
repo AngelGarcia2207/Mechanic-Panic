@@ -7471,8 +7471,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7f135239e7d69a647a901fdbc26573bf, type: 3}
   - {fileID: 8300000, guid: fc8fd42fa1e51b744999c1806b24f25c, type: 3}
   - {fileID: 8300000, guid: 4dab89b4ef7df0b4eb4664725c5d6ea8, type: 3}
+  dodgeAudioClips:
+  - {fileID: 8300000, guid: d1351e3340aa38f4aa9d4cf4e5957d9c, type: 3}
+  - {fileID: 8300000, guid: 78dc19adcb059d54d99387dc0a462650, type: 3}
+  - {fileID: 8300000, guid: e3bd35df7a0531d4d9416cda9edc18bf, type: 3}
+  - {fileID: 8300000, guid: 6851c2e7c16bb774087c0e513d888fb5, type: 3}
+  - {fileID: 8300000, guid: 2571af3a89bba3042b985edd14bd9051, type: 3}
+  itemPickupAudioClips:
+  - {fileID: 8300000, guid: a51f48b3cfda66c46b16790477e3f443, type: 3}
+  armorPickupAudioClips:
+  - {fileID: 8300000, guid: c3ccdfdfef4c1144db895df9c9bcb6e4, type: 3}
   damageAudioClips:
   - {fileID: 8300000, guid: 9c04b74268a52c54bb757b812acdb447, type: 3}
+  deathAudioClips:
+  - {fileID: 8300000, guid: 8562638462e58f649a4fa17e139697c0, type: 3}
+  - {fileID: 8300000, guid: ca0323d4461a68140acc116621616ea5, type: 3}
   walkingAudioClip: {fileID: 4199823873193414632}
 --- !u!82 &4199823873193414632
 AudioSource:
@@ -8629,6 +8642,7 @@ MonoBehaviour:
   damage: 0
   currentDurability: 0
   weaponBase: {fileID: 0}
+  basePrefab: {fileID: 0}
   weaponComplements: []
   complementPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
