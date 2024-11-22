@@ -4000,10 +4000,12 @@ MonoBehaviour:
   chunkPool:
   - {fileID: 7245550173948615872, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
   - {fileID: 7245550173948615872, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
-  - {fileID: 7245550173948615872, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
+  - {fileID: 7245550173948615872, guid: df93ec905b44b964091954ed68e6c199, type: 3}
   - {fileID: 7245550173948615872, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
   - {fileID: 5543258787989545066, guid: c4109f3aee4e3354bbb3ededffffa05c, type: 3}
   - {fileID: 5543258787989545066, guid: c4109f3aee4e3354bbb3ededffffa05c, type: 3}
+  - {fileID: 5543258787989545066, guid: ced04cae2eae19341ac48446609c94c6, type: 3}
+  - {fileID: 7245550173948615872, guid: df93ec905b44b964091954ed68e6c199, type: 3}
   bossChunk: {fileID: 1571414223086215917, guid: 9d19887a504f8d647a6aa1a3c18ed69d,
     type: 3}
   lastChunk: {fileID: 264211762788977283, guid: 5887fb9986860574eb2395250c11815b,
@@ -5742,7 +5744,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 452040307880895944, guid: e9a0152a63a25164bab920ab3ec272a1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 7514417849181715576, guid: e9a0152a63a25164bab920ab3ec272a1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5503401564648224850, guid: e9a0152a63a25164bab920ab3ec272a1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9a0152a63a25164bab920ab3ec272a1, type: 3}
 --- !u!114 &4139968294550881514 stripped
 MonoBehaviour:
