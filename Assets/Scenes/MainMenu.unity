@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc3c804477b964286432b436f0b8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level1Scene: Alex
+  Level1Scene: ProceduralMap
   configPanel: {fileID: 524283335}
   buttonPlay: {fileID: 1820192019}
   buttonExit: {fileID: 1977710897}
