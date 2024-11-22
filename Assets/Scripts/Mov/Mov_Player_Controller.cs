@@ -35,7 +35,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private int playerIndex = 0;
 
     // PRIVATE COMPONENTS
-    private PlayerInput playerInput;
+    [HideInInspector] public PlayerInput playerInput;
     private CharacterController charController;
 
     // ONLINE
@@ -48,6 +48,11 @@ public class Mov_Player_Controller : MonoBehaviour
     private bool canOnlPickUp = false, canOnlAttack = false;
 
     private int currentHealth;
+
+    // CURSOR INTERACTIONS
+    [SerializeField] private UI_Cursor cursor;
+    [HideInInspector] public bool finishedSelection = false;
+    [HideInInspector] public Vector2 rawDirection;
 
     // Esto lo moveré a otro script en el futuro //
     [SerializeField] private GameObject weapon;
@@ -73,6 +78,13 @@ public class Mov_Player_Controller : MonoBehaviour
         playerIndex = GameObject.FindGameObjectsWithTag("Player").Length - 1;
 
         ChangeCharacter(-1);
+
+        if(cursor != null)
+        {
+            cursor.playerController = this;
+            cursor.ChangeCursorColor(playerIndex);
+        }
+
 
         // Configuración adicional si es necesario
 
@@ -156,7 +168,8 @@ public class Mov_Player_Controller : MonoBehaviour
 
     void Update()
     {
-        Vector2 rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>();
+        if (finishedSelection)
+        { rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>(); }
         if (isOnline)
         {
             rawDirection = onlController.onlDirection2D;
@@ -225,6 +238,9 @@ public class Mov_Player_Controller : MonoBehaviour
 
     private void SpecialInputs()
     {
+        if(!finishedSelection)
+            return;
+
         // JUMP
         if (charController.isGrounded && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
@@ -468,7 +484,24 @@ public class Mov_Player_Controller : MonoBehaviour
     private void OnJump()
     {
         if (isOnline == false)
-        { jumpButtonPressed = !jumpButtonPressed; }
+        {
+            jumpButtonPressed = !jumpButtonPressed;
+            if(cursor != null && jumpButtonPressed == true)
+            {
+                cursor.Click();
+            }
+        }
+    }
+
+    private void OnBack()
+    {
+        if (isOnline == false)
+        {
+            if (cursor != null)
+            {
+                cursor.BackClick();
+            }
+        }
     }
 
     private void Die()
