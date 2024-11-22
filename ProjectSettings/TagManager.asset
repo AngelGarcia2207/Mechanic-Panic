@@ -9,6 +9,7 @@ TagManager:
   - CameraCenter
   - WeaponComplement
   - WeaponBase
+  - CharacterSelection
   layers:
   - Default
   - TransparentFX
