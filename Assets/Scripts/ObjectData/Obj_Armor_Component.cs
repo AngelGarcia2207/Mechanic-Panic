@@ -19,10 +19,10 @@ public abstract class Obj_Armor_Component : ScriptableObject
 
     public int GetDefense() { return Defense; }
     public GameObject GetPrefab() { return itemPrefab; }
-    public void UpdateMeshTransform(Transform mesh)
+    public void UpdateMeshTransform(Transform mesh, Vector3 newPosition, Vector3 newScale)
     {
-        mesh.localPosition = position;
+        mesh.localPosition = newPosition;
         mesh.localEulerAngles = eulerRotation;
-        mesh.localScale = scale;
+        mesh.localScale = newScale;
     }
 }
