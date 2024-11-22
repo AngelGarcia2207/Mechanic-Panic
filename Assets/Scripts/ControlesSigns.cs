@@ -11,7 +11,7 @@ public class ControlesSigns : MonoBehaviour
 
     public AudioSource textSound;
     // Texto que se mostrará al colisionar, editable desde el Inspector
-    [SerializeField]
+    [SerializeField, TextArea]
     private string messageOnCollision = "¡Has colisionado con el jugador!";
 
     // Método para inicializar el componente al inicio
