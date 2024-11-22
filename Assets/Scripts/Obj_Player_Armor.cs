@@ -19,6 +19,7 @@ public class Obj_Player_Armor : Obj_Buildable
     protected int numberOfHats = 0;
     protected List<Obj_Armor_Item> closeItems = new();
     protected Obj_Armor_Item closestItem;
+    [SerializeField] protected Vector3 bodyPos, bodySize, hatPos, hatSize;
     
     void Start()
     {
@@ -62,7 +63,7 @@ public class Obj_Player_Armor : Obj_Buildable
         bodyArmor = newBodyArmor.GetData() as Obj_Armor_Body;
         buildableMesh.mesh = newBodyArmor.GetMesh().mesh;
         buildableRenderer.materials = newBodyArmor.GetRenderer().materials;
-        bodyArmor.UpdateMeshTransform(buildableMesh.transform);
+        bodyArmor.UpdateMeshTransform(buildableMesh.transform, bodyPos, bodySize);
         defense = bodyArmor.GetDefense();
         Collider armorCollider = gameObject.AddComponent(newBodyArmor.GetCollider().GetType()) as Collider;
         armorCollider.isTrigger = true;
@@ -90,7 +91,7 @@ public class Obj_Player_Armor : Obj_Buildable
         GameObject instantiatedComplement = Instantiate(hatPrefab, transform.position, new Quaternion(0, 0, 0, 0), hatParent);
         instantiatedComplement.transform.localPosition = new Vector3(currentHatPosition.x + newHat.GetMesh().mesh.bounds.size.z/2,
             currentHatPosition.y , currentHatPosition.z);
-        newData.UpdateMeshTransform(instantiatedComplement.transform);
+        newData.UpdateMeshTransform(instantiatedComplement.transform, hatPos, hatSize);
         
         //Update position
         currentHatPosition.x += newHat.GetMesh().mesh.bounds.size.z;
