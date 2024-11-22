@@ -8785,6 +8785,8 @@ MonoBehaviour:
   weaponComplements: []
   complementPrefab: {fileID: 5807420999099896988, guid: bb2194a5aada87647a8220158869d0a0,
     type: 3}
+  stickPrefab: {fileID: 2440537827875987276, guid: bcdc652a3e809844bb4386418d9cabf3,
+    type: 3}
 --- !u!1 &6718157845192764482
 GameObject:
   m_ObjectHideFlags: 0

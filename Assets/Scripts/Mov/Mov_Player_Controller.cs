@@ -300,6 +300,12 @@ public class Mov_Player_Controller : MonoBehaviour
         {
             playerWeaponScript.ThrowWeapon();
         }
+
+        //SPAWN WEAPON (FOR DEBUG ONLY)
+        if(playerInput.actions["SpawnWeapon"].triggered)
+        {
+            playerWeaponScript.SpawnNewWeapon();
+        }
     }
 
     private void ApplyAcceleration()

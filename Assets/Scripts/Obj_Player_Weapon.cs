@@ -22,6 +22,7 @@ public class Obj_Player_Weapon : Obj_Buildable
     protected List<Vector3> closeItemsPositions = new();
     protected Obj_Weapon_Item closestItem;
     private List<GameObject> instantiatedComplements = new List<GameObject>();
+    [SerializeField] protected GameObject stickPrefab;
 
     void Awake()
     {
@@ -363,7 +364,6 @@ public class Obj_Player_Weapon : Obj_Buildable
                 {
                     winner.gameObject.layer = LayerMask.NameToLayer("Non-Outline-Items");
                 }
-                winner = closeItems[i];
             }
         }
 
@@ -418,5 +418,10 @@ public class Obj_Player_Weapon : Obj_Buildable
 
         // Ejecutar el efecto si el índice es válido
         weaponComplements[complementIndex].PlayEffects(target);
+    }
+
+    public void SpawnNewWeapon()
+    {
+        GameObject newWeapon = Instantiate(stickPrefab, new Vector3(transform.position.x, transform.position.y + 10, transform.position.z), Quaternion.identity);
     }
 }
