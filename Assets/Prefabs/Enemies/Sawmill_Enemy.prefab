@@ -539,7 +539,7 @@ MonoBehaviour:
   shakeForce: 0.1
   showsDamageAnim: 0
   showsDeathAnim: 0
-  maxHealth: 500
+  maxHealth: 100
   currentHealth: 0
   stunned: 0
   swayStart: 0
