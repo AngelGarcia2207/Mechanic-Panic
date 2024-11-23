@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UI_Play_Selection : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class UI_Play_Selection : MonoBehaviour
                 player.GetComponent<Mov_Player_Controller>().finishedSelection = true;
             }
 
+
+            GameObject.FindFirstObjectByType<PlayerInputManager>().enabled = false;
             characterSelectionMenu.SetActive(false);
         }
         else
