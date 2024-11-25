@@ -51,7 +51,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8192
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -257,6 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7744964191089319855}
   - component: {fileID: 5366263091855493342}
+  - component: {fileID: 1334358578745042665}
   - component: {fileID: 8271288729242580974}
   m_Layer: 0
   m_Name: MusicTrigger
@@ -293,7 +294,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8192
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -301,6 +302,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1334358578745042665
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5760656518949266607}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8192
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &8271288729242580974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,10 +629,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniBossChunk
       objectReference: {fileID: 0}
+    - target: {fileID: 5543258787989545066, guid: c4109f3aee4e3354bbb3ededffffa05c,
+        type: 3}
+      propertyPath: m_TagString
+      value: ChunkSpawnDespawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857731144593705794, guid: c4109f3aee4e3354bbb3ededffffa05c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857731144593705794, guid: c4109f3aee4e3354bbb3ededffffa05c,
+        type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6742252365148266829, guid: c4109f3aee4e3354bbb3ededffffa05c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6742252365148266829, guid: c4109f3aee4e3354bbb3ededffffa05c,
         type: 3}
       propertyPath: m_Center.x
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6742252365148266829, guid: c4109f3aee4e3354bbb3ededffffa05c,
+        type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7879062998701615085, guid: c4109f3aee4e3354bbb3ededffffa05c,
         type: 3}

@@ -1351,7 +1351,7 @@ MonoBehaviour:
     type: 3}
   seed: 0
   preloadedChunks: 3
-  maxChunks: 25
+  maxChunks: 15
   loadPositionReference: {fileID: 1069871463}
   initialChunk: {fileID: 1023395825}
 --- !u!4 &211740383
@@ -1434,6 +1434,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MinerObj (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1888,6 +1893,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MinerObj (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5033,6 +5043,11 @@ PrefabInstance:
       propertyPath: playerSpawner
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5824355958842651344, guid: a899e394f194f2146a6ef84eb17a0fec,
+        type: 3}
+      propertyPath: m_TagString
+      value: CameraCenter
+      objectReference: {fileID: 0}
     - target: {fileID: 5870275622102005502, guid: a899e394f194f2146a6ef84eb17a0fec,
         type: 3}
       propertyPath: m_Name
@@ -6218,6 +6233,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MinerObj (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8482,6 +8502,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MinerObj
       objectReference: {fileID: 0}
+    - target: {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10740,6 +10765,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MinerObj (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
