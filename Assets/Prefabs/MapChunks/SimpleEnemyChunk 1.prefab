@@ -569,6 +569,11 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 8730815504666064872, guid: 910bd3b237ebd564cb96edad84735977,
+        type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 8192
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3392420015596199890, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
     - {fileID: 8775372680232504127, guid: 910bd3b237ebd564cb96edad84735977, type: 3}
