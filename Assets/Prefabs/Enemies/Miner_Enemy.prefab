@@ -1803,11 +1803,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 9
   rotationSpeed: 0.085
+  jumpForce: 5
+  raycastDis: 1.3
   minDistance: 4.5
   attackForce: 700
   velDivisor: 1.06
   extraGravity: 10
-  pushBackForce: 0
+  pushBackDistance: 1.3
+  pushBackForce: 200
   maximumChargingSeconds: 1
   maximumSwingSeconds: 0.4
   target: {fileID: 0}
