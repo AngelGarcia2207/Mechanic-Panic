@@ -136,9 +136,9 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         if((stunned == false || (stunned && hittingColliders.Contains(hittingCollider) == false)) && currentHealth > 0)
         {
-            if (shakeAnimator != null) { shakeAnimator.SetInteger("ShakeState", 1); }
-            if (showsDamageAnim && enemyAnimator != null) { enemyAnimator.SetBool("damaged", true); }
-            else { if (enemyAnimator != null) { enemyAnimator.enabled = false; } }
+            shakeAnimator.SetInteger("ShakeState", 1);
+            if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
+            else { enemyAnimator.enabled = false; }
             audioClips.damageAudio();
 
             GameManager.Instance.increaseLevelScore(damage);
