@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Miner : MonoBehaviour
 {
-    [SerializeField] private float speed, rotationSpeed, minDistance, attackForce, velDivisor, extraGravity, pushBackForce;
+    [SerializeField] private float speed, rotationSpeed, jumpForce, raycastDis, minDistance, attackForce, velDivisor, extraGravity, pushBackDistance, pushBackForce;
     [SerializeField] private float maximumChargingSeconds, maximumSwingSeconds;
     private float currentChargingSeconds, currentSwingSeconds;
     [SerializeField] private Transform target;
@@ -19,7 +19,7 @@ public class Miner : MonoBehaviour
         try
         { enemyTest = GetComponent<Ene_EnemyTest>(); }
         catch { }
-        SetState(0);
+        SetState(0, 0);
         StartCoroutine(SearchNearestPlayer());
     }
 
@@ -57,11 +57,11 @@ public class Miner : MonoBehaviour
             }
             else if (!isFar && state == 0)
             {
-                SetState(1);
+                SetState(1, 0);
             }
             else if (isFar && state != 0)
             {
-                SetState(0);
+                SetState(0, 0);
             }
             else if (!isFar && state == 1)
             {
@@ -71,7 +71,7 @@ public class Miner : MonoBehaviour
                 }
                 else
                 {
-                    SetState(2);
+                    SetState(2, 0);
                 }
             }
             else if (!isFar && state == 2)
@@ -82,13 +82,26 @@ public class Miner : MonoBehaviour
                 }
                 else
                 {
-                    SetState(0);
+                    if(Vector3.Distance(transform.position, target.position) < pushBackDistance)
+                    { SetState(0, pushBackForce); }
+                    else
+                    { SetState(0, 0);}
                 }
             }
 
             if(enemyTest != null && enemyTest.stunned)
             {
-                SetState(0);
+                SetState(0, 0);
+            }
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastDis))
+            {
+                Vector2 rbVel2D = new Vector2(rb.velocity.x, rb.velocity.z);
+                if (rbVel2D.magnitude < 0.15f && state == 0)
+                {
+                    rb.velocity = new Vector3(rbVel2D.x, jumpForce, rbVel2D.y);
+                }
             }
 
             float angle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
@@ -102,10 +115,18 @@ public class Miner : MonoBehaviour
         rb.velocity = new Vector3(rbVel.x / velDivisor, rbVel.y, rbVel.z / velDivisor);
     }
 
-    private void SetState(int _state)
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.down * raycastDis);
+    }
+
+    private void SetState(int _state, float _pushBackForce)
     {
         state = _state;
         anim.SetInteger("state", _state);
+        rb.AddForce(-transform.forward * _pushBackForce);
+
         if (state == 2)
         {
             rb.AddForce(transform.forward * attackForce);
@@ -115,7 +136,6 @@ public class Miner : MonoBehaviour
         {
             if(state == 0)
             {
-                rb.AddForce(-transform.forward * pushBackForce);
                 currentChargingSeconds = maximumChargingSeconds * 60f;
                 currentSwingSeconds = maximumSwingSeconds * 60f;
             }
