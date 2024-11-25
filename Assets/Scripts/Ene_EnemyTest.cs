@@ -13,6 +13,8 @@ public class Ene_EnemyTest : MonoBehaviour
     [SerializeField] private float stunDuration;
     [SerializeField] private float shakeSpeed = 100f, shakeForce = 0.1f;
     [SerializeField] private bool showsDamageAnim, showsDeathAnim;
+    [SerializeField] private int playerDamage = 10;
+    public bool canDealDamage = true;
     [SerializeField] private int maxHealth;
     public int currentHealth;
     [HideInInspector] public bool stunned = false, swayStart = false;
@@ -41,15 +43,28 @@ public class Ene_EnemyTest : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Player")) {
-            Mov_Player_Controller playerScript = other.GetComponent<Mov_Player_Controller>();
-
-            playerScript.receiveDamageRaw(10);
-
-            playerScript.applyKnockBack(knockbackDirection);
-
-            playerScript.applyStun(stunDuration);
+        if (other.gameObject.CompareTag("Player") && canDealDamage == true) {
+            //DamagePlayer(other.gameObject);
         }
+    }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.CompareTag("Player") && canDealDamage == true)
+        {
+            DamagePlayer(col.gameObject);
+        }
+    }
+
+    private void DamagePlayer(GameObject playerObj)
+    {
+        Mov_Player_Controller playerScript = playerObj.GetComponent<Mov_Player_Controller>();
+
+        playerScript.receiveDamageRaw(playerDamage);
+
+        playerScript.applyKnockBack(knockbackDirection);
+
+        playerScript.applyStun(stunDuration);
     }
 
     void OnTriggerEnter(Collider other)
@@ -137,6 +152,7 @@ public class Ene_EnemyTest : MonoBehaviour
                 audioClips.deathAudio();
                 death.Invoke();
                 StartCoroutine(DropItem());
+                canDealDamage = false;
                 if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
             }
             StartCoroutine(QuitStunCoroutine(currentHealth));
