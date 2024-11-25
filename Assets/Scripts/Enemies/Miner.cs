@@ -83,7 +83,7 @@ public class Miner : MonoBehaviour
                 else
                 {
                     if(Vector3.Distance(transform.position, target.position) < pushBackDistance)
-                    { SetState(0, pushBackForce); }
+                    { SetState(1, pushBackForce); }
                     else
                     { SetState(0, 0);}
                 }
@@ -127,6 +127,9 @@ public class Miner : MonoBehaviour
         anim.SetInteger("state", _state);
         rb.AddForce(-transform.forward * _pushBackForce);
 
+        currentChargingSeconds = maximumChargingSeconds * 60f;
+        currentSwingSeconds = maximumSwingSeconds * 60f;
+
         if (state == 2)
         {
             rb.AddForce(transform.forward * attackForce);
@@ -134,12 +137,6 @@ public class Miner : MonoBehaviour
         }
         else
         {
-            if(state == 0)
-            {
-                currentChargingSeconds = maximumChargingSeconds * 60f;
-                currentSwingSeconds = maximumSwingSeconds * 60f;
-            }
-
             if (enemyTest != null) { enemyTest.canDealDamage = false; }
         }
     }
