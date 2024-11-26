@@ -258,6 +258,9 @@ public class Mov_Player_Controller : MonoBehaviour
         if(!finishedSelection)
             return;
 
+        // Moví los inputs a las funciones void de abajo, dejaron de funcionar el ".triggered"
+        // por alguna razón.
+
         // JUMP
         if (charController.isGrounded && jumpButtonPressed && SM.AvailableTransition(SM.jump))
         {
@@ -267,21 +270,13 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // DODGE
-        if (isOnline == false && playerInput.actions["Dodge"].triggered)
-        {
-            Dodge();
-        }
-        else if (isOnline == true && onlController.onlDodgePressed == true)
+        if (isOnline == true && onlController.onlDodgePressed == true)
         {
             Dodge();
         }
 
         // PICK UP
-        if(isOnline == false && playerInput.actions["PickUp"].triggered)
-        {
-            Grab();
-        }
-        else if (isOnline == true)
+        if (isOnline == true)
         {
             if (onlController.onlPickUpPressed == false)
             { canOnlPickUp = true; }
@@ -293,11 +288,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // ATTACK
-        if (isOnline == false && playerInput.actions["Attack"].triggered)
-        {
-            Attack();
-        }
-        else if (isOnline == true)
+        if (isOnline == true)
         {
             if (onlController.onlAttackPressed == false)
             { canOnlAttack = true; }
@@ -490,7 +481,26 @@ public class Mov_Player_Controller : MonoBehaviour
         if (isOnline == false)
         {
             jumpButtonPressed = !jumpButtonPressed;
+            if(jumpButtonPressed == true && cursor != null && isOnline == false)
+            {
+                cursor.Click();
+            }
         }
+    }
+
+    private void OnDodge()
+    {
+        if (isOnline == false) { Dodge(); }
+    }
+
+    private void OnPickUp()
+    {
+        if (isOnline == false) { Grab();}
+    }
+
+    private void OnAttack()
+    {
+        if (isOnline == false){ Attack(); }
     }
 
     private void OnBack()
@@ -508,7 +518,7 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         SM.ChangeState(SM.dead);
         audioClips.deathAudio();
-        //gameObject.tag = "Untagged";
+        gameObject.tag = "Untagged";
         alive = false;
         GameManager.Instance.checkForAlivePlayers();
         UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();

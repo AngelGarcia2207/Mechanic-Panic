@@ -71,7 +71,7 @@
                 {
                     "name": "DodgeHold",
                     "type": "Button",
-                    "id": "440046a7-a834-4b6f-90a5-743c79ca02dc",
+                    "id": "d6eef954-77dc-4543-8c70-058106e32804",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)",
@@ -267,28 +267,6 @@
                 },
                 {
                     "name": "",
-                    "id": "978f3967-24a6-45b7-accf-e5238d02345a",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Dodge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e41f7bf5-c5f3-4998-86cf-e4d218604b4b",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Dodge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7ac12102-ff77-424f-865d-6c0d0411d613",
                     "path": "<Mouse>/rightButton",
                     "interactions": "Press(behavior=2)",
@@ -328,28 +306,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "DropArmor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "13c79037-a62c-4d49-9ea8-fce2d872afae",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "DodgeHold",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c323e8d6-c846-484b-a049-9553093ddfd2",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "DodgeHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -471,6 +427,50 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "166c735d-5fcc-4390-bd4c-efdfffc138b9",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "DodgeHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "803186fb-83a1-4424-8efa-87881fa75cc9",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DodgeHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "978f3967-24a6-45b7-accf-e5238d02345a",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e41f7bf5-c5f3-4998-86cf-e4d218604b4b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Dodge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
