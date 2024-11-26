@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         onlManager = GameObject.FindFirstObjectByType<Onl_Player_Manager>();
         if(onlManager != null)
         {
+            onlManager.gameManager = this;
             isOnline = true;
         }
     }
@@ -87,12 +88,20 @@ public class GameManager : MonoBehaviour
     {
         if (setOrAdd == "Set") { remainingLives = value; }
         else if (setOrAdd == "Add") { remainingLives += value; }
+
+
         if (isOnline)
         {
-            onlManager.TryRemLivesOnline(remainingLives);
-            return onlManager.remainingLivesOnl;
+            onlManager.SetRemainingLives(remainingLives);
         }
+
+        UpdateRemainingLives(remainingLives);
         return remainingLives;
+    }
+
+    public void UpdateRemainingLives(int _remainingLives)
+    {
+        remainingLives = _remainingLives;
     }
 
     public void increaseLevelScore(int scoreToAdd)
