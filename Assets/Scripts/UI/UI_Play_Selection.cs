@@ -35,8 +35,8 @@ public class UI_Play_Selection : MonoBehaviour
                 player.GetComponent<Mov_Player_Controller>().finishedSelection = true;
             }
 
-
-            GameObject.FindFirstObjectByType<PlayerInputManager>().enabled = false;
+            try { GameObject.FindFirstObjectByType<PlayerInputManager>().enabled = false; }
+            catch { }
             characterSelectionMenu.SetActive(false);
         }
         else
