@@ -26,10 +26,21 @@ public class Ene_EnemyTest : MonoBehaviour
     [SerializeField] private SFX_Enemy_AudioClips audioClips;
     public UnityEvent death = new();
 
+    // ONLINE
+    private bool isOnline = false;
+    private Onl_Miner onlMiner;
+
     void Start()
     {
         initialPosition = this.transform.position;
         currentHealth = maxHealth;
+
+        if(GetComponent<Onl_Miner>() != null)
+        {
+            onlMiner = GetComponent<Onl_Miner>();
+            isOnline = true;
+        }
+
     }
 
     void Update()
@@ -60,7 +71,7 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         Mov_Player_Controller playerScript = playerObj.GetComponent<Mov_Player_Controller>();
 
-        playerScript.receiveDamageRaw(playerDamage);
+        playerScript.receiveDamage(playerDamage);
 
         playerScript.applyKnockBack(knockbackDirection);
 
@@ -136,9 +147,9 @@ public class Ene_EnemyTest : MonoBehaviour
     {
         if((stunned == false || (stunned && hittingColliders.Contains(hittingCollider) == false)) && currentHealth > 0)
         {
-            if (shakeAnimator != null) { shakeAnimator.SetInteger("ShakeState", 1); }
-            if (showsDamageAnim && enemyAnimator != null) { enemyAnimator.SetBool("damaged", true); }
-            else { if (enemyAnimator != null) { enemyAnimator.enabled = false; } }
+            shakeAnimator.SetInteger("ShakeState", 1);
+            if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
+            else { enemyAnimator.enabled = false; }
             audioClips.damageAudio();
 
             GameManager.Instance.increaseLevelScore(damage);

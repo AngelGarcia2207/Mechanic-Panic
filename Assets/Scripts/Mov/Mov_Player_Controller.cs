@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode.Components;
@@ -47,7 +48,7 @@ public class Mov_Player_Controller : MonoBehaviour
     // ONLINE INPUTS
     private bool canOnlPickUp = false, canOnlAttack = false;
 
-    private int currentHealth;
+    [HideInInspector] public int currentHealth;
 
     // CURSOR INTERACTIONS
     [SerializeField] private UI_Cursor cursor;
@@ -79,11 +80,12 @@ public class Mov_Player_Controller : MonoBehaviour
 
         ChangeCharacter(-1);
 
-        if(cursor != null)
+        if(cursor != null && isOnline == false)
         {
             cursor.playerController = this;
             cursor.ChangeCursorColor(playerIndex);
         }
+        else if (isOnline) { finishedSelection = true; }
 
 
         // Configuración adicional si es necesario
@@ -361,42 +363,29 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider tri)
-    {
-        if(tri.gameObject.name == "OnlineDamage")
-        {
-            receiveDamageRaw(25);
-        }
-    }
-
     public int GetCurrentHealth(int value, string setOrAdd)
     {
         if (setOrAdd == "Set") { currentHealth = value; }
         else if (setOrAdd == "Add") { currentHealth += value; }
-        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
-        playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
+
+
         if (isOnline)
         {
-            onlController.Health(currentHealth);
-            return onlController.currentHealthOnl;
+            onlController.SetHealth(currentHealth);
         }
+
+        UpdateHealth(currentHealth);
         return currentHealth;
     }
 
-    public void receiveDamageRaw(int damage)
+    public void UpdateHealth(int health)
     {
-        if (!isOnline)
-        { receiveDamageReal(damage); }
-        else
-        {
-            if (onlController != null)
-            {
-                onlController.TryOnlineDamaged(damage);
-            }
-        }
+        currentHealth = health;
+        UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
+        playerCardScript.UpdateHealthBar(currentHealth, playerProp.maxHealth);
     }
 
-    public void receiveDamageReal(int damage)
+    public void receiveDamage(int damage)
     {
         if (SM.AvailableTransition(SM.stunned) && !invulnerable)
         {
@@ -409,7 +398,7 @@ public class Mov_Player_Controller : MonoBehaviour
             UI_PlayerCard playerCardScript = playerCard.GetComponent<UI_PlayerCard>();
             playerCardScript.UpdateHealthBar(GetCurrentHealth(0, "Add"), playerProp.maxHealth);
 
-            if (GetCurrentHealth(0, "Add") <= 0)
+            if (GetCurrentHealth(0, "Add") <= 0 && !isOnline)
             {
                 Die();
             }
@@ -504,7 +493,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         SM.ChangeState(SM.dead);
         audioClips.deathAudio();
