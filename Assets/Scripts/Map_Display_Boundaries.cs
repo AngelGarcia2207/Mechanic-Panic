@@ -21,6 +21,8 @@ public class Map_Display_Boundaries : MonoBehaviour
 
     public static Map_Display_Boundaries Instance { get; private set; }
 
+    private bool isLoopingOnline = true;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -41,14 +43,46 @@ public class Map_Display_Boundaries : MonoBehaviour
         topBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
         backBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
         frontBoundary = Instantiate(boundaryPrefab, transform.position, transform.rotation, transform);
+
+        // Es Online
+        if (GameObject.FindFirstObjectByType<Onl_Player_Manager>())
+        {
+            isLoopingOnline = true;
+            StartCoroutine(FindPlayersOnline());
+        }
+        else{ isLoopingOnline = false; }
     }
 
     void Update()
     {
-        if (players.Count > 0)
+        if (players.Count > 0 && isLoopingOnline == false)
         {
             followPlayers();
             UpdateBoundaries(); // Temporalmente en el Update, después se llamará a través del patrón Observer
+        }
+    }
+
+    public IEnumerator FindPlayersOnline()
+    {
+        while(isLoopingOnline)
+        {
+            yield return new WaitForSeconds(1f);
+            Mov_Player_Controller[] playerControllers = GameObject.FindObjectsOfType<Mov_Player_Controller>();
+            players.Clear();
+            int playersFinished = 0;
+            foreach (Mov_Player_Controller playerController in playerControllers)
+            {
+                AddPlayer(playerController.gameObject);
+
+                if(playerController.finishedSelection)
+                {
+                    playersFinished++;
+                }
+            }
+            if(playersFinished == playerControllers.Length)
+            {
+                isLoopingOnline = false;
+            }
         }
     }
 
