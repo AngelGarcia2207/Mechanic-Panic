@@ -15,13 +15,19 @@ public class Onl_Player_Manager : NetworkBehaviour
 
     public List<GameObject> playerCards = new List<GameObject>();
 
-    [HideInInspector] public int remainingLivesOnl;
+    public NetworkVariable<int> remainingLivesOnl = new NetworkVariable<int>();
+    [HideInInspector] public GameManager gameManager;
 
     [SerializeField] private TextMeshProUGUI playerIDsText;
 
     void Start()
     {
         StartCoroutine(ShowPlayersIDs());
+
+        if (IsClient)
+        {
+            remainingLivesOnl.OnValueChanged += OnRemainingLivesChanged;
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -111,37 +117,22 @@ public class Onl_Player_Manager : NetworkBehaviour
 
 
     // Remaining Lives General
-    public void TryRemLivesOnline(int value)
+    public void SetRemainingLives(int health)
     {
-        if (!IsOwner) { return; }
         if (IsServer)
         {
-            remainingLivesOnl = value;
-            RemLivesClientRPC(value);
+            remainingLivesOnl.Value = health;
         }
-        else
+    }
+
+    private void OnRemainingLivesChanged(int oldValue, int newValue)
+    {
+        if(gameManager != null)
         {
-            RemLivesServerRPC(value);
+            gameManager.UpdateRemainingLives(newValue);
         }
     }
 
-    private void OnRemLivesChanged(int oldValue, int newValue)
-    {
-        remainingLivesOnl = newValue;
-    }
-
-    [ServerRpc]
-    public void RemLivesServerRPC(int value)
-    {
-        remainingLivesOnl = value;
-        RemLivesClientRPC(value);
-    }
-
-    [ClientRpc]
-    public void RemLivesClientRPC(int value)
-    {
-        remainingLivesOnl = value;
-    }
 
     IEnumerator ShowPlayersIDs()
     {

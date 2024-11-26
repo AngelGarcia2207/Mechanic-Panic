@@ -21,7 +21,7 @@ public class Onl_Player_Controller : NetworkBehaviour
 
     [HideInInspector] public GameObject playerCard;
 
-    [HideInInspector] public int currentHealthOnl;
+    public NetworkVariable<int> currentHealthOnl = new NetworkVariable<int>();
     public NetworkVariable<int> savedCharacterID = new NetworkVariable<int>();
 
 
@@ -38,6 +38,10 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         // Suscribirse al cambio de valor de la NetworkVariable.
         playerID.OnValueChanged += OnPlayerIDChanged;
+        if (IsClient)
+        {
+            currentHealthOnl.OnValueChanged += OnHealthChanged;
+        }
 
         movController = GetComponent<Mov_Player_Controller>();
 
@@ -250,65 +254,25 @@ public class Onl_Player_Controller : NetworkBehaviour
     }
 
 
-    // RERECIVE DAMAGE
-    public void TryOnlineDamaged(int damage)
-    {
-        if (!IsOwner) { return; }
-        if (IsServer)
-        {
-            movController.receiveDamageReal(damage);
-            DamageClientRPC(damage);
-        }
-        else
-        {
-            DamageServerRPC(damage);
-        }
-    }
-
-    [ServerRpc]
-    void DamageServerRPC(int damage)
-    {
-        movController.receiveDamageReal(damage);
-        DamageClientRPC(damage);
-    }
-
-    [ClientRpc]
-    void DamageClientRPC(int damage)
-    {
-        movController.receiveDamageReal(damage);
-    }
-
     // HEALTH
-    public void Health(int health)
+    public void SetHealth(int health)
     {
-        if (!IsOwner) { return; }
         if (IsServer)
         {
-            currentHealthOnl = health;
-            SetHealthClientRPC(health);
-        }
-        else
-        {
-            SetHealthServerRPC(health);
+            currentHealthOnl.Value = health;
         }
     }
 
     private void OnHealthChanged(int oldValue, int newValue)
     {
-        currentHealthOnl = newValue;
-    }
+        Debug.Log($"Health updated: {newValue}");
+        // Update UI or other systems as needed
+        movController.UpdateHealth(newValue);
 
-    [ServerRpc]
-    public void SetHealthServerRPC(int health)
-    {
-        currentHealthOnl = health;
-        SetHealthClientRPC(health);
-    }
-
-    [ClientRpc]
-    public void SetHealthClientRPC(int health)
-    {
-        currentHealthOnl = health;
+        if (newValue <= 0)
+        {
+            movController.Die();
+        }
     }
 
 
@@ -319,7 +283,7 @@ public class Onl_Player_Controller : NetworkBehaviour
     // REVIVE
     public void TryOnlineRevive()
     {
-        movController.Revive();
+        //movController.Revive();
         ReviveClientRPC();
     }
 
