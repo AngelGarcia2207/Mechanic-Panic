@@ -1812,6 +1812,8 @@ MonoBehaviour:
   pushBackForce: 200
   maximumChargingSeconds: 0.6
   maximumSwingSeconds: 0.4
+  maximumFollowSeconds: 060000000a000000
+  maximumWonderSeconds: 0300000007000000
   target: {fileID: 0}
   anim: {fileID: 563413577393146945}
 --- !u!114 &4294273787611635528
