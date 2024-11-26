@@ -7,6 +7,8 @@ public class Miner : MonoBehaviour
     [SerializeField] private float speed, rotationSpeed, jumpForce, raycastDis, minDistance, attackForce, velDivisor, extraGravity, pushBackDistance, pushBackForce;
     [SerializeField] private float maximumChargingSeconds, maximumSwingSeconds;
     private float currentChargingSeconds, currentSwingSeconds;
+    [SerializeField] private int[] maximumFollowSeconds, maximumWonderSeconds;
+    private int currentFollowSeconds, currentWonderSeconds;
     [SerializeField] private Transform target;
     [SerializeField] private Animator anim;
     private int state = 0;
@@ -19,7 +21,9 @@ public class Miner : MonoBehaviour
         try
         { enemyTest = GetComponent<Ene_EnemyTest>(); }
         catch { }
-        SetState(0, 0);
+        ResetFollowWonder();
+        int chosenState = Random.Range(0, 2);
+        SetState(chosenState == 0 ? 0 : 3, 0);
         StartCoroutine(SearchNearestPlayer());
     }
 
@@ -51,54 +55,69 @@ public class Miner : MonoBehaviour
             bool isFar = Vector3.Distance(transform.position, target.position) > minDistance;
 
 
-            if (isFar && state == 0)
+            if(state != 3)
             {
-                rb.AddForce(transform.forward * speed);
-            }
-            else if (!isFar && state == 0)
-            {
-                SetState(1, 0);
-            }
-            else if (isFar && state != 0)
-            {
-                SetState(0, 0);
-            }
-            else if (!isFar && state == 1)
-            {
-                if (currentChargingSeconds > 0)
+                if (isFar && state == 0)
                 {
-                    currentChargingSeconds -= 1f;
+                    rb.AddForce(transform.forward * speed);
                 }
-                else
+                else if (!isFar && state == 0)
                 {
-                    SetState(2, 0);
+                    SetState(1, 0);
                 }
-            }
-            else if (!isFar && state == 2)
-            {
-                if (currentSwingSeconds > 0)
+                else if (isFar && state != 0)
                 {
-                    currentSwingSeconds -= 1f;
+                    SetState(0, 0);
                 }
-                else
+                else if (!isFar && state == 1)
                 {
-                    if(Vector3.Distance(transform.position, target.position) < pushBackDistance)
-                    { SetState(1, pushBackForce); }
+                    if (currentChargingSeconds > 0) { currentChargingSeconds -= 1f; }
                     else
-                    { SetState(0, 0);}
+                    {
+                        SetState(2, 0);
+                    }
                 }
-            }
+                else if (!isFar && state == 2)
+                {
+                    if (currentSwingSeconds > 0) { currentSwingSeconds -= 1f; }
+                    else
+                    {
+                        if (Vector3.Distance(transform.position, target.position) < pushBackDistance)
+                        { SetState(1, pushBackForce); }
+                        else
+                        { SetState(0, 0); }
+                    }
+                }
 
-            if(enemyTest != null && enemyTest.stunned)
-            {
-                SetState(0, 0);
+                if (enemyTest != null && enemyTest.stunned)
+                {
+                    SetState(0, 0);
+                }
+
+                if (currentFollowSeconds > 0) { currentFollowSeconds -= 1; }
+                else { SetState(3, 0); ResetFollowWonder(); }
             }
+            else
+            {
+                if(!isFar)
+                {
+                    rb.AddForce(transform.forward * -speed * 1.5f);
+                }
+                else
+                {
+                    rb.AddForce(transform.forward * speed);
+                }
+
+                if (currentWonderSeconds > 0) { currentWonderSeconds -= 1; }
+                else { SetState(0, 0); ResetFollowWonder(); }
+            }
+            
 
             RaycastHit hit;
             if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastDis))
             {
                 Vector2 rbVel2D = new Vector2(rb.velocity.x, rb.velocity.z);
-                if (rbVel2D.magnitude < 0.15f && state == 0)
+                if (rbVel2D.magnitude < 0.15f && (state == 0 || state == 3))
                 {
                     rb.velocity = new Vector3(rbVel2D.x, jumpForce, rbVel2D.y);
                 }
@@ -124,7 +143,7 @@ public class Miner : MonoBehaviour
     private void SetState(int _state, float _pushBackForce)
     {
         state = _state;
-        anim.SetInteger("state", _state);
+        anim.SetInteger("state", _state >= 3 ? 0 : _state);
         rb.AddForce(-transform.forward * _pushBackForce);
 
         currentChargingSeconds = maximumChargingSeconds * 60f;
@@ -139,5 +158,11 @@ public class Miner : MonoBehaviour
         {
             if (enemyTest != null) { enemyTest.canDealDamage = false; }
         }
+    }
+
+    private void ResetFollowWonder()
+    {
+        currentFollowSeconds = Random.Range(maximumFollowSeconds[0], maximumFollowSeconds[1] + 1) * 60;
+        currentWonderSeconds = Random.Range(maximumWonderSeconds[0], maximumWonderSeconds[1] + 1) * 60;
     }
 }
