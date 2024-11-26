@@ -165,6 +165,7 @@ public class Ene_EnemyTest : MonoBehaviour
             {
                 QuitStun();
                 audioClips.deathAudio();
+                GameManager.Instance.increaseDefeatedEnemies();
                 death.Invoke();
                 StartCoroutine(DropItem());
                 canDealDamage = false;
