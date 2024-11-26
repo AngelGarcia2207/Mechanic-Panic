@@ -332,8 +332,6 @@ MonoBehaviour:
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
-  - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
-  - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
   fixedSpawnPoints:
   - {fileID: 8614246816588954141}
   - {fileID: 2736603510728153812}

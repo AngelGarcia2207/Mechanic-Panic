@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     private bool isPaused = false;
     private bool isShowingConfig = false;
+    private int initialLives = 10;
+    private int defeatedEnemies = 0;
 
     // ONLINE
     [HideInInspector] public Onl_Player_Manager onlManager;
@@ -30,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        initialLives = remainingLives;
         onlManager = GameObject.FindFirstObjectByType<Onl_Player_Manager>();
         if(onlManager != null)
         {
@@ -110,6 +113,11 @@ public class GameManager : MonoBehaviour
         UI_Manager.Instance.UpdateScoreText(levelScore);
     }
 
+    public void increaseDefeatedEnemies()
+    {
+        defeatedEnemies += 1;
+    }
+
     public void TogglePause()
     {
         if (isShowingConfig)
@@ -145,5 +153,13 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
+    }
+
+    public void LevelComplete()
+    {
+        PlayerPrefs.SetInt("score", levelScore);
+        PlayerPrefs.SetInt("kills", defeatedEnemies);
+        PlayerPrefs.SetInt("deaths", initialLives - remainingLives);
+        SceneManager.LoadScene("VictoryMenu");
     }
 }
