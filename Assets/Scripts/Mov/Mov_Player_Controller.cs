@@ -446,20 +446,23 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void Attack()
     {
-        if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
+        if(finishedSelection)
         {
-            SM.ChangeState(SM.attack, playerProp.attackDelay);
-            AttackComponentPattern();
-        }
-        else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
-        {
-            SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
-            AttackComponentPattern();
-        }
-        else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
-        {
-            SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
-            AttackComponentPattern();
+            if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.attack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
+            else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
+            else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
         }
     }
 
