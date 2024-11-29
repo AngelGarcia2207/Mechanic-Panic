@@ -10,7 +10,7 @@ public class Map_MusicTrigger : MonoBehaviour
     private bool hasBeenTriggered = false;
 
     private void OnTriggerEnter(Collider collision) {
-        if (collision.CompareTag("CameraCenter") && !hasBeenTriggered) {
+        if (collision.CompareTag("Player") && !hasBeenTriggered) {
             SFX_Manager.Instance.PlayMusic(musicClip, volume, isLooping);
 
             hasBeenTriggered = true;

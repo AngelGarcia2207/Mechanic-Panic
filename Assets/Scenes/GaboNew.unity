@@ -4408,7 +4408,7 @@ MonoBehaviour:
     type: 3}
   seed: 0
   preloadedChunks: 3
-  maxChunks: 5
+  maxChunks: 15
   loadPositionReference: {fileID: 21014534}
   initialChunk: {fileID: 1556344040}
 --- !u!4 &686829198
