@@ -211,14 +211,14 @@ public class Obj_Player_Weapon : Obj_Buildable
             return;
         }
 
-        foreach(Obj_Weapon_Item item in closeItems)
+        /*foreach(Obj_Weapon_Item item in closeItems)
         {
             Debug.Log(item.gameObject.name);
-        }
+        }*/
 
         if(closestItem.GetData() is Obj_Weapon_Base)
         {
-            Debug.Log(playerWeapon.transform.parent.parent.parent.parent.parent.parent.parent);
+            //Debug.Log(playerWeapon.transform.parent.parent.parent.parent.parent.parent.parent);
             if(closestItem.isPlayer)
             {
                 SetPlayerAsBase(closestItem);
@@ -272,7 +272,6 @@ public class Obj_Player_Weapon : Obj_Buildable
         }
         rb.isKinematic = false;
         rb.AddForce(-transform.forward * 400 + new Vector3(0, 250, 0));
-
 
         weaponBase = null;
         currentDurability = 0;

@@ -15,10 +15,10 @@ public class EnemyShoot : MonoBehaviour
 
     public GameObject projectilePrefab; // Prefab del proyectil
     public AudioClip soundEffect; // Efecto de sonido al disparar
-    public float detectionDistance = 10f; // Distancia de detección del jugador
+    public float detectionDistance = 10f; // Distancia de detecciï¿½n del jugador
     [SerializeField] private float timer = 3f; // Tiempo entre disparos
     private float bulletTimer; // Temporizador para el disparo
-    public Transform spawnpoint; // Punto de aparición del proyectil
+    public Transform spawnpoint; // Punto de apariciï¿½n del proyectil
     public float speedProjectile = 500f; // Velocidad del proyectil
     private AudioSource audioSource; // Componente AudioSource
 
@@ -34,7 +34,7 @@ public class EnemyShoot : MonoBehaviour
 
     void Update()
     {
-        Transform closestPlayer = GetClosestPlayer(); // Obtiene el jugador más cercano
+        Transform closestPlayer = GetClosestPlayer(); // Obtiene el jugador mï¿½s cercano
 
         if (closestPlayer == null) return; // Si no hay jugadores, sale
 
@@ -44,8 +44,8 @@ public class EnemyShoot : MonoBehaviour
         if (distanceToPlayer <= detectionDistance && currentHealth > 0)
         {
             LookAtTarget(closestPlayer);
-            animator.SetTrigger("Shoot"); // Activa la animación de disparo
-            DisparaJugador(closestPlayer); // Llama a la función de disparo con el jugador más cercano
+            animator.SetTrigger("Shoot"); // Activa la animaciï¿½n de disparo
+            DisparaJugador(closestPlayer); // Llama a la funciï¿½n de disparo con el jugador mï¿½s cercano
         }
     }
 
@@ -69,11 +69,11 @@ public class EnemyShoot : MonoBehaviour
             if (distance < closestDistance)
             {
                 closestDistance = distance;
-                closest = player.transform; // Actualiza al jugador más cercano
+                closest = player.transform; // Actualiza al jugador mï¿½s cercano
             }
         }
 
-        return closest; // Devuelve el transform del jugador más cercano
+        return closest; // Devuelve el transform del jugador mï¿½s cercano
     }
 
     void DisparaJugador(Transform target)
@@ -107,7 +107,7 @@ public class EnemyShoot : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
             Destroy(newTag, 1f);
 
-            Debug.Log("sc");
+            //Debug.Log("sc");
             DamageEnemy(playerWeapon.DealDamage(), other);
         }
         else if (other.CompareTag("WeaponComplement"))
@@ -119,7 +119,7 @@ public class EnemyShoot : MonoBehaviour
             newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
             Destroy(newTag, 1f);
 
-            Debug.Log("sc2");
+            //Debug.Log("sc2");
             DamageEnemy(playerWeapon.DealDamage(), other);
         }
     }

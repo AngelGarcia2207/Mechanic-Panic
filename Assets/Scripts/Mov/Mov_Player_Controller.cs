@@ -296,6 +296,7 @@ public class Mov_Player_Controller : MonoBehaviour
             { onlController.TryOnlineAttack(); canOnlAttack = false; }
         }
         
+        // REVIVE
         if (SM.GetCurrentState() == SM.dead && jumpButtonPressed)
         {
             if (!isOnline) { Revive(); }
@@ -308,24 +309,25 @@ public class Mov_Player_Controller : MonoBehaviour
             }
         }
 
+        // PAUSE
         if (playerInput.actions["Pause"].triggered)
         {
             GameManager.Instance.TogglePause();
         }
 
-        //DROP ARMOR
+        // DROP ARMOR
         if(playerInput.actions["DropArmor"].triggered)
         {
             playerArmor.RemoveHat();
         }
 
-        //THROW WEAPON
+        // THROW WEAPON
         if(playerInput.actions["ThrowWeapon"].triggered)
         {
             playerWeaponScript.ThrowWeapon();
         }
 
-        //SPAWN WEAPON (FOR DEBUG ONLY)
+        // SPAWN WEAPON (FOR DEBUG ONLY)
         if(playerInput.actions["SpawnWeapon"].triggered)
         {
             playerWeaponScript.SpawnNewWeapon();
