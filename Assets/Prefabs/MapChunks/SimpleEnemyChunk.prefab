@@ -330,8 +330,9 @@ MonoBehaviour:
   enemyQueue:
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
+  - {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697, type: 3}
   - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
-  - {fileID: 702747412749901206, guid: 4bbfdabc1f62d664b9461960d978fc8b, type: 3}
+  - {fileID: 6595163101365498204, guid: ffb9f030e5e78754b9e0fe85394d2697, type: 3}
   fixedSpawnPoints:
   - {fileID: 8614246816588954141}
   - {fileID: 2736603510728153812}
