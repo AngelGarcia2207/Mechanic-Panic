@@ -84,24 +84,15 @@ public class Ene_EnemyTest : MonoBehaviour
         {
             Obj_Player_Weapon playerWeapon = other.GetComponent<Obj_Player_Weapon>();
             //Debug.Log(playerWeapon.DealDamage());
-            GameObject newTag = Instantiate(damageTag, other.gameObject.transform.position, Quaternion.identity);
-            newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage().ToString();
-            Destroy(newTag, 1f);
-
-           //Debug.Log("sc");
-            DamageEnemy(playerWeapon.DealDamage(), other);
+            //Debug.Log("sc");
+            DamageEnemy(playerWeapon.DealDamage(), other, playerWeapon, false);
         }
         else if(other.CompareTag("WeaponComplement"))
         {
             Obj_Player_Weapon playerWeapon = other.transform.parent.GetComponent<Obj_Player_Weapon>();
             //Debug.Log(playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()));
-            playerWeapon.ActivateEffects(other.gameObject.transform.GetSiblingIndex(), transform);
-            GameObject newTag = Instantiate(damageTag, other.gameObject.transform.position, Quaternion.identity);
-            newTag.GetComponent<TMP_Text>().text = playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()).ToString();
-            Destroy(newTag, 1f);
-
             //Debug.Log("sc2");
-            DamageEnemy(playerWeapon.DealDamage(), other);
+            DamageEnemy(playerWeapon.DealDamage(other.gameObject.transform.GetSiblingIndex()), other, playerWeapon, true);
         }
     }
 
@@ -145,11 +136,20 @@ public class Ene_EnemyTest : MonoBehaviour
 
 
     private Collider hittingColliderSaved;
-    private void DamageEnemy(int damage, Collider hittingCollider)
+    private void DamageEnemy(int damage, Collider hittingCollider, Obj_Player_Weapon weapon, bool isComplement)
     {
         hittingColliderSaved = hittingCollider;
         if((stunned == false || (stunned && hittingColliders.Contains(hittingColliderSaved) == false)) && currentHealth > 0)
         {
+            if(isComplement)
+            {
+                weapon.ActivateEffects(hittingCollider.gameObject.transform.GetSiblingIndex(), transform);
+            }
+            GameObject newTag = Instantiate(damageTag, hittingCollider.gameObject.transform.position, Quaternion.identity);
+            newTag.GetComponent<TMP_Text>().text = damage.ToString();
+            Destroy(newTag, 1f);
+
+            Debug.Log(hittingCollider);
             shakeAnimator.SetInteger("ShakeState", 1);
             if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
             else { enemyAnimator.enabled = false; }
@@ -157,7 +157,7 @@ public class Ene_EnemyTest : MonoBehaviour
 
             GameManager.Instance.increaseLevelScore(damage);
 
-            GenerateTargets();
+            //GenerateSwayTargets();
 
             GetCurrentHealth(-damage, "Add");
 
@@ -178,6 +178,7 @@ public class Ene_EnemyTest : MonoBehaviour
             swayStart = true;
             stunned = true;
             hittingColliders.Add(hittingColliderSaved);
+            Debug.Log(currentHealth);
         }
     }
 

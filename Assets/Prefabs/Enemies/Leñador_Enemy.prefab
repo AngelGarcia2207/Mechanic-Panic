@@ -209,6 +209,8 @@ MonoBehaviour:
   shakeForce: 0.1
   showsDamageAnim: 1
   showsDeathAnim: 1
+  playerDamage: 10
+  canDealDamage: 1
   maxHealth: 30
   currentHealth: 0
   stunned: 0
@@ -217,7 +219,6 @@ MonoBehaviour:
   dropList:
   - {fileID: 3266155710222345400, guid: d895d293b829b68448408c4ea3cf4f47, type: 3}
   - {fileID: 4370369122201038499, guid: 7d5f2f0984a45db4ca6ab120b59a10ff, type: 3}
-  - {fileID: 4405413368558168118, guid: e87609bebdaff8a47ad1bc4033944bee, type: 3}
   audioClips: {fileID: 4487149292868311893}
   death:
     m_PersistentCalls:
