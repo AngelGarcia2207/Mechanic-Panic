@@ -25,13 +25,13 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject newEnemy = Instantiate(enemyQueue[0]);
             newEnemy.GetComponent<Ene_EnemyTest>().death.AddListener(OnEnemyDeath);
-            if(newEnemy.transform.GetChild(1).gameObject.TryGetComponent(out IAs_SmallBot_SM comp))
+            if(newEnemy.transform.GetChild(1).gameObject.TryGetComponent(out IAs_LogLauncher_SM comp))
             {
-                newEnemy.transform.position = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position;
+                newEnemy.transform.position = miniBossSpawn.position;
             }
             else
             {
-                newEnemy.transform.position = miniBossSpawn.position;
+                newEnemy.transform.position = fixedSpawnPoints[Random.Range(0, fixedSpawnPoints.Length)].position;
             }
             enemyQueue.RemoveAt(0);
             activeEnemies++;
