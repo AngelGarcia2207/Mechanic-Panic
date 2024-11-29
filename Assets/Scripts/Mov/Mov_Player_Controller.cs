@@ -20,7 +20,7 @@ public class Mov_Player_Controller : MonoBehaviour
     private Vector3 playerMovementInput;
     private Vector3 nextMovement;
     private Vector3 velocity;
-    private bool jumpButtonPressed = false;
+    [HideInInspector] public bool jumpButtonPressed = false;
     private float remainingJumpTime;
     private float scanFrequency = 0.05f;
     private bool invulnerable = false;
@@ -42,7 +42,7 @@ public class Mov_Player_Controller : MonoBehaviour
     // ONLINE
     private Onl_Player_Controller onlController;
     [HideInInspector] public Onl_Player_Manager onlManager;
-    private bool isOnline = false;
+    [HideInInspector] public bool isOnline = false;
     public int onlineIndex = -1;
 
     // ONLINE INPUTS
@@ -51,7 +51,7 @@ public class Mov_Player_Controller : MonoBehaviour
     [HideInInspector] public int currentHealth;
 
     // CURSOR INTERACTIONS
-    [SerializeField] private UI_Cursor cursor;
+    public UI_Cursor cursor;
     [HideInInspector] public bool finishedSelection = false;
     [HideInInspector] public Vector2 rawDirection;
 
@@ -80,12 +80,16 @@ public class Mov_Player_Controller : MonoBehaviour
 
         ChangeCharacter(-1);
 
-        if(cursor != null && isOnline == false)
+        if(cursor != null)
         {
             cursor.playerController = this;
-            cursor.ChangeCursorColor(playerIndex);
+            if (isOnline == false)
+            { cursor.ChangeCursorColor(playerIndex); }
+            else
+            {
+                cursor.ChangeCursorColor(onlineIndex);
+            }
         }
-        else if (isOnline) { finishedSelection = true; }
 
 
         // Configuración adicional si es necesario
@@ -168,14 +172,24 @@ public class Mov_Player_Controller : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (finishedSelection)
         { rawDirection = playerInput.actions["Direction"].ReadValue<Vector2>(); }
         if (isOnline)
         {
-            rawDirection = onlController.onlDirection2D;
+            if (finishedSelection)
+            { rawDirection = onlController.onlDirection2D; }
             jumpButtonPressed = onlController.onlJumpButtonPressed;
+        }
+        if(cursor != null)
+        {
+            Vector2 cursorLocalDir = playerInput.actions["Direction"].ReadValue<Vector2>();
+            if (isOnline)
+            {
+                cursorLocalDir = onlController.onlDirection2D;
+            }
+            cursor.transform.position += new Vector3(cursorLocalDir.x, cursorLocalDir.y, 0) * cursor.speed;
         }
         if (rawDirection.x != 0 || rawDirection.y != 0)
         {
@@ -231,9 +245,10 @@ public class Mov_Player_Controller : MonoBehaviour
         charController.Move(nextMovement * Time.deltaTime);
 
         // Esto debe de ir al final de Update()
-        if (changedPositionStart == false && isOnline == false)
+        if (changedPositionStart == false)
         {
-            charController.transform.position = GameObject.Find("CameraCenter").transform.position;
+            charController.transform.position = GameObject.Find("CameraCenter").transform.position;/* +
+                new Vector3(UnityEngine.Random.Range(2, 5), 0, UnityEngine.Random.Range(2, 5));*/
             changedPositionStart = true;
         }
     }
@@ -242,6 +257,9 @@ public class Mov_Player_Controller : MonoBehaviour
     {
         if(!finishedSelection)
             return;
+
+        // Moví los inputs a las funciones void de abajo, dejaron de funcionar el ".triggered"
+        // por alguna razón.
 
         // JUMP
         if (charController.isGrounded && jumpButtonPressed && SM.AvailableTransition(SM.jump))
@@ -252,21 +270,13 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // DODGE
-        if (isOnline == false && playerInput.actions["Dodge"].triggered)
-        {
-            Dodge();
-        }
-        else if (isOnline == true && onlController.onlDodgePressed == true)
+        if (isOnline == true && onlController.onlDodgePressed == true)
         {
             Dodge();
         }
 
         // PICK UP
-        if(isOnline == false && playerInput.actions["PickUp"].triggered)
-        {
-            Grab();
-        }
-        else if (isOnline == true)
+        if (isOnline == true)
         {
             if (onlController.onlPickUpPressed == false)
             { canOnlPickUp = true; }
@@ -278,11 +288,7 @@ public class Mov_Player_Controller : MonoBehaviour
         }
 
         // ATTACK
-        if (isOnline == false && playerInput.actions["Attack"].triggered)
-        {
-            Attack();
-        }
-        else if (isOnline == true)
+        if (isOnline == true)
         {
             if (onlController.onlAttackPressed == false)
             { canOnlAttack = true; }
@@ -440,20 +446,23 @@ public class Mov_Player_Controller : MonoBehaviour
 
     public void Attack()
     {
-        if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
+        if(finishedSelection)
         {
-            SM.ChangeState(SM.attack, playerProp.attackDelay);
-            AttackComponentPattern();
-        }
-        else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
-        {
-            SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
-            AttackComponentPattern();
-        }
-        else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
-        {
-            SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
-            AttackComponentPattern();
+            if (playerWeaponScript != null && SM.AvailableTransition(SM.attack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.attack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
+            else if (playerWeaponScript != null && SM.AvailableTransition(SM.moveAttack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.moveAttack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
+            else if (playerWeaponScript != null && SM.AvailableTransition(SM.jumpAttack) && playerWeaponScript.HasBase())
+            {
+                SM.ChangeState(SM.jumpAttack, playerProp.attackDelay);
+                AttackComponentPattern();
+            }
         }
     }
 
@@ -475,11 +484,26 @@ public class Mov_Player_Controller : MonoBehaviour
         if (isOnline == false)
         {
             jumpButtonPressed = !jumpButtonPressed;
-            if(cursor != null && jumpButtonPressed == true)
+            if(jumpButtonPressed == true && cursor != null && isOnline == false)
             {
                 cursor.Click();
             }
         }
+    }
+
+    private void OnDodge()
+    {
+        if (isOnline == false) { Dodge(); }
+    }
+
+    private void OnPickUp()
+    {
+        if (isOnline == false) { Grab();}
+    }
+
+    private void OnAttack()
+    {
+        if (isOnline == false){ Attack(); }
     }
 
     private void OnBack()

@@ -9,12 +9,13 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine.UI;
 using TMPro;
-//using Unity.Networking.Transport.Relay;
 
 public class OnlTestRelay : MonoBehaviour
 {
     public TMP_InputField joinCodeInput;
     public TextMeshProUGUI numeroTexto;
+
+    [SerializeField] private GameObject characterSelection;
 
     private async void Start()
     {
@@ -27,6 +28,27 @@ public class OnlTestRelay : MonoBehaviour
             numeroTexto.text = show;
         };
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
+        // Register for player connection event
+        NetworkManager.Singleton.OnClientConnectedCallback += OnPlayerConnected;
+    }
+
+    private void OnDestroy()
+    {
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnPlayerConnected;
+        }
+    }
+
+    private void OnPlayerConnected(ulong clientId)
+    {
+        // Activate character selection for the local client
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            Debug.Log("Player joined. Activating character selection.");
+            characterSelection.SetActive(true);
+        }
     }
 
     public async void CreateRelay()
@@ -41,15 +63,12 @@ public class OnlTestRelay : MonoBehaviour
             Debug.Log(show);
             numeroTexto.text = show;
 
-            //RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
-            // why does not work?
-
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData( // SetHostRelayData SetRelayServerData
-            allocation.RelayServer.IpV4,
-            (ushort)allocation.RelayServer.Port,
-            allocation.AllocationIdBytes,
-            allocation.Key,
-            allocation.ConnectionData);
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
+                allocation.RelayServer.IpV4,
+                (ushort)allocation.RelayServer.Port,
+                allocation.AllocationIdBytes,
+                allocation.Key,
+                allocation.ConnectionData);
 
             NetworkManager.Singleton.StartHost();
         }
@@ -68,11 +87,10 @@ public class OnlTestRelay : MonoBehaviour
             string show = "Joining relay with code: " + joinCode;
             Debug.Log(show);
             numeroTexto.text = show;
+
             JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-            //RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
-
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData( // SetClientRelayData
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
                 joinAllocation.RelayServer.IpV4,
                 (ushort)joinAllocation.RelayServer.Port,
                 joinAllocation.AllocationIdBytes,

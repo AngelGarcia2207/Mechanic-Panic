@@ -7092,6 +7092,7 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   onlManager: {fileID: 0}
   onlineIndex: 0
+  currentHealth: 0
   cursor: {fileID: 8295480369976216340}
   finishedSelection: 0
   rawDirection: {x: 0, y: 0}
@@ -7273,7 +7274,8 @@ MonoBehaviour:
   onlDirection2D: {x: 0, y: 0}
   isSever: 0
   playerCard: {fileID: 0}
-  currentHealthOnl: 0
+  currentHealthOnl:
+    m_InternalValue: 0
   savedCharacterID:
     m_InternalValue: 0
   playerID:
@@ -9193,6 +9195,8 @@ GameObject:
   - component: {fileID: 4603941288547819766}
   - component: {fileID: 4880295827201060743}
   - component: {fileID: 1376364931297477596}
+  - component: {fileID: 7338201132173670062}
+  - component: {fileID: 1079878241266437919}
   m_Layer: 0
   m_Name: Cursor
   m_TagString: Untagged
@@ -9346,6 +9350,48 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7338201132173670062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720514506997103445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &1079878241266437919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6720514506997103445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6772350052370245229
 GameObject:
   m_ObjectHideFlags: 0

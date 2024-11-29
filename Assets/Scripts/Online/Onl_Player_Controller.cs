@@ -47,7 +47,7 @@ public class Onl_Player_Controller : NetworkBehaviour
 
         if (IsOwner)
         {
-            GameObject.FindAnyObjectByType<Loc_Character_Select>().onlController = this;
+            //GameObject.FindAnyObjectByType<Loc_Character_Select>().onlController = this;
         }
     }
 
@@ -361,7 +361,7 @@ public class Onl_Player_Controller : NetworkBehaviour
             if (newValue != 100 && movController.onlineIndex == -1)
             { movController.onlineIndex = newValue; }
             movController.ChangeCharacter(savedCharacterID.Value);
-            GameObject.Find("selected_id_" + savedCharacterID.Value).GetComponent<Image>().enabled = true;
+            movController.cursor.ChangeCursorColor(newValue);
         }
     }
 }

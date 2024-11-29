@@ -26,17 +26,17 @@ public class UI_Play_Selection : MonoBehaviour
             }
         }
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        Mov_Player_Controller[] playerControllers = GameObject.FindObjectsOfType<Mov_Player_Controller>();
 
-        if(playersAsigned == players.Length)
+        if(playersAsigned == playerControllers.Length)
         {
-            foreach (GameObject player in players)
+            foreach (Mov_Player_Controller playerController in playerControllers)
             {
-                player.GetComponent<Mov_Player_Controller>().finishedSelection = true;
+                playerController.finishedSelection = true;
             }
 
-
-            GameObject.FindFirstObjectByType<PlayerInputManager>().enabled = false;
+            try { GameObject.FindFirstObjectByType<PlayerInputManager>().enabled = false; }
+            catch { }
             characterSelectionMenu.SetActive(false);
         }
         else

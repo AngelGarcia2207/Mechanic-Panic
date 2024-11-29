@@ -33,9 +33,9 @@ public class Ene_EnemyTest : MonoBehaviour
     void Start()
     {
         initialPosition = this.transform.position;
-        currentHealth = maxHealth;
+        GetCurrentHealth(maxHealth, "Set");
 
-        if(GetComponent<Onl_Miner>() != null)
+        if (GetComponent<Onl_Miner>() != null)
         {
             onlMiner = GetComponent<Onl_Miner>();
             isOnline = true;
@@ -143,9 +143,12 @@ public class Ene_EnemyTest : MonoBehaviour
         }*/
     }
 
+
+    private Collider hittingColliderSaved;
     private void DamageEnemy(int damage, Collider hittingCollider)
     {
-        if((stunned == false || (stunned && hittingColliders.Contains(hittingCollider) == false)) && currentHealth > 0)
+        hittingColliderSaved = hittingCollider;
+        if((stunned == false || (stunned && hittingColliders.Contains(hittingColliderSaved) == false)) && currentHealth > 0)
         {
             shakeAnimator.SetInteger("ShakeState", 1);
             if (showsDamageAnim) { enemyAnimator.SetBool("damaged", true); }
@@ -156,24 +159,46 @@ public class Ene_EnemyTest : MonoBehaviour
 
             GenerateTargets();
 
-            currentHealth -= damage;
-            if (currentHealth <= 0)
+            GetCurrentHealth(-damage, "Add");
+
+            if ((GetCurrentHealth(0, "Add") <= 0))
             {
                 QuitStun();
                 audioClips.deathAudio();
+                GameManager.Instance.increaseDefeatedEnemies();
                 death.Invoke();
                 StartCoroutine(DropItem());
                 canDealDamage = false;
                 if (showsDeathAnim) { enemyAnimator.SetBool("death", true); }
             }
-            StartCoroutine(QuitStunCoroutine(currentHealth));
+            StartCoroutine(QuitStunCoroutine(GetCurrentHealth(0, "Add")));
 
             GameObject smokeObj = Instantiate(smokeEffect, this.transform.position, Quaternion.identity);
             Destroy(smokeObj, 1f);
             swayStart = true;
             stunned = true;
-            hittingColliders.Add(hittingCollider);
+            hittingColliders.Add(hittingColliderSaved);
         }
+    }
+
+    public int GetCurrentHealth(int value, string setOrAdd)
+    {
+        if (setOrAdd == "Set") { currentHealth = value; }
+        else if (setOrAdd == "Add") { currentHealth += value; }
+
+
+        if (isOnline)
+        {
+            onlMiner.SetHealth(currentHealth);
+        }
+
+        UpdateHealth(currentHealth);
+        return currentHealth;
+    }
+
+    public void UpdateHealth(int health)
+    {
+        currentHealth = health;
     }
 
     IEnumerator QuitStunCoroutine(int currentHealth)

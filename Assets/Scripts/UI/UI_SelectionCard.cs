@@ -6,6 +6,7 @@ using UnityEngine;
 public class UI_SelectionCard : MonoBehaviour
 {
     [SerializeField] private int characterID;
+    [SerializeField] private bool isOnline;
     private Animator animator;
     [HideInInspector] public UI_Cursor asignedCursor;
     private int enteredCursors;
@@ -16,7 +17,7 @@ public class UI_SelectionCard : MonoBehaviour
     }
 
 
-    public UI_SelectionCard GetSelected(int playerID, UI_Cursor cursor, UI_SelectionCard selectedCard)
+    public UI_SelectionCard GetSelectedLocal(int playerID, UI_Cursor cursor, UI_SelectionCard selectedCard)
     {
         if (asignedCursor == null)
         {

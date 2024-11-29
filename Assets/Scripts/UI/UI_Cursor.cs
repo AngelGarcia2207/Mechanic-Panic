@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_Cursor : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    public float speed;
     [HideInInspector] public Mov_Player_Controller playerController;
     [HideInInspector] public UI_SelectionCard hoveredCard, selectedCard;
     [HideInInspector] public UI_Play_Selection hoveredPlayButton;
@@ -34,13 +34,11 @@ public class UI_Cursor : MonoBehaviour
         GetComponent<Image>().color = chosenColor;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if (playerController != null)
+        if(playerController != null && playerController.isOnline)
         {
-            Vector2 direction = playerController.playerInput.actions["Direction"].ReadValue<Vector2>();
-            transform.position += new Vector3(direction.x, direction.y, 0) * speed;
+            Click();
         }
     }
 
@@ -52,7 +50,7 @@ public class UI_Cursor : MonoBehaviour
         }
         else if (hoveredCard != null)
         {
-            selectedCard = hoveredCard.GetSelected(playerID, this, selectedCard);
+            selectedCard = hoveredCard.GetSelectedLocal(playerID, this, selectedCard);
         }
     }
 
